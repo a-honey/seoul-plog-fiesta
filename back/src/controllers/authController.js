@@ -1,9 +1,8 @@
 import authService from '../services/authService';
 import randomToken from '../utils/randomToken';
-// import mailSend from '../utils/mailSend';
-// import { text } from 'express';
 import sendMail from '../utils/sendMail';
 import passwordChangeGuide from '../utils/passwordChangeGuide';
+import createRedirectUrl from '../utils/createRedirectUrl';
 
 /** @description 회원가입 -> 새로운 유저를 생성 */
 const createUser = async (req, res, next) => {
@@ -57,23 +56,7 @@ const sendEmailWithTokenUrl = async (req, res, next) => {
 
 		//링크에 포함될 랜덤 토큰 생성
 		const token = randomToken.createRandomToken();
-		//이메일 내용
-		// const emailOptions = {
-		// 	from: process.env.CALLER,
-		// 	to: email,
-		// 	subject: '[SeoulPlogFiesta] 비밀번호 변경 안내',
-		// 	html:
-		// 		'<h2>안녕하세요. SeoulPlogFiesta입니다.</h2>' +
-		// 		'<h2>고객님의 비밀번호 변경을 위해 아래의 링크를 클릭해주세요.</h2>' +
-		// 		'<a href= "' +
-		// 		process.env.SERVER_URL +
-		// 		'/auth/checkEmail?token=' +
-		// 		token +
-		// 		'">비밀번호 재설정 링크<a>',
-		// };
-		//이메일 발송
-		// const response = await mailSend(emailOptions);
-		// console.log('성공적으로 이메일을 전송하였습니다', response);
+
 		const html = passwordChangeGuide(token);
 		await sendMail(email, '[SeoulPlogFiesta] 비밀번호 변경 안내', html);
 
@@ -91,22 +74,14 @@ const sendEmailWithTokenUrl = async (req, res, next) => {
 const checkEmail = async (req, res, next) => {
 	const token = req.query.token;
 	try {
-		//유저 특정
 		const user = await authService.getUserByPasswordToken(token);
-		//유저에 PasswordValid, 토큰 유효 기간 기록
 		const updatedUser = await authService.updatePasswordValidByEmail(
 			user.email,
 		);
 		const passwordToken = updatedUser.passwordToken;
 		const email = updatedUser.email;
-		// 유저 이메일 인증 처리후 리다이렉트 -> 프론트로
-		res.redirect(
-			process.env.FRONT_URL +
-				'changepassword?email=' +
-				email +
-				'&token=' +
-				passwordToken,
-		);
+		const redirectURL = createRedirectUrl(passwordToken, email);
+		res.redirect(redirectURL);
 	} catch (error) {
 		console.error(error);
 		error.status = 500;
