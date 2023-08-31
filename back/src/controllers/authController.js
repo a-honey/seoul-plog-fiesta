@@ -1,7 +1,9 @@
 import authService from '../services/authService';
 import randomToken from '../utils/randomToken';
-import mailSend from '../utils/mailSend';
-import { text } from 'express';
+// import mailSend from '../utils/mailSend';
+// import { text } from 'express';
+import sendMail from '../utils/sendMail';
+import passwordChangeGuide from '../utils/passwordChangeGuide';
 
 /** @description 회원가입 -> 새로운 유저를 생성 */
 const createUser = async (req, res, next) => {
@@ -48,35 +50,32 @@ const sendEmailWithTokenUrl = async (req, res, next) => {
 	try {
 		const nickname = req.body.nickname;
 		const email = req.body.email;
-
 		if (!nickname || !email) throw new Error('닉네임과 이메일을 입력해주세요');
-		//유저가 있는지 검증
 		const existingUser = await authService.getUserByEmail(email);
-
-		//유저가 해당 닉네임을 가지고 있는지
 		if (existingUser.nickname !== nickname)
 			throw new Error('일치하는 사용자가 없습니다.');
 
 		//링크에 포함될 랜덤 토큰 생성
 		const token = randomToken.createRandomToken();
 		//이메일 내용
-		const emailOptions = {
-			from: process.env.USER,
-			to: email,
-			subject: '[SeoulPlogFiesta] 비밀번호 변경 안내',
-			html:
-				'<h2>안녕하세요. SeoulPlogFiesta입니다.</h2>' +
-				'<h2>고객님의 비밀번호 변경을 위해 아래의 링크를 클릭해주세요.</h2>' +
-				'<a href= "' +
-				process.env.SERVER_URL +
-				'/auth/checkEmail?token=' +
-				token +
-				'">비밀번호 재설정 링크<a>',
-		};
+		// const emailOptions = {
+		// 	from: process.env.CALLER,
+		// 	to: email,
+		// 	subject: '[SeoulPlogFiesta] 비밀번호 변경 안내',
+		// 	html:
+		// 		'<h2>안녕하세요. SeoulPlogFiesta입니다.</h2>' +
+		// 		'<h2>고객님의 비밀번호 변경을 위해 아래의 링크를 클릭해주세요.</h2>' +
+		// 		'<a href= "' +
+		// 		process.env.SERVER_URL +
+		// 		'/auth/checkEmail?token=' +
+		// 		token +
+		// 		'">비밀번호 재설정 링크<a>',
+		// };
 		//이메일 발송
-		console.log(emailOptions);
-		const response = await mailSend(emailOptions);
-		console.log('성공적으로 이메일을 전송하였습니다', response);
+		// const response = await mailSend(emailOptions);
+		// console.log('성공적으로 이메일을 전송하였습니다', response);
+		const html = passwordChangeGuide(token);
+		await sendMail(email, '[SeoulPlogFiesta] 비밀번호 변경 안내', html);
 
 		//사용자의 토큰 업데이트
 		const user = await authService.updatePasswordTokenByEmail(email, token);
