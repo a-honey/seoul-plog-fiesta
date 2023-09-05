@@ -13,6 +13,7 @@ import { seoulDistricts } from '../common/exportData';
 import { UserIdContext } from '../../containers/userId';
 import MyLanking from '../feat/Lanking';
 import { handleImgUrl } from '../../utils/handleImgUrl';
+<<<<<<< Updated upstream
 
 const mockmyInfo = {
   imgUrl: 'http://placekitten.com/200/200',
@@ -23,6 +24,10 @@ const mockmyInfo = {
   about: '소개입니다. 조금 길면서 한줄입니다.',
   authCount: '인증카운터',
 };
+=======
+import { UserIdContext } from '../../pages/UserIdPage';
+import user_none from '../../assets/user_none.png';
+>>>>>>> Stashed changes
 
 const Info = () => {
   const [, setIsError] = useRecoilState(isErrorState);
@@ -69,9 +74,9 @@ const Info = () => {
         setIsFetching(true);
         const res = await Api.get(`/search/${ownerId}`);
         setData(res.data);
-        await Api.get(`/profileimg/${ownerId}`).then((res) =>
-          setImageContainer(res.data),
-        );
+        await Api.get(`/profileimg/${ownerId}`)
+          .then((res) => setImageContainer(res.data))
+          .catch((err) => setImageContainer(null));
       } catch (err) {
         console.log(
           '상위모임데이터를 불러오는데 실패.',
@@ -100,11 +105,8 @@ const Info = () => {
       <ul className={styles.info}>
         <div className={styles.imgContainer}>
           <img
-            src={
-              imgContainer
-                ? handleImgUrl(imgContainer)
-                : 'http://placekitten.com/200/200'
-            }
+            src={imgContainer ? handleImgUrl(imgContainer) : user_none}
+            onError={(e) => (e.target.src = user_none)}
             alt="profile"
           />
         </div>

@@ -173,6 +173,11 @@ const Item = ({ data, view }) => {
               : user_none
           }
           alt="그룹 이미지"
+          onError={(e) =>
+            view === 'group'
+              ? (e.target.src = post_none)
+              : (e.target.src = user_none)
+          }
         />
       </div>
       <ul className={styles.item}>
