@@ -12,25 +12,8 @@ import {
 import { seoulDistricts } from '../common/exportData';
 import MyLanking from '../feat/Lanking';
 import { handleImgUrl } from '../../utils/handleImgUrl';
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-import { UserIdContext } from '../../pages/UserIdPage';
->>>>>>> master
-
-const mockmyInfo = {
-  imgUrl: 'http://placekitten.com/200/200',
-  name: '이름',
-  nickname: '별명',
-  email: 'dlapdlf@nave.rcom',
-  password: '12345',
-  about: '소개입니다. 조금 길면서 한줄입니다.',
-  authCount: '인증카운터',
-};
-=======
 import { UserIdContext } from '../../pages/UserIdPage';
 import user_none from '../../assets/user_none.png';
->>>>>>> Stashed changes
 
 const Info = () => {
   const [, setIsError] = useRecoilState(isErrorState);
@@ -83,7 +66,7 @@ const Info = () => {
       } catch (err) {
         console.log(
           '상위모임데이터를 불러오는데 실패.',
-          err.response.data.message,
+          err?.response?.data?.message,
         );
       } finally {
         setIsFetching(false);
