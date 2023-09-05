@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import Layout from './Layout';
-import UserIdContainer from '../containers/userId';
 import useIsLogin from '../hooks/useIsLogin';
 import { useSelector } from 'react-redux';
 import { createContext, useEffect, useState } from 'react';
@@ -25,12 +24,11 @@ const UserIdPage = () => {
       try {
         setIsFetching(true);
         const res = await Api.get(`/friends`);
-        console.log(res);
-        setFriends(res?.data.friendsList.map((user) => user.id));
+        setFriends(res.data.friendsList.map((user) => user.id));
       } catch (err) {
         console.log(
           '그룹이름 데이터를 불러오는데 실패.',
-          err?.response?.data?.message,
+          err.response.data.message,
         );
       } finally {
         setIsFetching(false);
@@ -45,6 +43,7 @@ const UserIdPage = () => {
       navigator('/mypage');
     }
   }, [navigator, user, userId]);
+
   return (
     <Layout>
       <UserIdContext.Provider value={{ friends }}>

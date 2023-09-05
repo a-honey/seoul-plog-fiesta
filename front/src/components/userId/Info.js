@@ -10,10 +10,13 @@ import {
   isErrorState,
 } from '../../features/recoilState';
 import { seoulDistricts } from '../common/exportData';
-import { UserIdContext } from '../../containers/userId';
 import MyLanking from '../feat/Lanking';
 import { handleImgUrl } from '../../utils/handleImgUrl';
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+import { UserIdContext } from '../../pages/UserIdPage';
+>>>>>>> master
 
 const mockmyInfo = {
   imgUrl: 'http://placekitten.com/200/200',
