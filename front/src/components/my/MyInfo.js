@@ -9,6 +9,7 @@ import { logout } from '../../features/userSlice';
 import { handleImgUrl } from '../../utils/handleImgUrl';
 import { useRecoilState } from 'recoil';
 import { openToast, setToastMessage } from '../../features/toastSlice';
+import useImgChange from '../../hooks/useImgChange';
 
 const initialData = {
   name: '',
@@ -26,45 +27,14 @@ const MyInfo = () => {
   const [data, setData] = useState(initialData);
   const [originData, setDriginData] = useState(initialData);
   const dispatch = useDispatch();
-  const [imgContainer, setImgContainer] = useState();
+
   const [isChanging, setIsChanging] = useState(false);
 
   const navigator = useNavigate();
-  const formData = new FormData();
 
   const user = useSelector((state) => state.user);
 
-  const handleImgChange = (e) => {
-    const img = e.target.files[0];
-
-    if (!img) {
-      alert('이미지 파일을 넣어주세요.');
-      return;
-    } else if (
-      img.type !== 'image/png' &&
-      img.type !== 'image/jpeg' &&
-      img.type !== 'images/jpg'
-    ) {
-      alert('JPG 혹은 PNG확장자의 이미지 파일만 등록 가능합니다.');
-      return;
-    }
-    if (img) {
-      try {
-        const reader = new FileReader();
-
-        reader.onload = () => {
-          const previewImg = document.getElementById('myInfoPreviewImg');
-          previewImg.src = reader.result;
-        };
-
-        reader.readAsDataURL(img);
-        formData.append('image', img);
-        setImgContainer(img);
-      } catch (e) {
-        alert(e);
-      }
-    }
-  };
+  const { handleImgChange, imgContainer, imgRef } = useImgChange();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -169,7 +139,7 @@ const MyInfo = () => {
       <ul className={`${styles.info} ${isEditing ? styles.editing : ''}`}>
         <div className={styles.imgContainer}>
           <img
-            id="myInfoPreviewImg"
+            ref={imgRef}
             src={handleImgUrl(img) || user_none}
             alt="profile"
           />
