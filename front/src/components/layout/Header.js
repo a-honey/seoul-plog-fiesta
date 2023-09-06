@@ -4,17 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../features/userSlice';
 import * as Api from '../../api';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import {
-  errorMessageState,
-  isErrorState,
-  isGroupRequestListOpenState,
-  isRequestListOpenState,
-} from '../../features/recoilState';
+import { openToast, setToastMessage } from '../../features/toastSlice';
+import { toggleRequestList, toggleGroupRequestList } from '../../features/relationSlice';
 
 const Header = ({ setIsWriting }) => {
-  const [, setIsError] = useRecoilState(isErrorState);
-  const [, setErrorMessage] = useRecoilState(errorMessageState);
   const dispatch = useDispatch();
   const navigator = useNavigate();
   const user = useSelector((state) => state.user);
@@ -31,11 +24,6 @@ const Header = ({ setIsWriting }) => {
 
   const [visibleButton, setVisibleButton] = useState(null);
 
-  const [, setIsRequestListOpen] = useRecoilState(isRequestListOpenState);
-  const [, setIsGroupRequestListOpen] = useRecoilState(
-    isGroupRequestListOpenState,
-  );
-
   const handleJoinGroup = useCallback(async () => {
     if (!user.groups.includes(id))
       try {
@@ -51,20 +39,20 @@ const Header = ({ setIsWriting }) => {
       await Api.post(`/req/${id}`, {
         id: id,
       });
-      setErrorMessage('친구 요청에 성공했습니다.');
-      setIsError(true);
+      dispatch(setToastMessage('친구 요청에 성공했습니다'));
+      dispatch(openToast()) ;
     } catch (err) {
       alert(err.message ? err.message : '친구 요청 실패.');
     }
-  }, [id, setErrorMessage, setIsError]);
+  }, [id, dispatch]);
 
   const handleFriendRequestList = useCallback(() => {
-    setIsRequestListOpen(true);
-  }, [setIsRequestListOpen]);
+    dispatch(toggleRequestList());
+  }, [dispatch]);
 
   const handleGroupRequestList = useCallback(async () => {
-    setIsGroupRequestListOpen(true);
-  }, [setIsGroupRequestListOpen]);
+    dispatch(toggleGroupRequestList());
+  }, [dispatch]);
 
   const buttons = useMemo(
     () => [

@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './features/userSlice';
 import toastReducer from './features/toastSlice';
+import relationReducer from './features/relationSlice';
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
-    toast: toastReducer, 
+    toast: toastReducer,
+    relation: relationReducer,
   },
 });
 

@@ -1,23 +1,20 @@
 import { useEffect, useState } from 'react';
-import { isGroupRequestListOpenState } from '../../features/recoilState';
-import { useRecoilState } from 'recoil';
 import * as Api from '../../api';
 import { useLocation } from 'react-router-dom';
 import styles from './index.module.scss';
-import { errorMessageState, isErrorState } from '../../features/recoilState';
+import { useDispatch } from 'react-redux';
+import { openToast, setToastMessage } from '../../features/toastSlice';
+import { toggleGroupRequestList } from '../../features/relationSlice';
 
 const GroupRequestList = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [datas, setDatas] = useState([]);
+  const dispatch = useDispatch();
 
   const location = useLocation();
   const currentPath = location.pathname;
 
   const id = currentPath.split('/')[2];
-
-  const [isGroupRequestListOpen, setIsGroupRequestListOpen] = useRecoilState(
-    isGroupRequestListOpenState,
-  );
 
   useEffect(() => {
     const getData = async () => {
@@ -56,7 +53,7 @@ const GroupRequestList = () => {
         )}
         <button
           onClick={() => {
-            setIsGroupRequestListOpen(false);
+            dispatch(toggleGroupRequestList());
           }}
           className="gBtn"
         >
@@ -70,18 +67,16 @@ const GroupRequestList = () => {
 export default GroupRequestList;
 
 const Item = ({ data, setDatas, id }) => {
-  const [errorMessage, setErrorMessage] = useRecoilState(errorMessageState);
-  const [imgContainer, setImgContainer] = useState();
-  const [isError, setIsError] = useRecoilState(isErrorState);
+  const dispatch = useDispatch();
 
   const handleOk = async (e) => {
     e.preventDefault();
 
     try {
       await Api.post(`/group/accept/${id}/${data.id}`);
-      setErrorMessage(`${data.nickname} 멤버 수락 성공`);
       setDatas((datas) => datas.filter((el) => el.id !== data.id));
-      setIsError(true);
+      dispatch(setToastMessage(`${data.nickname} 친구 수락 성공`));
+      dispatch(openToast());
     } catch (err) {
       alert('수락 실패', err.response.data.message);
     }

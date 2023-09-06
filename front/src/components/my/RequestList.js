@@ -1,17 +1,14 @@
 import { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import * as Api from '../../api';
-import { useRecoilState } from 'recoil';
-import { isRequestListOpenState } from '../../features/recoilState';
-import { useNavigate } from 'react-router';
+import { toggleRequestList } from '../../features/relationSlice';
+import { useDispatch } from 'react-redux';
+
 
 const RequestList = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [datas, setDatas] = useState([]);
-
-  const [isRequestListOpen, setIsRequestListOpen] = useRecoilState(
-    isRequestListOpenState,
-  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getData = async () => {
@@ -44,7 +41,7 @@ const RequestList = () => {
         )}
         <button
           onClick={() => {
-            setIsRequestListOpen(false);
+            dispatch(toggleRequestList());
           }}
           className="gBtn"
         >

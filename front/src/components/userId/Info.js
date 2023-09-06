@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import * as Api from '../../api';
 import styles from './index.module.scss';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import {
   isChatOpenState,

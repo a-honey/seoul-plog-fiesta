@@ -7,9 +7,7 @@ import GroupRequestList from '../components/groupId/GroupRequest';
 import PageNav from '../components/common/PageNav';
 import { useSelector } from 'react-redux';
 import { createContext, useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
 import { useLocation, useParams } from 'react-router-dom';
-import { isGroupRequestListOpenState } from '../features/recoilState';
 import * as Api from '../api';
 import GroupUsers from '../components/groupId/Users';
 import GroupPosts from '../components/groupId/Posts';
@@ -26,9 +24,7 @@ const GroupIdPage = () => {
     members: '멤버보기',
   };
 
-  const [isGroupRequestListOpen, setIsGroupRequestListOpen] = useRecoilState(
-    isGroupRequestListOpenState,
-  );
+  const isGroupRequestListOpen = useSelector((state) => state.relation.isGroupRequestListOpen);
 
   const [isFetching, setIsFetching] = useState(false);
 
