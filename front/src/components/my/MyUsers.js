@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import * as Api from '../../api';
 import { handleImgUrl } from '../../utils/handleImgUrl';
 import user_none from '../../assets/user_none.png';
+import { openToast, setToastMessage } from '../../features/toastSlice';
+import { useDispatch } from 'react-redux';
 
 const MyUsers = () => {
   const [datas, setDatas] = useState([]);
@@ -69,6 +71,7 @@ export default MyUsers;
 
 const MyUser = ({ data, isEditing, setDatas }) => {
   const navigator = useNavigate();
+  const dispatch  = useDispatch();
 
   const handleDelete = async () => {
     const confirmDelete = window.confirm('정말로 삭제하시겠습니까?');
@@ -77,6 +80,8 @@ const MyUser = ({ data, isEditing, setDatas }) => {
       try {
         await Api.delete(`/user/drop/${data.id}`);
         setDatas((datas) => datas.filter((prev) => prev.id !== data.id));
+        dispatch(setToastMessage('인증글이 생성되었습니다.'));
+        dispatch(openToast()) ;
       } catch (err) {
         console.log('친구 삭제 실패.', err.response.data.message);
       }

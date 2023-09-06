@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import * as Api from '../../api';
 import { useDispatch } from 'react-redux';
-import { login } from '../../features/user/userSlice';
+import { login } from '../../features/userSlice';
+import { openToast, setToastMessage } from '../../features/toastSlice';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -45,8 +46,9 @@ const Login = () => {
         password,
       });
       dispatch(login(res.data));
-      alert('로그인 성공!');
       navigate('/?view=main', { replace: true });
+      dispatch(setToastMessage('반갑습니다.'));
+      dispatch(openToast()) ;
     } catch (err) {
       if (err.response && err.response.status === 401) {
         alert('이메일 또는 비밀번호가 일치하지 않습니다');

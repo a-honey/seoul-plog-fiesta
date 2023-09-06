@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './layout.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../features/user/userSlice';
+import { logout } from '../../features/userSlice';
 import * as Api from '../../api';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRecoilState } from 'recoil';

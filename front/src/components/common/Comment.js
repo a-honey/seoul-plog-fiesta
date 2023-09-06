@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import * as Api from '../../api';
 import styles from './index.module.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { openToast, setToastMessage } from '../../features/toastSlice';
 
 const CommentAdd = ({
   id,
@@ -11,10 +13,11 @@ const CommentAdd = ({
   setCommentTow,
 }) => {
   const [data, setData] = useState();
+  const dispatch  = useDispatch();
 
   const handleClick = async (e) => {
     e.preventDefault();
-    console.log('댓글');
+
     try {
       const res = await Api.post(
         `/comment/${id}${isCert ? '' : '?cert=true'}`,
@@ -27,6 +30,8 @@ const CommentAdd = ({
 
       setComments((prevComments) => [...prevComments, res.data]);
       setData('');
+      dispatch(setToastMessage('댓글이 생성되었습니다.'))
+      dispatch(openToast())    
     } catch (err) {
       console.log(err);
     }
@@ -42,11 +47,13 @@ const CommentAdd = ({
       });
       if (res.data === '게시글을 찾을 수 없') {
         alert('잘못된 접근입니다.');
+        setCommentTow(false);
         return;
       }
       setComments((prevComments) => [...prevComments, res.data]);
       setData('');
-      console.log(setCommentTow);
+      dispatch(setToastMessage('답글이 생성되었습니다.'))
+      dispatch(openToast())    
       setCommentTow(false);
     } catch (err) {
       console.log(err);

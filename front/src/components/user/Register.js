@@ -4,9 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import * as Api from '../../api';
 import { validateEmail } from '../../utils';
+import { openToast, setToastMessage } from '../../features/toastSlice';
+import { useDispatch } from 'react-redux';
 
 const Register = () => {
   const navigate = useNavigate();
+  const dispatch  = useDispatch();
 
   const [userData, setUserData] = useState({
     email: '',
@@ -57,7 +60,8 @@ const Register = () => {
         alert(res.data);
         return;
       }
-      alert('회원가입 성공! 로그인해주세요');
+      dispatch(setToastMessage('회원가입되었습니다.'));
+      dispatch(openToast()) ;
       navigate('/login');
     } catch (err) {
       console.log('회원가입에 실패하였습니다.', err.response.data.message);

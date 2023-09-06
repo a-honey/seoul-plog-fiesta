@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as Api from '../../api';
 import { useSelector } from 'react-redux';
-import { seoulDistricts } from '../common/exportData';
+import { seoulDistricts } from '../../assets/exportData';
 import styles from './index.module.scss';
 import { useRecoilState } from 'recoil';
 import { errorMessageState, isErrorState } from '../../features/recoilState';

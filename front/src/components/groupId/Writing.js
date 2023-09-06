@@ -1,19 +1,15 @@
 import { useContext, useState } from 'react';
 import styles from './index.module.scss';
 import * as Api from '../../api';
-import { useRecoilState } from 'recoil';
-import { errorMessageState, isErrorState } from '../../features/recoilState';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { openToast, setToastMessage } from '../../features/toastSlice';
 
 const Writing = ({ setIsModalOpen, setDatas }) => {
-  const [, setIsError] = useRecoilState(isErrorState);
-  const [, setErrorMessage] = useRecoilState(errorMessageState);
-  const navigator = useNavigate();
+  const dispatch  = useDispatch();  
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-
-  const admin = searchParams.get('admin');
 
   const { groupId } = useParams();
 
@@ -43,10 +39,10 @@ const Writing = ({ setIsModalOpen, setDatas }) => {
 
     try {
       const res = await Api.post(`/group/post/${groupId}`, formData);
-      setIsError(true);
-      setErrorMessage('그룹 글을 생성했습니다.');
       setIsModalOpen(false);
       setDatas((datas) => [...datas, res.data]);
+      dispatch(setToastMessage('인증글이 생성되었습니다.'));
+      dispatch(openToast()) ;
     } catch (err) {
       console.log('그룹 글생성 실패.', err.response.data.message);
     }

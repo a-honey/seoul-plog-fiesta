@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
-import { seoulDistricts } from './exportData';
+import { seoulDistricts } from '../../assets/exportData';
 import styles from './index.module.scss';
 import * as Api from '../../api';
-import { errorMessageState, isErrorState } from '../../features/recoilState';
-import { useRecoilState } from 'recoil';
 import post_none from '../../assets/post_none.png';
+import { useDispatch } from 'react-redux';
+import { openToast, setToastMessage } from '../../features/toastSlice';
 
 const Plogging = ({ setIsWriting }) => {
-  const [, setIsError] = useRecoilState(isErrorState);
-  const [, setErrorMessage] = useRecoilState(errorMessageState);
+  const dispatch  = useDispatch();
   const [formData, setFormData] = useState({
     region: '',
     location: '',
@@ -20,10 +19,6 @@ const Plogging = ({ setIsWriting }) => {
     startTime: '',
     endTime: '',
     isGroupPost: false,
-  });
-  const [groupData, setGroupData] = useState({
-    groupName: '',
-    participants: [],
   });
 
   const [imgContainer, setImgContainer] = useState();
@@ -81,7 +76,7 @@ const Plogging = ({ setIsWriting }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('담긴파일: ', imgContainer);
+
     try {
       const postRes = await Api.post('/plo/post', formData);
       //id가 필요하기 때문에 반환값을 받아서, 해당 id에 이미지를 업로드
@@ -89,8 +84,8 @@ const Plogging = ({ setIsWriting }) => {
         uploadImage(postRes.data.id);
       }
       setIsWriting(false);
-      setErrorMessage('인증글이 생성되었습니다.');
-      setIsError(true);
+      dispatch(setToastMessage('인증글이 생성되었습니다.'));
+      dispatch(openToast()) ;
     } catch (err) {
       alert('인증 글 업로드 실패', err.response.data.message);
     }

@@ -4,21 +4,19 @@ import styles from './index.module.scss';
 import { useLocation, useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import {
-  errorMessageState,
   isChatOpenState,
   isChatWiState,
-  isErrorState,
 } from '../../features/recoilState';
-import { seoulDistricts } from '../common/exportData';
+import { seoulDistricts } from '../../assets/exportData';
 import MyLanking from '../feat/Lanking';
 import { handleImgUrl } from '../../utils/handleImgUrl';
 import { UserIdContext } from '../../pages/UserIdPage';
 import user_none from '../../assets/user_none.png';
+import { useDispatch } from 'react-redux';
+import { openToast, setToastMessage } from '../../features/toastSlice';
 
 const Info = () => {
-  const [, setIsError] = useRecoilState(isErrorState);
-  const [, setErrorMessage] = useRecoilState(errorMessageState);
-
+  const dispatch  = useDispatch();
   const [data, setData] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
   const [isMyRankingOpen, setIsMyRankingOpen] = useState(false);
@@ -43,8 +41,8 @@ const Info = () => {
   const handleClick = async () => {
     try {
       await Api.post(`/req/${ownerId}`);
-      setErrorMessage('친구 요청에 성공했습니다');
-      setIsError(true);
+      dispatch(setToastMessage('친구 요청이 완료되었습니다.'));
+      dispatch(openToast()) ;
     } catch (err) {
       if (err.response && err.response.data && err.response.data.message) {
         alert(err.response.data.message);
