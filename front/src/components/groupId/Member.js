@@ -1,18 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as Api from '../../api';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { seoulDistricts } from '../../assets/exportData';
 import styles from './index.module.scss';
-import { useRecoilState } from 'recoil';
-import { errorMessageState, isErrorState } from '../../features/recoilState';
 import { handlePagenation } from '../../utils/pagenation';
 import Pagination from '../common/Pagenation';
 import { GroupIdContext } from '../../pages/GroupIdPage';
+import { openToast, setToastMessage } from '../../features/toastSlice';
 
 const GroupMember = ({ setView, view }) => {
-  const [, setIsError] = useRecoilState(isErrorState);
-  const [, setErrorMessage] = useRecoilState(errorMessageState);
+  const dispatch = useDispatch();
   const [isFetching, setIsFetching] = useState(false);
   const [datas, setDatas] = useState([]);
 
@@ -51,8 +49,8 @@ const GroupMember = ({ setView, view }) => {
   const handleGroupRequest = async () => {
     try {
       await Api.post(`/group/join/${groupId}`);
-      setErrorMessage('가입 요청에 성공했습니다');
-      setIsError(true);
+      dispatch(setToastMessage('가입 요청에 성공했습니다'));
+      dispatch(openToast);
     } catch (err) {
       alert(err.message ? err.message : '가입 요청 실패.');
     }
