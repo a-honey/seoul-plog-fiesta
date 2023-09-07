@@ -6,7 +6,16 @@
     "strict": true,
     "outDir": "./dist",
     "jsx": "react",
-    "allowJs": true
+    "allowJs": true,
+    "declaration": true,
+    "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/**/*.ts",
+    "src/**/**/*.tsx",
+    "src/**/*.scss",
+    "./index.d.ts"
+  ]
 }

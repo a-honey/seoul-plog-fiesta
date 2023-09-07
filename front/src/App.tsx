@@ -12,11 +12,12 @@ import RegistePage from './pages/RegisterPage';
 import RecommendPage from './pages/RecommendPage';
 import NotFoundPage from './pages/NotPage';
 import PasswordEmailSuccessPage from './pages/ChangePWPage';
+import React from 'react';
 
 const App = () => {
   return (
     <Routes>
-      <Route path="/" exact element={<HomePage />} />
+      <Route path="/" element={<HomePage />} />
       <Route path="/intro" element={<IntroPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegistePage />} />
