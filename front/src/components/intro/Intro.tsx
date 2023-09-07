@@ -3,6 +3,7 @@ import style from './intro.module.scss';
 import { useNavigate } from 'react-router-dom';
 import * as Api from '../../api';
 import { handleImgUrl } from '../../utils/handleImgUrl';
+import { RankingUserDataType } from '../../types/fetchDataTypes';
 
 const Intro = () => {
   const [datas, setDatas] = useState([]);
@@ -14,8 +15,8 @@ const Intro = () => {
         setIsFetching(true);
         const res = await Api.get(`/plo/main/five`);
         setDatas(res.data);
-      } catch (err) {
-        console.log('탑5데이터를 불러오는데 실패.', err.response.data.message);
+      } catch (error) {
+        console.log(error);
         setDatas([]);
       } finally {
         setIsFetching(false);
@@ -35,15 +36,7 @@ const Intro = () => {
   const mainMove = () => {
     navigate('/');
   };
-  /*
-    {
-      "id": 5,
-      "nickname": "nickname5",
-      "profileImage": null,
-      "score": 2118,
-      "rank": 1
-      },
-      */
+
   return (
     <div className={style.IntroContainer}>
       <div className={style.TextContainer}>
@@ -64,7 +57,7 @@ const Intro = () => {
           {isFetching ? (
             <div>로딩중</div>
           ) : (
-            datas.map((data) => (
+            datas.map((data: RankingUserDataType) => (
               <div key={data.id} className={style.ranks}>
                 <div className={style.rankBack}>{data.rank}위</div>
 
@@ -72,7 +65,10 @@ const Intro = () => {
                 <div>{data.score} 점</div>
 
                 <div className={style.profile}>
-                  <img src={handleImgUrl(data.imageUrl)} alt="프로필 이미지" />
+                  <img
+                    src={handleImgUrl(data.imageUrl) || ''}
+                    alt="프로필 이미지"
+                  />
                 </div>
               </div>
             ))

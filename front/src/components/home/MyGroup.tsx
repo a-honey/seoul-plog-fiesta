@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import * as Api from '../../api';
 import { handleCreatedDate } from '../../utils/handleCreatedDate';
 import styles from './index.module.scss';
-import { PostDataType } from '../../types/homeTypes';
+import { PostDataType } from '../../types/fetchDataTypes';
 
 const MyGroup = () => {
   const [datas, setDatas] = useState([]);

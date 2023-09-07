@@ -7,7 +7,7 @@ import { handlePagenation } from '../../utils/handlePagenation';
 import MyLanking from '../feat/Ranking';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
-import { RankData } from '../../types/rankTypes';
+import { RankingUserDataType } from '../../types/fetchDataTypes';
 
 const All = () => {
   const [isFetching, setIsFetching] = useState(false);
@@ -68,7 +68,9 @@ const All = () => {
         ) : datas?.length === 0 ? (
           <div>데이터가 없습니다.</div>
         ) : (
-          datas.map((data: RankData) => <Item data={data} key={data.id} />)
+          datas.map((data: RankingUserDataType) => (
+            <Item data={data} key={data.id} />
+          ))
         )}
       </div>
       <div>
@@ -84,7 +86,7 @@ const All = () => {
 
 export default All;
 
-const Item = ({ data }: { data: RankData }) => {
+const Item = ({ data }: { data: RankingUserDataType }) => {
   const navigator = useNavigate();
 
   return (

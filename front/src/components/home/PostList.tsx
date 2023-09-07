@@ -7,7 +7,7 @@ import Pagination from '../common/Pagenation';
 import PloggingShow from '../common/PlogginShow';
 import { handleCreatedDate } from '../../utils/handleCreatedDate';
 import { RootState } from '../../store';
-import { PostDataType } from '../../types/homeTypes';
+import { PostDataType } from '../../types/fetchDataTypes';
 
 const PostList = ({ view }: { view: string }) => {
   const [isFetching, setIsFetching] = useState(false);

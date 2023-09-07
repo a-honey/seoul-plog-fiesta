@@ -1,5 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export type UserState = {
+  email: string;
+  nickName: string;
+  loginId: string;
+  groups: string[];
+  users: string[];
+};
+
 const userSlice = createSlice({
   name: 'user',
   initialState: { email: '', nickName: '', loginId: '', groups: [], users: [] },
@@ -26,7 +34,7 @@ const userSlice = createSlice({
         state.users = friendshipA;
       }
     },
-    logout(state, action) {
+    logout(state) {
       //api요청 후 state를 삭제함
       state.email = '';
       state.nickName = '';
@@ -37,5 +45,4 @@ const userSlice = createSlice({
 });
 
 export const { login, logout } = userSlice.actions;
-export type UserState = ReturnType<typeof userSlice.reducer>;
 export default userSlice.reducer;

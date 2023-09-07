@@ -3,17 +3,28 @@ import styles from './layout.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../features/userSlice';
 import * as Api from '../../api';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { openToast, setToastMessage } from '../../features/toastSlice';
 import {
   toggleRequestList,
   toggleGroupRequestList,
 } from '../../features/relationSlice';
+import { RootState } from '../../store';
 
-const Header = ({ setIsWriting }) => {
+type ButtonItem = {
+  condition: boolean;
+  text: string;
+  onClick: () => void;
+};
+
+const Header = ({
+  setIsWriting,
+}: {
+  setIsWriting: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const dispatch = useDispatch();
   const navigator = useNavigate();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
   const token = localStorage.getItem('userToken');
 
   const location = useLocation(); //location {pathname: '/groups/1', search: '?admin=4&view=main', hash: '', state: null, key: 'nsywyzak'}
@@ -21,19 +32,19 @@ const Header = ({ setIsWriting }) => {
   const searchParams = new URLSearchParams(location.search);
 
   const adminValue = searchParams.get('admin');
-  const isGroupAdmin = parseInt(adminValue) === user.loginId;
+  const isGroupAdmin = adminValue === user.loginId;
 
   const id = currentPath.split('/')[2];
 
-  const [visibleButton, setVisibleButton] = useState(null);
+  const [visibleButton, setVisibleButton] = useState<ButtonItem>();
 
   const handleJoinGroup = useCallback(async () => {
     if (!user.groups.includes(id))
       try {
-        const res = await Api.post(`/group/join/${id}`);
+        await Api.post(`/group/join/${id}`, '');
         alert('가입 요청 성공');
-      } catch (err) {
-        alert(err.message ? err.message : '가입 요청 실패.');
+      } catch (error) {
+        console.log(error);
       }
   }, [id, user.groups]);
 
@@ -44,8 +55,8 @@ const Header = ({ setIsWriting }) => {
       });
       dispatch(setToastMessage('친구 요청에 성공했습니다'));
       dispatch(openToast());
-    } catch (err) {
-      alert(err.message ? err.message : '친구 요청 실패.');
+    } catch (error) {
+      console.log(error);
     }
   }, [id, dispatch]);
 
@@ -99,7 +110,9 @@ const Header = ({ setIsWriting }) => {
   );
 
   useEffect(() => {
-    const updatedVisibleButton = buttons.find((button) => button.condition);
+    const updatedVisibleButton: ButtonItem | undefined = buttons.find(
+      (button) => button.condition,
+    );
     setVisibleButton(updatedVisibleButton);
   }, [currentPath, user.groups, user.users, isGroupAdmin, buttons]);
 

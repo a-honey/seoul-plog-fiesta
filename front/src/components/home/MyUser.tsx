@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import * as Api from '../../api';
 import styles from './index.module.scss';
 import { handleCreatedDate } from '../../utils/handleCreatedDate';
-import { UserDataType } from '../../types/homeTypes';
+import { PostDataType } from '../../types/fetchDataTypes';
 
 const MyUser = () => {
   const [datas, setDatas] = useState([]);
@@ -38,7 +38,7 @@ const MyUser = () => {
         {isFetching ? (
           <div>로딩중</div>
         ) : datas.length !== 0 ? (
-          datas.map((data: UserDataType, index: number) => (
+          datas.map((data: PostDataType, index: number) => (
             <Item key={data.id} data={data} order={index + 1} />
           ))
         ) : (
@@ -51,7 +51,7 @@ const MyUser = () => {
 
 export default MyUser;
 
-const Item = ({ data, order }: { data: UserDataType; order: number }) => {
+const Item = ({ data, order }: { data: PostDataType; order: number }) => {
   return (
     <div className={styles.userItem}>
       <div>{order}</div>

@@ -2,12 +2,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { BiSolidHome } from 'react-icons/bi';
 import { FaUserFriends, FaAward, FaWalking } from 'react-icons/fa';
 import styles from './layout.module.scss';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import ChatList from '../chat/ChatList';
 import { useRecoilState } from 'recoil';
 import { isChatOpenState, isChatWiState } from '../../features/recoilState';
 import Chat from '../chat/Chat';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 const Nav = () => {
   const location = useLocation(); // 현재 URL 정보를 가져오는 hook
@@ -23,7 +24,7 @@ const Nav = () => {
     { to: '/recommend', icon: <FaWalking /> },
   ];
 
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
   const token = localStorage.getItem('userToken');
   const isLogin = user.email && token;
 

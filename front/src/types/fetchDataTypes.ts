@@ -17,19 +17,21 @@ type PostDataType = {
 
 type UserDataType = {
   id: number;
-  writerId: number;
-  title: string;
-  region: string;
-  location: string;
-  distance: string;
-  trashAmount: string;
-  averagePace: string;
-  description: string;
-  startTime: string;
-  endTime: string;
-  createdAt: string;
-  isGroupPost: boolean;
-  groupName: string;
+  nickname: string;
+  activity?: string;
+  score?: number;
+  rank?: number;
+  postCount?: number;
 };
 
-export { PostDataType, UserDataType };
+type RankingUserDataType = {
+  id: number;
+  nickname: string;
+  activity?: string;
+  score?: number;
+  rank?: number;
+  postCount?: number;
+  imageUrl: string;
+};
+
+export { PostDataType, UserDataType, RankingUserDataType };
