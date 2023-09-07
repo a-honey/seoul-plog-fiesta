@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import userReducer from './features/userSlice';
-import toastReducer from './features/toastSlice';
-import relationReducer from './features/relationSlice';
+import userReducer, { UserState } from './features/userSlice';
+import toastReducer, { ToastState } from './features/toastSlice';
+import relationReducer, { RelationState } from './features/relationSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +10,12 @@ export const store = configureStore({
     relation: relationReducer,
   },
 });
+
+export type RootState = {
+  user: UserState;
+  toast: ToastState;
+  relation: RelationState;
+};
 
 /*
 

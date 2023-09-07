@@ -23,5 +23,5 @@ const toastSlice = createSlice({
 });
 
 export const { openToast, setToastMessage, closeToast } = toastSlice.actions;
-
+export type ToastState = ReturnType<typeof toastSlice.reducer>;
 export default toastSlice.reducer;

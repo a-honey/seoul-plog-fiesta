@@ -20,5 +20,5 @@ const relationSlice = createSlice({
 
 export const { toggleRequestList, toggleGroupRequestList } =
   relationSlice.actions;
-
+export type RelationState = ReturnType<typeof relationSlice.reducer>;
 export default relationSlice.reducer;

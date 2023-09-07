@@ -37,4 +37,5 @@ const userSlice = createSlice({
 });
 
 export const { login, logout } = userSlice.actions;
+export type UserState = ReturnType<typeof userSlice.reducer>;
 export default userSlice.reducer;
