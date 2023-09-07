@@ -1,8 +1,10 @@
 import Map from '../common/Map';
 import { useSelector } from 'react-redux';
+import React from 'react';
+import { RootState } from '../../store';
 
 const HomeMap = () => {
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
 
   return (
     <div className="gContainer mapWidth">

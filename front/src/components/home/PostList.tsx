@@ -6,19 +6,21 @@ import { handlePagenation } from '../../utils/handlePagenation';
 import Pagination from '../common/Pagenation';
 import PloggingShow from '../common/PlogginShow';
 import { handleCreatedDate } from '../../utils/handleCreatedDate';
+import { RootState } from '../../store';
+import { PostDataType } from '../../types/homeTypes';
 
-const PostList = ({ view }) => {
+const PostList = ({ view }: { view: string }) => {
   const [isFetching, setIsFetching] = useState(false);
   const [datas, setDatas] = useState([]);
 
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
 
   const itemsPerPage = 20;
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const paginatedData = handlePagenation(datas, currentPage, itemsPerPage);
 
-  const handlePage = (pageNumber) => {
+  const handlePage = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
@@ -29,11 +31,8 @@ const PostList = ({ view }) => {
         const res = await Api.get(`/user/cert/list`);
 
         setDatas(res.data);
-      } catch (err) {
-        console.log(
-          '나의 인증글 데이터를 불러오는데 실패.',
-          err.response.data.message,
-        );
+      } catch (error) {
+        console.log(error);
       } finally {
         setIsFetching(false);
       }
@@ -53,8 +52,8 @@ const PostList = ({ view }) => {
         ) : datas?.length === 0 ? (
           <div>데이터가 없습니다.</div>
         ) : (
-          paginatedData.map((data, index) => (
-            <Item data={data} key={data.id} view={view} order={index + 1} />
+          paginatedData.map((data: PostDataType, index: number) => (
+            <Item data={data} key={data.id} order={index + 1} />
           ))
         )}
       </div>
@@ -71,10 +70,7 @@ const PostList = ({ view }) => {
 
 export default PostList;
 
-/*
-[{"id":13,"writerId":5,"title":"ㅇㄹㅁㅇ","region":"gangbuk","location":"124","distance":"424","trashAmount":"424","averagePace":"424","description":"424","startTime":"15","endTime":"456","createdAt":"2023-08-27T18:17:03.480Z","isGroupPost":false,"groupName":null},
-*/
-const Item = ({ data, order }) => {
+const Item = ({ data, order }: { data: PostDataType; order: number }) => {
   const [isPlogginShowOpen, setIsPlogginShowOpen] = useState(false);
 
   return (
