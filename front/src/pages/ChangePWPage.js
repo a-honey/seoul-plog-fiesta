@@ -19,7 +19,7 @@ const PasswordEmailSuccessPage = () => {
   return (
     <Layout>
       <main>
-      <PasswordChangeSuccess />
+        <PasswordChangeSuccess />
       </main>
     </Layout>
   );

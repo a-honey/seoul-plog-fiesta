@@ -47,21 +47,26 @@ const RankingPage = () => {
   return (
     <Layout>
       <main>
-      <PageNav view={view} setView={setView} lists={lists} params={'ranking'} />
-      {!view || view === 'main' ? (
-        <div className="threeContainer fullVh">
-          <Map />
-          <div className="box">
-            <TopUser datas={users} isFetching={isFetching} />
-            <TopGroup datas={groups} isFetching={isFetching} />
+        <PageNav
+          view={view}
+          setView={setView}
+          lists={lists}
+          params={'ranking'}
+        />
+        {!view || view === 'main' ? (
+          <div className="threeContainer fullVh">
+            <Map />
+            <div className="box">
+              <TopUser datas={users} isFetching={isFetching} />
+              <TopGroup datas={groups} isFetching={isFetching} />
+            </div>
           </div>
-        </div>
-      ) : view === 'all' ? (
-        <All />
-      ) : (
-        <AllPostList />
-      )}
-    </main>
+        ) : view === 'all' ? (
+          <All />
+        ) : (
+          <AllPostList />
+        )}
+      </main>
     </Layout>
   );
 };

@@ -6,7 +6,6 @@ import PageNav from '../components/common/PageNav';
 import ItemList from '../components/network';
 
 const NetworkPage = () => {
-
   const lists = { group: 'GROUP', user: 'USER' };
 
   const location = useLocation();
@@ -19,9 +18,14 @@ const NetworkPage = () => {
   return (
     <Layout>
       <main>
-      <PageNav view={view} setView={setView} lists={lists} params={'network'} />
-      <ItemList />
-    </main>
+        <PageNav
+          view={view}
+          setView={setView}
+          lists={lists}
+          params={'network'}
+        />
+        <ItemList />
+      </main>
     </Layout>
   );
 };

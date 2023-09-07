@@ -48,7 +48,7 @@ const Login = () => {
       dispatch(login(res.data));
       navigate('/?view=main', { replace: true });
       dispatch(setToastMessage('반갑습니다.'));
-      dispatch(openToast()) ;
+      dispatch(openToast());
     } catch (err) {
       if (err.response && err.response.status === 401) {
         alert('이메일 또는 비밀번호가 일치하지 않습니다');

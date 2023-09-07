@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { openToast, setToastMessage } from '../../features/toastSlice';
 
 const Writing = ({ setIsModalOpen, setDatas }) => {
-  const dispatch  = useDispatch();  
+  const dispatch = useDispatch();
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -42,7 +42,7 @@ const Writing = ({ setIsModalOpen, setDatas }) => {
       setIsModalOpen(false);
       setDatas((datas) => [...datas, res.data]);
       dispatch(setToastMessage('인증글이 생성되었습니다.'));
-      dispatch(openToast()) ;
+      dispatch(openToast());
     } catch (err) {
       console.log('그룹 글생성 실패.', err.response.data.message);
     }

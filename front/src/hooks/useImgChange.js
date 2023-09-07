@@ -15,7 +15,9 @@ function useImgChange() {
       img.type !== 'image/jpeg' &&
       img.type !== 'image/jpg'
     ) {
-      alert('Only image files with the JPG or PNG extension can be registered.');
+      alert(
+        'Only image files with the JPG or PNG extension can be registered.',
+      );
       return;
     }
     if (img) {

@@ -19,7 +19,7 @@ const LoginPage = () => {
   return (
     <Layout>
       <main>
-      <Login />
+        <Login />
       </main>
     </Layout>
   );

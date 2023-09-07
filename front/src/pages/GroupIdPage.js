@@ -16,7 +16,6 @@ import Notice from '../components/groupId/Notice';
 export const GroupIdContext = createContext();
 
 const GroupIdPage = () => {
-
   const lists = {
     main: '홈',
     notice: '그룹게시판',
@@ -24,7 +23,9 @@ const GroupIdPage = () => {
     members: '멤버보기',
   };
 
-  const isGroupRequestListOpen = useSelector((state) => state.relation.isGroupRequestListOpen);
+  const isGroupRequestListOpen = useSelector(
+    (state) => state.relation.isGroupRequestListOpen,
+  );
 
   const [isFetching, setIsFetching] = useState(false);
 
@@ -61,37 +62,36 @@ const GroupIdPage = () => {
     getData();
   }, [groupId]);
 
-
   useIsLogin();
 
   return (
     <Layout>
-       <GroupIdContext.Provider value={{ name, isMember }}>
-      <main>
-        {isGroupRequestListOpen && <GroupRequestList />}
-        <PageNav
-          view={view}
-          setView={setView}
-          lists={lists}
-          params={`groups/${groupId}`}
-        />
-        {view === 'main' ? (
-          <div className="threeContainer navVh">
-            <GroupMap />
-            <div className="box">
-              <GroupUsers />
-              <GroupPosts setView={setView} />
+      <GroupIdContext.Provider value={{ name, isMember }}>
+        <main>
+          {isGroupRequestListOpen && <GroupRequestList />}
+          <PageNav
+            view={view}
+            setView={setView}
+            lists={lists}
+            params={`groups/${groupId}`}
+          />
+          {view === 'main' ? (
+            <div className="threeContainer navVh">
+              <GroupMap />
+              <div className="box">
+                <GroupUsers />
+                <GroupPosts setView={setView} />
+              </div>
             </div>
-          </div>
-        ) : view === 'notice' ? (
-          <Notice />
-        ) : view === 'posts' ? (
-          <GroupPlogging />
-        ) : (
-          <GroupMember setView={setView} />
-        )}
-      </main>
-    </GroupIdContext.Provider>
+          ) : view === 'notice' ? (
+            <Notice />
+          ) : view === 'posts' ? (
+            <GroupPlogging />
+          ) : (
+            <GroupMember setView={setView} />
+          )}
+        </main>
+      </GroupIdContext.Provider>
     </Layout>
   );
 };

@@ -19,7 +19,7 @@ const RegistePage = () => {
   return (
     <Layout>
       <main>
-      <Register />
+        <Register />
       </main>
     </Layout>
   );

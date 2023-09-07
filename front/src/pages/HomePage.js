@@ -14,7 +14,7 @@ const HomePage = () => {
     main: '홈',
     myposts: '나의 인증글',
   };
-  
+
   useIsLogin();
 
   const navigate = useNavigate();
@@ -34,21 +34,21 @@ const HomePage = () => {
   return (
     <Layout>
       <main>
-      <PageNav view={view} setView={setView} lists={lists} params={''} />
-      {!view || view === 'main' ? (
-        <div className="threeContainer fullVh">
-          <Map />
-          <div className="box">
-            <MyGroup />
-            <MyUser />
+        <PageNav view={view} setView={setView} lists={lists} params={''} />
+        {!view || view === 'main' ? (
+          <div className="threeContainer fullVh">
+            <Map />
+            <div className="box">
+              <MyGroup />
+              <MyUser />
+            </div>
           </div>
-        </div>
-      ) : view === 'myposts' ? (
-        <ItemList />
-      ) : (
-        <MessageList />
-      )}
-    </main>
+        ) : view === 'myposts' ? (
+          <ItemList />
+        ) : (
+          <MessageList />
+        )}
+      </main>
     </Layout>
   );
 };

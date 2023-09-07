@@ -19,7 +19,7 @@ const PasswordPage = () => {
   return (
     <Layout>
       <main>
-      <PasswordChange />
+        <PasswordChange />
       </main>
     </Layout>
   );

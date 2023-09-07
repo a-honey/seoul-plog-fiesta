@@ -5,7 +5,10 @@ import { logout } from '../../features/userSlice';
 import * as Api from '../../api';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { openToast, setToastMessage } from '../../features/toastSlice';
-import { toggleRequestList, toggleGroupRequestList } from '../../features/relationSlice';
+import {
+  toggleRequestList,
+  toggleGroupRequestList,
+} from '../../features/relationSlice';
 
 const Header = ({ setIsWriting }) => {
   const dispatch = useDispatch();
@@ -40,7 +43,7 @@ const Header = ({ setIsWriting }) => {
         id: id,
       });
       dispatch(setToastMessage('친구 요청에 성공했습니다'));
-      dispatch(openToast()) ;
+      dispatch(openToast());
     } catch (err) {
       alert(err.message ? err.message : '친구 요청 실패.');
     }

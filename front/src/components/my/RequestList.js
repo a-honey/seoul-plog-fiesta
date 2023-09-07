@@ -4,7 +4,6 @@ import * as Api from '../../api';
 import { toggleRequestList } from '../../features/relationSlice';
 import { useDispatch } from 'react-redux';
 
-
 const RequestList = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [datas, setDatas] = useState([]);

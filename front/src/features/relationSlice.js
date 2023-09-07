@@ -18,6 +18,7 @@ const relationSlice = createSlice({
   },
 });
 
-export const { toggleRequestList, toggleGroupRequestList } = relationSlice.actions;
+export const { toggleRequestList, toggleGroupRequestList } =
+  relationSlice.actions;
 
 export default relationSlice.reducer;

@@ -2,12 +2,12 @@ import { useState } from 'react';
 import styles from './index.module.scss';
 import * as Api from '../../api';
 import { seoulDistricts } from '../../assets/exportData';
-import { useDispatch, } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import post_none from '../../assets/post_none.png';
 import { openToast, setToastMessage } from '../../features/toastSlice';
 
 const GroupMaking = ({ setIsModal, setDatas }) => {
-  const dispatch  = useDispatch();
+  const dispatch = useDispatch();
   const [imgContainer, setImgContainer] = useState();
 
   const [formData, setFormData] = useState({
@@ -87,7 +87,7 @@ const GroupMaking = ({ setIsModal, setDatas }) => {
       setDatas((datas) => [...datas, postRes.data]);
       setIsModal(false);
       dispatch(setToastMessage(`${postRes.data.name} 그룹이 생성되었습니다.`));
-      dispatch(openToast()) ;
+      dispatch(openToast());
     } catch (err) {
       console.log('에 실패하였습니다.', err.response.data.message);
     }

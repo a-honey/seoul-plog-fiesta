@@ -7,20 +7,22 @@ import MyUsers from '../components/my/MyUsers';
 import { useSelector } from 'react-redux';
 
 const MyPage = () => {
-  const isRequestListOpen = useSelector((state) => state.relation.isRequestListOpen);
+  const isRequestListOpen = useSelector(
+    (state) => state.relation.isRequestListOpen,
+  );
 
   return (
     <Layout>
       <main>
-      {isRequestListOpen && <RequestList />}
-      <div className="threeContainer fullVh">
-        <MyInfo />
-        <div className="box">
-          <MyGroups />
-          <MyUsers />
+        {isRequestListOpen && <RequestList />}
+        <div className="threeContainer fullVh">
+          <MyInfo />
+          <div className="box">
+            <MyGroups />
+            <MyUsers />
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
     </Layout>
   );
 };

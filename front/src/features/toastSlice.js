@@ -9,9 +9,9 @@ const toastSlice = createSlice({
   name: 'toast',
   initialState,
   reducers: {
-      openToast: (state) => {
-        state.isToastOpen = true;
-      },
+    openToast: (state) => {
+      state.isToastOpen = true;
+    },
     setToastMessage: (state, action) => {
       state.toastMessage = action.payload;
     },

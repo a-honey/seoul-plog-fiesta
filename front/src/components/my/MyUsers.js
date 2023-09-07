@@ -71,7 +71,7 @@ export default MyUsers;
 
 const MyUser = ({ data, isEditing, setDatas }) => {
   const navigator = useNavigate();
-  const dispatch  = useDispatch();
+  const dispatch = useDispatch();
 
   const handleDelete = async () => {
     const confirmDelete = window.confirm('정말로 삭제하시겠습니까?');
@@ -81,7 +81,7 @@ const MyUser = ({ data, isEditing, setDatas }) => {
         await Api.delete(`/user/drop/${data.id}`);
         setDatas((datas) => datas.filter((prev) => prev.id !== data.id));
         dispatch(setToastMessage('인증글이 생성되었습니다.'));
-        dispatch(openToast()) ;
+        dispatch(openToast());
       } catch (err) {
         console.log('친구 삭제 실패.', err.response.data.message);
       }

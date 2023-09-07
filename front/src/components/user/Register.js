@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 
 const Register = () => {
   const navigate = useNavigate();
-  const dispatch  = useDispatch();
+  const dispatch = useDispatch();
 
   const [userData, setUserData] = useState({
     email: '',
@@ -61,7 +61,7 @@ const Register = () => {
         return;
       }
       dispatch(setToastMessage('회원가입되었습니다.'));
-      dispatch(openToast()) ;
+      dispatch(openToast());
       navigate('/login');
     } catch (err) {
       console.log('회원가입에 실패하였습니다.', err.response.data.message);

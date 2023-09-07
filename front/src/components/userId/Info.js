@@ -3,10 +3,7 @@ import * as Api from '../../api';
 import styles from './index.module.scss';
 import { useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import {
-  isChatOpenState,
-  isChatWiState,
-} from '../../features/recoilState';
+import { isChatOpenState, isChatWiState } from '../../features/recoilState';
 import { seoulDistricts } from '../../assets/exportData';
 import MyLanking from '../feat/Lanking';
 import { handleImgUrl } from '../../utils/handleImgUrl';
@@ -16,7 +13,7 @@ import { useDispatch } from 'react-redux';
 import { openToast, setToastMessage } from '../../features/toastSlice';
 
 const Info = () => {
-  const dispatch  = useDispatch();
+  const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
   const [isMyRankingOpen, setIsMyRankingOpen] = useState(false);
@@ -42,7 +39,7 @@ const Info = () => {
     try {
       await Api.post(`/req/${ownerId}`);
       dispatch(setToastMessage('친구 요청이 완료되었습니다.'));
-      dispatch(openToast()) ;
+      dispatch(openToast());
     } catch (err) {
       if (err.response && err.response.data && err.response.data.message) {
         alert(err.response.data.message);
