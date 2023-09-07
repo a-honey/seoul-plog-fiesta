@@ -36,7 +36,7 @@ const MessageList = ({ view }) => {
         ) : datas?.length === 0 ? (
           <div>데이터가 없습니다.</div>
         ) : (
-          datas.map((data) => <Item data={data} key={data.id} view={view} />)
+          datas.map((data) => <Item data={data} key={data.id} />)
         )}
       </div>
       <div>페이지네이션자리</div>
@@ -46,7 +46,7 @@ const MessageList = ({ view }) => {
 
 export default MessageList;
 
-const Item = ({ data, view }) => {
+const Item = ({ data }) => {
   const navigator = useNavigate();
 
   return (

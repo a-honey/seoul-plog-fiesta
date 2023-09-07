@@ -1,5 +1,6 @@
 import useIsLogin from '../hooks/useIsLogin';
 import Layout from './Layout';
+import React from 'react';
 
 const RecommendPage = () => {
   useIsLogin();

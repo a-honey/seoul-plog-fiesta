@@ -6,7 +6,7 @@ import Pagination from '../common/Pagenation';
 import { handlePagenation } from '../../utils/handlePagenation';
 import MyLanking from '../feat/Lanking';
 import { useSelector } from 'react-redux';
-const All = ({ view }) => {
+const All = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [datas, setDatas] = useState([]);
   const [isMyRankingOpen, setIsMyRankingOpen] = useState(false);
@@ -41,7 +41,7 @@ const All = ({ view }) => {
     };
 
     getData();
-  }, [view, currentPage]);
+  }, [currentPage]);
 
   return (
     <div className="gContainer  gList navVh">
@@ -69,7 +69,7 @@ const All = ({ view }) => {
         ) : datas?.length === 0 ? (
           <div>데이터가 없습니다.</div>
         ) : (
-          datas.map((data) => <Item data={data} key={data.id} view={view} />)
+          datas.map((data) => <Item data={data} key={data.id} />)
         )}
       </div>
       <div>
@@ -96,7 +96,7 @@ export default All;
     },
 */
 
-const Item = ({ data, view }) => {
+const Item = ({ data }) => {
   const navigator = useNavigate();
 
   return (

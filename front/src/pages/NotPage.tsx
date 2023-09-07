@@ -1,19 +1,19 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Layout from './Layout';
+import { RootState } from '../store';
 
-const NotFoundPage = () => {
+const NotFoundPage: React.FC = () => {
   const navigator = useNavigate();
-  const user = useSelector((state) => state.user);
-  const token = localStorage.getItem('userToken');
+  const user = useSelector((state: RootState) => state.user);
+  const token: string | null = localStorage.getItem('userToken');
 
-  // user의 상태가 존재하면 홈 페이지로 이동시킴
   useEffect(() => {
-    if (token && !user.email === '') {
+    if (token && user.email !== '') {
       navigator('/');
     }
-  });
+  }, [navigator, token, user]);
 
   return (
     <Layout>

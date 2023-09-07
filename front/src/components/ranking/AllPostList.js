@@ -7,7 +7,7 @@ import Pagination from '../common/Pagenation';
 import { handlePagenation } from '../../utils/handlePagenation';
 import PloggingShow from '../common/PlogginShow';
 
-const AllPostList = ({ view }) => {
+const AllPostList = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [datas, setDatas] = useState([]);
 
@@ -41,7 +41,7 @@ const AllPostList = ({ view }) => {
     };
 
     getData();
-  }, [view, currentPage]);
+  }, [currentPage]);
 
   return (
     <div className="gContainer  gList navVh">
@@ -55,7 +55,7 @@ const AllPostList = ({ view }) => {
           <div>데이터가 없습니다.</div>
         ) : (
           datas.map((data, index) => (
-            <Item data={data} key={data.id} order={index + 1} view={view} />
+            <Item data={data} key={data.id} order={index + 1} />
           ))
         )}
       </div>

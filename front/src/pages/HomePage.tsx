@@ -1,7 +1,7 @@
 import Layout from './Layout';
 import useIsLogin from '../hooks/useIsLogin';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MyGroup from '../components/home/MyGroup';
 import MyUser from '../components/home/MyUser';
 import MessageList from '../components/home/MessageList';
@@ -9,8 +9,8 @@ import PageNav from '../components/common/PageNav';
 import Map from '../components/home/Map';
 import ItemList from '../components/home/PostList';
 
-const HomePage = () => {
-  const lists = {
+const HomePage: React.FC = () => {
+  const lists: Record<string, string> = {
     main: '홈',
     myposts: '나의 인증글',
   };
@@ -21,9 +21,9 @@ const HomePage = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
 
-  const [view, setView] = useState(searchParams.get('view'));
-  const pwToken = searchParams.get('token');
-  const email = searchParams.get('email');
+  const [view, setView] = useState<string | null>(searchParams.get('view'));
+  const pwToken: string | null = searchParams.get('token');
+  const email: string | null = searchParams.get('email');
 
   useEffect(() => {
     if (pwToken) {
@@ -44,9 +44,9 @@ const HomePage = () => {
             </div>
           </div>
         ) : view === 'myposts' ? (
-          <ItemList />
+          <ItemList view={view} />
         ) : (
-          <MessageList />
+          <MessageList view={view} />
         )}
       </main>
     </Layout>

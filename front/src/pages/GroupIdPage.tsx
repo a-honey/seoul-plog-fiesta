@@ -6,56 +6,64 @@ import GroupMap from '../components/groupId/Map';
 import GroupRequestList from '../components/groupId/GroupRequest';
 import PageNav from '../components/common/PageNav';
 import { useSelector } from 'react-redux';
-import { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import * as Api from '../api';
 import GroupUsers from '../components/groupId/Users';
 import GroupPosts from '../components/groupId/Posts';
 import Notice from '../components/groupId/Notice';
+import { RootState } from '../store';
+import { AxiosError } from 'axios';
 
-export const GroupIdContext = createContext();
+export const GroupIdContext = createContext<{
+  name: string | undefined;
+  isMember: boolean;
+}>({
+  name: undefined,
+  isMember: false,
+});
 
-const GroupIdPage = () => {
-  const lists = {
+const GroupIdPage: React.FC = () => {
+  const lists: Record<string, string> = {
     main: '홈',
     notice: '그룹게시판',
     posts: '인증글',
     members: '멤버보기',
   };
 
-  const isGroupRequestListOpen = useSelector(
-    (state) => state.relation.isGroupRequestListOpen,
+  const isGroupRequestListOpen: boolean = useSelector(
+    (state: RootState) => state.relation.isGroupRequestListOpen,
   );
-
-  const [isFetching, setIsFetching] = useState(false);
 
   const { groupId } = useParams();
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
 
-  const [view, setView] = useState(searchParams.get('view'));
+  const [view, setView] = useState<string | null>(searchParams.get('view'));
 
-  const [name, setName] = useState();
-  const [members, setMembers] = useState([]);
+  const [name, setName] = useState<string>('');
+  const [members, setMembers] = useState<string[]>([]);
 
-  const user = useSelector((state) => state.user);
-  const isMember = members.includes(user.loginId);
+  const user = useSelector((state: RootState) => state.user);
+  const isMember: boolean = members.includes(user.loginId);
 
   useEffect(() => {
     const getData = async () => {
       try {
-        setIsFetching(true);
         const res = await Api.get(`/group/${groupId}`);
         setName(res.data.name);
-        setMembers(res.data.groupUser.map((user) => user.userId));
-      } catch (err) {
-        console.log(
-          '그룹이름 데이터를 불러오는데 실패.',
-          err.response.data.message,
+        setMembers(
+          res.data.groupUser.map((user: { userId: string }) => user.userId),
         );
+      } catch (error) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response && axiosError.response.data) {
+          console.log(`ERROR MESSAGE: ${axiosError.response.data}`);
+        } else {
+          console.log('에러 데이터 없음.');
+        }
       } finally {
-        setIsFetching(false);
       }
     };
 
@@ -86,9 +94,9 @@ const GroupIdPage = () => {
           ) : view === 'notice' ? (
             <Notice />
           ) : view === 'posts' ? (
-            <GroupPlogging />
+            <GroupPlogging view={view} />
           ) : (
-            <GroupMember setView={setView} />
+            <GroupMember view={view} setView={setView} />
           )}
         </main>
       </GroupIdContext.Provider>

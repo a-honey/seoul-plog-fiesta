@@ -5,11 +5,15 @@ import MyInfo from '../components/my/MyInfo';
 import MyGroups from '../components/my/MyGroups';
 import MyUsers from '../components/my/MyUsers';
 import { useSelector } from 'react-redux';
+import { RootState } from '../store';
+import React from 'react';
 
-const MyPage = () => {
+const MyPage: React.FC = () => {
   const isRequestListOpen = useSelector(
-    (state) => state.relation.isRequestListOpen,
+    (state: RootState) => state.relation.isRequestListOpen,
   );
+
+  useIsLogin();
 
   return (
     <Layout>

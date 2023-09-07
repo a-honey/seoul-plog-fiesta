@@ -2,36 +2,33 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Layout from './Layout';
 import useIsLogin from '../hooks/useIsLogin';
 import { useSelector } from 'react-redux';
-import { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import * as Api from '../api';
 import Info from '../components/userId/Info';
 import UserMap from '../components/userId/Map';
+import { RootState } from '../store';
 
-export const UserIdContext = createContext();
+export const UserIdContext = createContext<{ friends: number[] }>({
+  friends: [],
+});
 
 const UserIdPage = () => {
   const { userId } = useParams();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
   const navigator = useNavigate();
 
   useIsLogin();
 
-  const [isFetching, setIsFetching] = useState(false);
   const [friends, setFriends] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
       try {
-        setIsFetching(true);
         const res = await Api.get(`/friends`);
-        setFriends(res.data.friendsList.map((user) => user.id));
-      } catch (err) {
-        console.log(
-          '유저 데이터를 불러오는데 실패.',
-          err?.response?.data?.message,
-        );
+        setFriends(res.data.friendsList.map((user: { id: string }) => user.id));
+      } catch (error) {
+        console.error(error);
       } finally {
-        setIsFetching(false);
       }
     };
 
@@ -39,7 +36,7 @@ const UserIdPage = () => {
   }, []);
 
   useEffect(() => {
-    if (parseInt(userId) === user.loginId) {
+    if (userId === user.loginId) {
       navigator('/mypage');
     }
   }, [navigator, user, userId]);

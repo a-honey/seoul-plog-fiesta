@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PageNav from '../components/common/PageNav';
 import All from '../components/ranking/All';
 import AllPostList from '../components/ranking/AllPostList';
@@ -9,6 +9,7 @@ import Layout from './Layout';
 import { useLocation } from 'react-router-dom';
 import * as Api from '../api';
 import Map from '../components/ranking/Map';
+import { AxiosError } from 'axios';
 
 const RankingPage = () => {
   useIsLogin();
@@ -32,11 +33,13 @@ const RankingPage = () => {
           setUsers(res.data.topUsers);
           setGroups(res.data.topGroups);
         });
-      } catch (err) {
-        console.log(
-          '상위 유저 및 그룹 데이터를 불러오는데 실패.',
-          err.response.data.message,
-        );
+      } catch (error) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response && axiosError.response.data) {
+          console.log(`ERROR MESSAGE: ${axiosError.response.data}`);
+        } else {
+          console.log('에러 데이터 없음.');
+        }
       } finally {
         setIsFetching(false);
       }
