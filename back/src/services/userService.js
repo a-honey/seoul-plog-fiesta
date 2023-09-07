@@ -37,7 +37,7 @@ const getAllUsers = async (page, limit) => {
 			}),
 		);
 		return {
-			user: users,
+			data: users,
 			currentPage: page,
 			totalPages: totalPages,
 		};
@@ -308,7 +308,7 @@ const getMyFriends = async (userId, page, limit) => {
 		});
 		const totalPages = Math.ceil(allUserCount / limit);
 		return {
-			user: user,
+			data: user,
 			currentPage: page,
 			totalPages: totalPages,
 		};

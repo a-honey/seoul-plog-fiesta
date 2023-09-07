@@ -91,7 +91,7 @@ const getAllCertPosts = async (page, limit) => {
 			};
 		});
 		return {
-			posts: posts,
+			data: posts,
 			currentPage: page,
 			totalPages: totalPages,
 		};
@@ -416,7 +416,7 @@ const getTopUsers = async (page, limit) => {
 			}
 		}
 		return {
-			users: topUsers,
+			data: topUsers,
 			currentPage: page,
 			totalPages: totalPages,
 		};

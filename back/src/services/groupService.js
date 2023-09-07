@@ -88,7 +88,7 @@ const getAllGroups = async (page, limit) => {
 				};
 			}),
 		);
-		return { groups: formatGroups, currentPage: page, totalPages: totalPages };
+		return { data: formatGroups, currentPage: page, totalPages: totalPages };
 	} catch (error) {
 		console.error(error);
 		throw error;
@@ -356,7 +356,7 @@ const getMyGroups = async (userId, page, limit) => {
 			imageUrl: group.group.groupImage[0]?.imageUrl || null,
 		}));
 		return {
-			groups: myGroup,
+			data: myGroup,
 			currentPage: page,
 			totalPages: totalPages,
 		};
@@ -402,7 +402,7 @@ const getGroupMembers = async (groupName, userId, page, limit) => {
 			...paginationOptions,
 		});
 		return {
-			members: groupMembers.map((groupUser) => groupUser.user.nickname),
+			data: groupMembers.map((groupUser) => groupUser.user.nickname),
 			currentPage: page,
 			totalPages: totalPages,
 		};
@@ -452,7 +452,7 @@ const getAllPosts = async (groupId, page, limit) => {
 			...paginationOptions,
 		});
 		return {
-			posts,
+			data: posts,
 			currentPage: page,
 			totalPages: totalPages,
 		};
@@ -533,7 +533,7 @@ const getRecentPosts = async (userId, page, limit) => {
 		});
 
 		return {
-			posts,
+			data: posts,
 			currentPage: page,
 			totalPages: totalPages,
 		};
@@ -757,7 +757,7 @@ const getUserGroupCertPosts = async (userId, page, limit) => {
 			orderBy: { createdAt: 'desc' },
 			...paginationOptions,
 		});
-		return { posts: posts, currentPage: page, totalPages: totalPages };
+		return { data: posts, currentPage: page, totalPages: totalPages };
 	} catch (error) {
 		console.error(error);
 		throw error;
@@ -799,7 +799,7 @@ const getCertPostsByGroupName = async (groupName, page, limit) => {
 			};
 		});
 		return {
-			posts: posts,
+			data: posts,
 			currentPage: page,
 			totalPages: totalPages,
 		};
