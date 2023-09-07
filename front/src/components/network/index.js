@@ -6,7 +6,7 @@ import * as Api from '../../api';
 import post_none from '../../assets/post_none.png';
 import user_none from '../../assets/user_none.png';
 import { seoulDistricts } from '../../assets/exportData';
-import { handlePagenation } from '../../utils/pagenation';
+import { handlePagenation } from '../../utils/handlePagenation';
 import Pagination from '../common/Pagenation';
 import { handleImgUrl } from '../../utils/handleImgUrl';
 

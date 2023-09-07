@@ -5,7 +5,7 @@ import Writing from './Writing';
 import styles from './index.module.scss';
 import { useSelector } from 'react-redux';
 import Pagination from '../common/Pagenation';
-import { handlePagenation } from '../../utils/pagenation';
+import { handlePagenation } from '../../utils/handlePagenation';
 import { GroupIdContext } from '../../pages/GroupIdPage';
 
 const Notice = () => {

@@ -4,7 +4,7 @@ import * as Api from '../../api';
 import { useDispatch, useSelector } from 'react-redux';
 import { seoulDistricts } from '../../assets/exportData';
 import styles from './index.module.scss';
-import { handlePagenation } from '../../utils/pagenation';
+import { handlePagenation } from '../../utils/handlePagenation';
 import Pagination from '../common/Pagenation';
 import { GroupIdContext } from '../../pages/GroupIdPage';
 import { openToast, setToastMessage } from '../../features/toastSlice';

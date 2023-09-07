@@ -33,8 +33,10 @@ const initialData = {
 }
 */
 
-export const handleMapData = (data) => {
-  const sendData = {};
+export const handleMapData = (
+  data: Record<string, number>,
+): Record<string, number> => {
+  const sendData: Record<string, number> = {};
 
   for (const key in initialData) {
     if (data.hasOwnProperty(key)) {

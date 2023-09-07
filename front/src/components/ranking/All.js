@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import * as Api from '../../api';
 import styles from './index.module.scss';
 import Pagination from '../common/Pagenation';
-import { handlePagenation } from '../../utils/pagenation';
+import { handlePagenation } from '../../utils/handlePagenation';
 import MyLanking from '../feat/Lanking';
 import { useSelector } from 'react-redux';
 const All = ({ view }) => {

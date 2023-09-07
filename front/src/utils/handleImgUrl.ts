@@ -1,7 +1,7 @@
 // images/img_13c964ce-e832-4209-af8f-0fddd8b0fa26.jpeg
-export const handleImgUrl = (url) => {
+export const handleImgUrl = (url: string | null): string | null => {
   if (!url) {
-    return;
+    return null;
   }
 
   // src/public/images/이미지.jpeg

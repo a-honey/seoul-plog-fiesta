@@ -1,4 +1,4 @@
-export const handleCreatedDate = (date) => {
+export const handleCreatedDate = (date: string): string => {
   const createdAtDate = new Date(date);
 
   const year = createdAtDate.getFullYear();

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import * as Api from '../../api';
-import { validateEmail } from '../../utils';
+import { validateEmail } from '../../utils/handleRegex';
 
 const PasswordChangeSuccess = () => {
   const navigate = useNavigate();

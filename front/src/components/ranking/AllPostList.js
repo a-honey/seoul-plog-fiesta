@@ -4,7 +4,7 @@ import * as Api from '../../api';
 import styles from './index.module.scss';
 import { handleCreatedDate } from '../../utils/handleCreatedDate';
 import Pagination from '../common/Pagenation';
-import { handlePagenation } from '../../utils/pagenation';
+import { handlePagenation } from '../../utils/handlePagenation';
 import PloggingShow from '../common/PlogginShow';
 
 const AllPostList = ({ view }) => {
