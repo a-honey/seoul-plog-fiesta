@@ -2,8 +2,16 @@ import React, { useEffect, useState } from 'react';
 import styles from './mylanking.module.scss';
 import * as Api from '../../api';
 
-const MyRanking = ({ setIsMyRankingOpen, id, name }) => {
-  const [rank, setRank] = useState(null);
+const MyRanking = ({
+  setIsMyRankingOpen,
+  id,
+  name,
+}: {
+  setIsMyRankingOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  id: number;
+  name: string;
+}) => {
+  const [rank, setRank] = useState<number>(0);
 
   useEffect(() => {
     const getData = async () => {
@@ -15,8 +23,8 @@ const MyRanking = ({ setIsMyRankingOpen, id, name }) => {
           alert('인증글이 없습니다. 인증글을 작성해주세요.');
           return;
         }
-      } catch (err) {
-        console.log('순위데이터를 불러오는데 실패.', err.response.data.message);
+      } catch (error) {
+        console.log(error);
       }
     };
     getData();

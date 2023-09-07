@@ -4,20 +4,22 @@ import * as Api from '../../api';
 import styles from './index.module.scss';
 import Pagination from '../common/Pagenation';
 import { handlePagenation } from '../../utils/handlePagenation';
-import MyLanking from '../feat/Lanking';
+import MyLanking from '../feat/Ranking';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import { RankData } from '../../types/rankTypes';
+
 const All = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [datas, setDatas] = useState([]);
-  const [isMyRankingOpen, setIsMyRankingOpen] = useState(false);
+  const [isMyRankingOpen, setIsMyRankingOpen] = useState<boolean>(false);
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const user = useSelector((state) => state.user);
-  const paginatedData = handlePagenation(datas, currentPage, itemsPerPage);
+  const user = useSelector((state: RootState) => state.user);
 
-  const handlePage = (pageNumber) => {
+  const handlePage = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
@@ -30,11 +32,8 @@ const All = () => {
         );
         setDatas(res.data.users);
         setTotalPages(res.data.totalPages);
-      } catch (err) {
-        console.log(
-          '100명 순위데이터를 불러오는데 실패.',
-          err.response.data.message,
-        );
+      } catch (error) {
+        console.log(error);
       } finally {
         setIsFetching(false);
       }
@@ -49,7 +48,7 @@ const All = () => {
         <MyLanking
           setIsMyRankingOpen={setIsMyRankingOpen}
           name="나"
-          id={user.loginId}
+          id={parseInt(user.loginId)}
         />
       )}
       <div className="titleContainer">
@@ -69,7 +68,7 @@ const All = () => {
         ) : datas?.length === 0 ? (
           <div>데이터가 없습니다.</div>
         ) : (
-          datas.map((data) => <Item data={data} key={data.id} />)
+          datas.map((data: RankData) => <Item data={data} key={data.id} />)
         )}
       </div>
       <div>
@@ -85,27 +84,14 @@ const All = () => {
 
 export default All;
 
-/*
-    {
-        "id": 5,
-        "nickname": "124",
-        "activity": "seodaemun",
-        "score": 2800,
-        "rank": 1,
-        "postCount": 8
-    },
-*/
-
-const Item = ({ data }) => {
+const Item = ({ data }: { data: RankData }) => {
   const navigator = useNavigate();
 
   return (
     <div
-      className={
-        data.rank <= 3
-          ? `${styles.rankingItem} ${styles.rankingTop3}`
-          : styles.rankingItem
-      }
+      className={`${styles.rankingItem} ${
+        data.rank && data.rank <= 3 ? styles.rankingTop3 : ''
+      }`}
       onClick={() => {
         navigator(`/users/${data.id}`);
       }}
