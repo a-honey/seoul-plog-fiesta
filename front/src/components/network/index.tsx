@@ -9,6 +9,7 @@ import { seoulDistricts } from '../../assets/exportData';
 import { handlePagenation } from '../../utils/handlePagenation';
 import Pagination from '../common/Pagenation';
 import { handleImgUrl } from '../../utils/handleImgUrl';
+import { NetworkGroupType, NetworkUserType } from '../../types/fetchDataTypes';
 
 const ItemList = () => {
   const [isModal, setIsModal] = useState(false);
@@ -26,7 +27,7 @@ const ItemList = () => {
   const [totalPages, setTotalPages] = useState(1);
   const paginatedData = handlePagenation(datas, currentPage, itemsPerPage);
 
-  const handlePage = (pageNumber) => {
+  const handlePage = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
@@ -69,8 +70,8 @@ const ItemList = () => {
             setTotalPages(res.data.users.totalPages);
           }
         }
-      } catch (err) {
-        console.log('데이터를 불러오는데 실패.', err.response.data.message);
+      } catch (error) {
+        console.log(error);
         setDatas([]);
       } finally {
         setIsFetching(false);
@@ -145,7 +146,13 @@ const NetworkHeader = ({ view, setIsModal, setIsCheck }) => {
   );
 };
 
-const Item = ({ data, view }) => {
+const Item = ({
+  data,
+  view,
+}: {
+  data: NetworkGroupType | NetworkUserType;
+  view: string;
+}) => {
   const navigator = useNavigate();
 
   return (

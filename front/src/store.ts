@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import userReducer, { UserState } from './features/userSlice';
 import toastReducer, { ToastState } from './features/toastSlice';
 import relationReducer, { RelationState } from './features/relationSlice';
+import chatSlice, { ChatState } from './features/chatSlice';
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     toast: toastReducer,
     relation: relationReducer,
+    chat: chatSlice,
   },
 });
 
@@ -15,6 +17,7 @@ export type RootState = {
   user: UserState;
   toast: ToastState;
   relation: RelationState;
+  chat: ChatState;
 };
 
 /*

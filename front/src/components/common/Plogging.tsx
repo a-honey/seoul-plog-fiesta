@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { seoulDistricts } from '../../assets/exportData';
 import styles from './index.module.scss';
 import * as Api from '../../api';
@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { openToast, setToastMessage } from '../../features/toastSlice';
 
 const Plogging = ({ setIsWriting }) => {
-  const dispatch  = useDispatch();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     region: '',
     location: '',
@@ -85,7 +85,7 @@ const Plogging = ({ setIsWriting }) => {
       }
       setIsWriting(false);
       dispatch(setToastMessage('인증글이 생성되었습니다.'));
-      dispatch(openToast()) ;
+      dispatch(openToast());
     } catch (err) {
       alert('인증 글 업로드 실패', err.response.data.message);
     }

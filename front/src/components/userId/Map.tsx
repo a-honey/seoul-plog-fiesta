@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import React, { useLocation } from 'react-router-dom';
 import Map from '../common/Map';
 
 const UserMap = () => {

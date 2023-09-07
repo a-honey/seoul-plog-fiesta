@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import React, { createContext, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import * as Api from '../api';
-import GroupUsers from '../components/groupId/Users';
+import GroupUsers from '../components/groupId/UsersPosts';
 import GroupPosts from '../components/groupId/GroupPosts';
 import Notice from '../components/groupId/Notice';
 import { RootState } from '../store';

@@ -54,3 +54,20 @@ export type RequestType = {
   nickname: string;
   id: number;
 };
+
+export type NetworkGroupType = {
+  id: number;
+  managerId: number;
+  name: string;
+  goal: string;
+  region: string;
+  memberCount: number;
+  images: string[];
+};
+
+export type NetworkUserType = {
+  id: number;
+  nickname: string;
+  about: string;
+  activity: string;
+};

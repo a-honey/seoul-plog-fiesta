@@ -1,12 +1,19 @@
-import { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import styles from './index.module.scss';
 import * as Api from '../../api';
 import { seoulDistricts } from '../../assets/exportData';
 import { useDispatch } from 'react-redux';
 import post_none from '../../assets/post_none.png';
 import { openToast, setToastMessage } from '../../features/toastSlice';
+import { NetworkGroupType } from '../../types/fetchDataTypes';
 
-const GroupMaking = ({ setIsModal, setDatas }) => {
+const GroupMaking = ({
+  setIsModal,
+  setDatas,
+}: {
+  setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setDatas: React.Dispatch<React.SetStateAction<NetworkGroupType>>;
+}) => {
   const dispatch = useDispatch();
   const [imgContainer, setImgContainer] = useState();
 
@@ -19,16 +26,20 @@ const GroupMaking = ({ setIsModal, setDatas }) => {
 
   const imgData = new FormData();
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = event.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
-  const handleImgChange = (e) => {
-    const img = e.target.files[0];
+  const handleImgChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const img = event.target.files[0];
 
     if (!img) {
       alert('이미지 파일을 넣어주세요.');
@@ -60,36 +71,36 @@ const GroupMaking = ({ setIsModal, setDatas }) => {
     }
   };
 
-  const uploadImage = async (groupId) => {
+  const uploadImage = async (groupId: number) => {
     try {
       const res = await Api.postForm(`/upload/groupimg/${groupId}`, {
         groupImage: imgContainer,
       });
       return res;
-    } catch (err) {
-      console.log('이미지 업로드 에러', err.response.data.message);
-      throw err;
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     try {
       const postRes = await Api.post('/group', formData);
 
       if (imgData) {
-        const imageUploadRes = await uploadImage(postRes.data.id, imgData);
+        const imageUploadRes = await uploadImage(postRes.data.id);
         console.log('이미지 업로드 결과:', imageUploadRes);
       }
 
       postRes.data['memberCount'] = 1;
-      setDatas((datas) => [...datas, postRes.data]);
+      setDatas((datas: NetworkGroupType[]) => [...datas, postRes.data]);
       setIsModal(false);
       dispatch(setToastMessage(`${postRes.data.name} 그룹이 생성되었습니다.`));
       dispatch(openToast());
-    } catch (err) {
-      console.log('에 실패하였습니다.', err.response.data.message);
+    } catch (error) {
+      console.log(error);
     }
   };
 

@@ -1,11 +1,9 @@
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import * as Api from '../../api';
 import styles from './index.module.scss';
 import { useLocation } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { isChatOpenState, isChatWiState } from '../../features/recoilState';
 import { seoulDistricts } from '../../assets/exportData';
-import MyLanking from '../feat/Lanking';
+import MyRanking from '../feat/Ranking';
 import { handleImgUrl } from '../../utils/handleImgUrl';
 import { UserIdContext } from '../../pages/UserIdPage';
 import user_none from '../../assets/user_none.png';
@@ -27,25 +25,20 @@ const Info = () => {
   const [imgContainer, setImageContainer] = useState(null);
   const isFriend = friends.includes(parseInt(ownerId));
 
-  const [isChatOpen, setIsChatOpen] = useRecoilState(isChatOpenState);
-  const [, setChatId] = useRecoilState(isChatWiState);
-
+  /*
   const handleChat = () => {
     setChatId(currentPath.split('/')[2].split('?')[0]);
     setIsChatOpen(!isChatOpen);
   };
+  */
 
   const handleClick = async () => {
     try {
-      await Api.post(`/req/${ownerId}`);
+      await Api.post(`/req/${ownerId}`, '');
       dispatch(setToastMessage('친구 요청이 완료되었습니다.'));
       dispatch(openToast());
-    } catch (err) {
-      if (err.response && err.response.data && err.response.data.message) {
-        alert(err.response.data.message);
-      } else {
-        console.log('친구요청실패', err.response.data.message);
-      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -59,10 +52,7 @@ const Info = () => {
           .then((res) => setImageContainer(res.data))
           .catch((err) => setImageContainer(null));
       } catch (err) {
-        console.log(
-          '상위모임데이터를 불러오는데 실패.',
-          err?.response?.data?.message,
-        );
+        console.log(err);
       } finally {
         setIsFetching(false);
       }
@@ -74,14 +64,14 @@ const Info = () => {
   return (
     <div className={`gContainer`}>
       {isMyRankingOpen && (
-        <MyLanking
+        <MyRanking
           setIsMyRankingOpen={setIsMyRankingOpen}
           name="내 친구"
-          id={ownerId}
+          id={parseInt(ownerId)}
         />
       )}
       <div className="titleContainer">
-        <h1>{data.searchId?.nickname}의 정보</h1>
+        <h1>{data?.searchId?.nickname}의 정보</h1>
       </div>
       <ul className={styles.info}>
         <div className={styles.imgContainer}>
