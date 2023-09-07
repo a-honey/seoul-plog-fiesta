@@ -1,4 +1,4 @@
-type PostDataType = {
+export type PostDataType = {
   id: number;
   writerId: number;
   title: string;
@@ -15,16 +15,23 @@ type PostDataType = {
   groupName: string;
 };
 
-type UserDataType = {
+export type PostMinDataType = {
+  id: number;
+  title: string;
+  createdAt: string;
+};
+
+export type UserDataType = {
   id: number;
   nickname: string;
   activity?: string;
   score?: number;
   rank?: number;
   postCount?: number;
+  about?: string;
 };
 
-type RankingUserDataType = {
+export type RankingUserDataType = {
   id: number;
   nickname: string;
   activity?: string;
@@ -34,4 +41,16 @@ type RankingUserDataType = {
   imageUrl: string;
 };
 
-export { PostDataType, UserDataType, RankingUserDataType };
+export type NoticePostType = {
+  id: number;
+  writerId: string;
+  title: string;
+  content: string;
+  isNotice: boolean;
+  createdAt: string;
+};
+
+export type RequestType = {
+  nickname: string;
+  id: number;
+};

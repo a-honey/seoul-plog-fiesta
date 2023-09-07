@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import MyGroup from '../components/home/MyGroup';
 import MyUser from '../components/home/MyUser';
 import MessageList from '../components/home/MessageList';
-import PageNav from '../components/common/PageNav';
+import PageNav from '../components/common/PageTap';
 import Map from '../components/home/Map';
 import ItemList from '../components/home/PostList';
 

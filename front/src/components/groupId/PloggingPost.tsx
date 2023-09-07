@@ -7,8 +7,9 @@ import PloggingShow from '../common/PlogginShow';
 import { handleCreatedDate } from '../../utils/handleCreatedDate';
 import styles from './index.module.scss';
 import { GroupIdContext } from '../../pages/GroupIdPage';
+import { PostMinDataType } from '../../types/fetchDataTypes';
 
-const GroupPlogging = ({ view }) => {
+const GroupPlogging = ({ view }: { view: string }) => {
   const [isFetching, setIsFetching] = useState(false);
   const [datas, setDatas] = useState([]);
 
@@ -20,7 +21,7 @@ const GroupPlogging = ({ view }) => {
 
   const paginatedData = handlePagenation(datas, currentPage, itemsPerPage);
 
-  const handlePage = (pageNumber) => {
+  const handlePage = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
@@ -35,11 +36,8 @@ const GroupPlogging = ({ view }) => {
           setDatas(res.data.posts);
           setTotalPages(res.data.totalPages);
         }
-      } catch (err) {
-        console.log(
-          '인증글 데이터를 불러오는데 실패.',
-          err.response.data.message,
-        );
+      } catch (error) {
+        console.log(error);
       } finally {
         setIsFetching(false);
       }
@@ -59,8 +57,8 @@ const GroupPlogging = ({ view }) => {
         ) : datas?.length === 0 ? (
           <div>데이터가 없습니다.</div>
         ) : (
-          paginatedData.map((data, index) => (
-            <Item data={data} key={data.id} view={view} order={index + 1} />
+          paginatedData.map((data: PostMinDataType, index) => (
+            <Item data={data} key={data.id} order={index + 1} />
           ))
         )}
       </div>
@@ -77,7 +75,7 @@ const GroupPlogging = ({ view }) => {
 
 export default GroupPlogging;
 
-const Item = ({ data, order }) => {
+const Item = ({ data, order }: { data: PostMinDataType; order: number }) => {
   const [isPlogginShowOpen, setIsPlogginShowOpen] = useState(false);
 
   return (

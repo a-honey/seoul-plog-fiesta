@@ -1,16 +1,16 @@
 import Layout from './Layout';
 import useIsLogin from '../hooks/useIsLogin';
 import GroupMember from '../components/groupId/Member';
-import GroupPlogging from '../components/groupId/Plogging';
+import GroupPlogging from '../components/groupId/PloggingPost';
 import GroupMap from '../components/groupId/Map';
 import GroupRequestList from '../components/groupId/GroupRequest';
-import PageNav from '../components/common/PageNav';
+import PageNav from '../components/common/PageTap';
 import { useSelector } from 'react-redux';
 import React, { createContext, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import * as Api from '../api';
 import GroupUsers from '../components/groupId/Users';
-import GroupPosts from '../components/groupId/Posts';
+import GroupPosts from '../components/groupId/GroupPosts';
 import Notice from '../components/groupId/Notice';
 import { RootState } from '../store';
 import { AxiosError } from 'axios';
@@ -79,7 +79,7 @@ const GroupIdPage: React.FC = () => {
           {isGroupRequestListOpen && <GroupRequestList />}
           <PageNav
             view={view}
-            setView={setView}
+            setView={setView as React.Dispatch<React.SetStateAction<string>>}
             lists={lists}
             params={`groups/${groupId}`}
           />
@@ -88,7 +88,7 @@ const GroupIdPage: React.FC = () => {
               <GroupMap />
               <div className="box">
                 <GroupUsers />
-                <GroupPosts setView={setView} />
+                <GroupPosts />
               </div>
             </div>
           ) : view === 'notice' ? (
@@ -96,7 +96,10 @@ const GroupIdPage: React.FC = () => {
           ) : view === 'posts' ? (
             <GroupPlogging view={view} />
           ) : (
-            <GroupMember view={view} setView={setView} />
+            <GroupMember
+              view={view as string}
+              setView={setView as React.Dispatch<React.SetStateAction<string>>}
+            />
           )}
         </main>
       </GroupIdContext.Provider>

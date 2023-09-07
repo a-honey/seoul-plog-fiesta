@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { handleCreatedDate } from '../../utils/handleCreatedDate';
 import styles from './index.module.scss';
 import { GroupIdContext } from '../../pages/GroupIdPage';
+import { PostDataType } from '../../types/fetchDataTypes';
 
 const GroupUsers = () => {
   return (
@@ -35,14 +36,8 @@ const List = () => {
         } else {
           setDatas(res.data.posts.slice(0, 5));
         }
-      } catch (err) {
-        console.log(
-          '멤버 리스트 데이터를 불러오는데 실패.',
-          err.response.data.message,
-        );
-        if (err.response.data === '인증게시글 없음') {
-          setDatas([]);
-        }
+      } catch (error) {
+        console.log(error);
       } finally {
         setIsFetching(false);
       }
@@ -59,7 +54,7 @@ const List = () => {
         ) : datas.length === 0 ? (
           <div>데이터가 없습니다</div>
         ) : (
-          datas.map((data, index) => (
+          datas.map((data: PostDataType, index) => (
             <Item key={`${data.id}`} data={data} order={index + 1} />
           ))
         )}
@@ -68,7 +63,7 @@ const List = () => {
   );
 };
 
-const Item = ({ data, order }) => {
+const Item = ({ data, order }: { data: PostDataType; order: number }) => {
   return (
     <div className={styles.mainItem}>
       <div>{order}</div>

@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Api from '../../api';
 import { useLocation } from 'react-router-dom';
 import styles from './index.module.scss';
 import { useDispatch } from 'react-redux';
 import { openToast, setToastMessage } from '../../features/toastSlice';
 import { toggleGroupRequestList } from '../../features/relationSlice';
+import { RequestType } from '../../types/fetchDataTypes';
 
 const GroupRequestList = () => {
   const [isFetching, setIsFetching] = useState(false);
@@ -27,11 +28,8 @@ const GroupRequestList = () => {
         } else {
           setDatas(res.data);
         }
-      } catch (err) {
-        console.log(
-          '해당그룹가입목록을 불러오는데 실패.',
-          err.response.data.message,
-        );
+      } catch (error) {
+        console.log(error);
         setDatas([]);
       } finally {
         setIsFetching(false);
@@ -49,7 +47,15 @@ const GroupRequestList = () => {
         ) : datas.length === 0 ? (
           <div>가입 요청이 없습니다</div>
         ) : (
-          datas.map((data) => <Item data={data} id={id} setDatas={setDatas} />)
+          datas.map((data: RequestType) => (
+            <Item
+              data={data}
+              id={id as string}
+              setDatas={
+                setDatas as React.Dispatch<React.SetStateAction<RequestType[]>>
+              }
+            />
+          ))
         )}
         <button
           onClick={() => {
@@ -66,30 +72,38 @@ const GroupRequestList = () => {
 
 export default GroupRequestList;
 
-const Item = ({ data, setDatas, id }) => {
+const Item = ({
+  data,
+  setDatas,
+  id,
+}: {
+  data: RequestType;
+  id: string;
+  setDatas: React.Dispatch<React.SetStateAction<RequestType[]>>;
+}) => {
   const dispatch = useDispatch();
 
-  const handleOk = async (e) => {
+  const handleOk = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     try {
-      await Api.post(`/group/accept/${id}/${data.id}`);
+      await Api.post(`/group/accept/${id}/${data.id}`, '');
       setDatas((datas) => datas.filter((el) => el.id !== data.id));
       dispatch(setToastMessage(`${data.nickname} 친구 수락 성공`));
       dispatch(openToast());
-    } catch (err) {
-      alert('수락 실패', err.response.data.message);
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const handleReject = async (e) => {
+  const handleReject = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     try {
-      await Api.post(`/group/reject/${id}/${data.id}`);
+      await Api.post(`/group/reject/${id}/${data.id}`, '');
       alert('거절 성공');
-    } catch (err) {
-      alert('거절 실패', err.response.data.message);
+    } catch (error) {
+      console.log(error);
     }
   };
 

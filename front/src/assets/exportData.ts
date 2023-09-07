@@ -1,4 +1,8 @@
-export const seoulDistricts = {
+type SeoulDistricts = {
+  [key: string]: string;
+};
+
+export const seoulDistricts: SeoulDistricts = {
   gangnam: '강남구',
   gangdong: '강동구',
   gangbuk: '강북구',

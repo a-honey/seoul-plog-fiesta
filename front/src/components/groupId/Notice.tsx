@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as Api from '../../api';
 import Writing from './Writing';
@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import Pagination from '../common/Pagenation';
 import { handlePagenation } from '../../utils/handlePagenation';
 import { GroupIdContext } from '../../pages/GroupIdPage';
+import { RootState } from '../../store';
+import { NoticePostType } from '../../types/fetchDataTypes';
 
 const Notice = () => {
   const [isFetching, setIsFetching] = useState(false);
@@ -22,7 +24,7 @@ const Notice = () => {
 
   const paginatedData = handlePagenation(datas, currentPage, itemsPerPage);
 
-  const handlePage = (pageNumber) => {
+  const handlePage = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
@@ -33,11 +35,8 @@ const Notice = () => {
         const res = await Api.get(`/group/posts/${groupId}`);
         setDatas(res.data.posts);
         setTotalPages(res.data.totalPages);
-      } catch (err) {
-        console.log(
-          '공지사항 데이터를 불러오는데 실패.',
-          err.response.data.message,
-        );
+      } catch (error) {
+        console.log(error);
       } finally {
         setIsFetching(false);
       }
@@ -71,19 +70,27 @@ const Notice = () => {
           ) : datas?.length === 0 ? (
             <div>데이터가 없습니다.</div>
           ) : (
-            paginatedData.map((data) => (
-              <Item data={data} setDatas={setDatas} key={data.id} />
+            paginatedData.map((data: NoticePostType) => (
+              <Item
+                data={data}
+                setDatas={
+                  setDatas as React.Dispatch<
+                    React.SetStateAction<NoticePostType[]>
+                  >
+                }
+                key={data.id}
+              />
             ))
           )}
         </div>
         <div>
-          {(datas || datas.length >= 0) && (
+          {
             <Pagination
               totalPages={Math.ceil(datas.length / itemsPerPage)}
               currentPage={currentPage}
               handlePage={handlePage}
             />
-          )}
+          }
         </div>
       </div>
     </>
@@ -92,16 +99,22 @@ const Notice = () => {
 
 export default Notice;
 
-const Item = ({ data, setDatas }) => {
+const Item = ({
+  data,
+  setDatas,
+}: {
+  data: NoticePostType;
+  setDatas: React.Dispatch<React.SetStateAction<NoticePostType[]>>;
+}) => {
   const navigator = useNavigate();
   const [isModal, setIsModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
   const [sendData, setSendData] = useState(data);
 
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setSendData((prevData) => ({
       ...prevData,
@@ -124,7 +137,7 @@ const Item = ({ data, setDatas }) => {
 
   const handleDelete = async () => {
     try {
-      await Api.delete(`/group/post/delete/${data.id}`, sendData);
+      await Api.delete(`/group/post/delete/${data.id}`);
       setDatas((prev) => prev.filter((pre) => pre.id !== data.id));
       setIsEditing(false);
     } catch (err) {

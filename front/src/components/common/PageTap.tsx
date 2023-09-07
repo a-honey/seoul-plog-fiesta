@@ -4,7 +4,17 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 //const lists = { group: 'GROUP', user: 'USER' };
 
-const PageNav = ({ params, view, lists, setView }) => {
+const PageNav = ({
+  params,
+  view,
+  lists,
+  setView,
+}: {
+  params: string;
+  view: string | null;
+  lists: Record<string, string>;
+  setView: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const navigator = useNavigate();
   const listKeys = Object.keys(lists);
 

@@ -8,8 +8,16 @@ import { handlePagenation } from '../../utils/handlePagenation';
 import Pagination from '../common/Pagenation';
 import { GroupIdContext } from '../../pages/GroupIdPage';
 import { openToast, setToastMessage } from '../../features/toastSlice';
+import { RootState } from '../../store';
+import { UserDataType } from '../../types/fetchDataTypes';
 
-const GroupMember = ({ setView, view }) => {
+const GroupMember = ({
+  setView,
+  view,
+}: {
+  setView: React.Dispatch<React.SetStateAction<string>>;
+  view: string;
+}) => {
   const dispatch = useDispatch();
   const [isFetching, setIsFetching] = useState(false);
   const [datas, setDatas] = useState([]);
@@ -18,13 +26,13 @@ const GroupMember = ({ setView, view }) => {
 
   const { isMember } = useContext(GroupIdContext);
 
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
 
   const adminValue = searchParams.get('admin');
-  const isGroupAdmin = parseInt(adminValue) === user.loginId;
+  const isGroupAdmin = adminValue === user.loginId;
 
   const navigator = useNavigate();
 
@@ -33,7 +41,7 @@ const GroupMember = ({ setView, view }) => {
 
   const paginatedData = handlePagenation(datas, currentPage, itemsPerPage);
 
-  const handlePage = (pageNumber) => {
+  const handlePage = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
@@ -41,18 +49,18 @@ const GroupMember = ({ setView, view }) => {
     try {
       await Api.delete(`/group/drop/${groupId}`);
       navigator('/network?view=group');
-    } catch (err) {
-      console.log('그룹 삭제 실패.', err.response.data.message);
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const handleGroupRequest = async () => {
     try {
-      await Api.post(`/group/join/${groupId}`);
+      await Api.post(`/group/join/${groupId}`, '');
       dispatch(setToastMessage('가입 요청에 성공했습니다'));
       dispatch(openToast);
-    } catch (err) {
-      alert(err.message ? err.message : '가입 요청 실패.');
+    } catch (error) {
+      console.log(error);
     }
   };
   useEffect(() => {
@@ -61,11 +69,8 @@ const GroupMember = ({ setView, view }) => {
         setIsFetching(true);
         const res = await Api.get(`/group/${groupId}`);
         setDatas(res.data.groupUser);
-      } catch (err) {
-        console.log(
-          '멤버 리스트 데이터를 불러오는데 실패.',
-          err.response.data.message,
-        );
+      } catch (error) {
+        console.log(error);
       } finally {
         setIsFetching(false);
       }
@@ -95,13 +100,14 @@ const GroupMember = ({ setView, view }) => {
         ) : datas?.length === 0 ? (
           <div>데이터가 없습니다.</div>
         ) : (
-          paginatedData.map((data) => (
+          paginatedData.map((data: { id: number; user: object }) => (
             <Item
               key={data.id}
-              data={data.user}
-              setDatas={setDatas}
-              groupId={groupId}
-              view={view}
+              data={data.user as UserDataType}
+              setDatas={
+                setDatas as React.Dispatch<React.SetStateAction<UserDataType[]>>
+              }
+              groupId={groupId as string}
               isGroupAdmin={isGroupAdmin}
             />
           ))
@@ -120,19 +126,28 @@ const GroupMember = ({ setView, view }) => {
 
 export default GroupMember;
 
-const Item = ({ data, isGroupAdmin, groupId, setDatas }) => {
+const Item = ({
+  data,
+  isGroupAdmin,
+  groupId,
+  setDatas,
+}: {
+  data: UserDataType;
+  isGroupAdmin: boolean;
+  groupId: string;
+  setDatas: React.Dispatch<React.SetStateAction<UserDataType[]>>;
+}) => {
   const navigator = useNavigate();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
 
   const handleOut = async () => {
     const confirm = window.confirm(`${data.nickname}님을 추방시킬까요?`);
     if (confirm) {
       try {
-        console.log(data.id);
         await Api.delete(`/group/expulse/${groupId}/${data.id}`);
         setDatas((prev) => prev.filter((datas) => data.id !== datas.id));
-      } catch (err) {
-        console.log('멤버 추방 실패.', err.response.data.message);
+      } catch (error) {
+        console.log(error);
       }
     } else {
       console.log('멤버 추방 취소');
@@ -148,8 +163,10 @@ const Item = ({ data, isGroupAdmin, groupId, setDatas }) => {
         {data.nickname}
       </div>
       <div>{data.about}</div>
-      <div>{seoulDistricts[data.activity]}</div>
-      {isGroupAdmin && data.id !== user.loginId && (
+      <div>
+        {data.activity ? seoulDistricts[data.activity] : '활동 지역 정보 없음'}
+      </div>
+      {isGroupAdmin && data.id !== parseInt(user.loginId) && (
         <button className={styles.expulse} onClick={handleOut}>
           X
         </button>

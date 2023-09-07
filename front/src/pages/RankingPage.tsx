@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PageNav from '../components/common/PageNav';
+import PageNav from '../components/common/PageTap';
 import All from '../components/ranking/All.RankList';
 import AllPostList from '../components/ranking/AllPostList';
 import TopGroup from '../components/ranking/TopGroup';

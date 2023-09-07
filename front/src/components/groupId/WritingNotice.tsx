@@ -1,11 +1,18 @@
-import { useContext, useState } from 'react';
+import React, { ChangeEvent, useContext, useState } from 'react';
 import styles from './index.module.scss';
 import * as Api from '../../api';
 import { useLocation, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { openToast, setToastMessage } from '../../features/toastSlice';
+import { NoticePostType } from '../../types/fetchDataTypes';
 
-const Writing = ({ setIsModalOpen, setDatas }) => {
+const Writing = ({
+  setIsModalOpen,
+  setDatas,
+}: {
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setDatas: React.Dispatch<React.SetStateAction<NoticePostType[]>>;
+}) => {
   const dispatch = useDispatch();
 
   const location = useLocation();
@@ -19,13 +26,16 @@ const Writing = ({ setIsModalOpen, setDatas }) => {
     isNotice: false,
   });
 
-  const handleInputChange = (event) => {
-    const { name, value, type, checked } = event.target;
+  const handleInputChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value, type } = event.target;
 
     if (type === 'checkbox') {
+      const isChecked = (event.target as HTMLInputElement).checked;
       setFormData((prevData) => ({
         ...prevData,
-        [name]: checked,
+        [name]: isChecked,
       }));
     } else {
       setFormData((prevData) => ({
@@ -34,8 +44,9 @@ const Writing = ({ setIsModalOpen, setDatas }) => {
       }));
     }
   };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     try {
       const res = await Api.post(`/group/post/${groupId}`, formData);
@@ -43,8 +54,8 @@ const Writing = ({ setIsModalOpen, setDatas }) => {
       setDatas((datas) => [...datas, res.data]);
       dispatch(setToastMessage('인증글이 생성되었습니다.'));
       dispatch(openToast());
-    } catch (err) {
-      console.log('그룹 글생성 실패.', err.response.data.message);
+    } catch (error) {
+      console.log(error);
     }
   };
 
