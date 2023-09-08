@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './layout.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../features/userSlice';
-import * as Api from '../../api';
+import Api from '../../api';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { openToast, setToastMessage } from '../../features/toastSlice';
 import {

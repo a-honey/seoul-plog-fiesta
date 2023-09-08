@@ -1,11 +1,11 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, ChangeEvent } from 'react';
 
 function useImgChange() {
-  const [imgContainer, setImgContainer] = useState(null);
-  const imgRef = useRef(null);
+  const [imgContainer, setImgContainer] = useState<File | null>(null);
+  const imgRef = useRef<HTMLImageElement | null>(null);
 
-  const handleImgChange = (e) => {
-    const img = e.target.files[0];
+  const handleImgChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const img = e.target.files?.[0];
 
     if (!img) {
       alert('Please insert the image file.');
@@ -15,17 +15,16 @@ function useImgChange() {
       img.type !== 'image/jpeg' &&
       img.type !== 'image/jpg'
     ) {
-      alert(
-        'Only image files with the JPG or PNG extension can be registered.',
-      );
+      alert('JPG 혹은 PNG 확장자의 파일만 가능합니다.');
       return;
     }
+
     if (img) {
       try {
         const reader = new FileReader();
 
         reader.onload = () => {
-          if (imgRef.current) {
+          if (imgRef.current && typeof reader.result === 'string') {
             imgRef.current.src = reader.result;
           }
         };

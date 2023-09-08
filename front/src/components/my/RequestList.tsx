@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './index.module.scss';
-import * as Api from '../../api';
+import Api from '../../api';
 import { toggleRequestList } from '../../features/relationSlice';
 import { useDispatch } from 'react-redux';
 

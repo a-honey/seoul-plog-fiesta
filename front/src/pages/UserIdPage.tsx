@@ -3,7 +3,7 @@ import Layout from './Layout';
 import useIsLogin from '../hooks/useIsLogin';
 import { useSelector } from 'react-redux';
 import React, { createContext, useEffect, useState } from 'react';
-import * as Api from '../api';
+import Api from '../api';
 import Info from '../components/userId/Info';
 import UserMap from '../components/userId/Map';
 import { RootState } from '../store';

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import * as Api from '../../api';
+import Api from '../../api';
 import { useDispatch, useSelector } from 'react-redux';
 import { seoulDistricts } from '../../assets/exportData';
 import styles from './index.module.scss';

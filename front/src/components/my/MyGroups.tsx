@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import MyGroup from './MyGroup';
 import styles from './index.module.scss';
-import * as Api from '../../api';
+import Api from '../../api';
 
 const MyGroups = () => {
   const [datas, setDatas] = useState([]);

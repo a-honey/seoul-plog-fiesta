@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import GroupMaking from './GroupMaking';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './index.module.scss';
-import * as Api from '../../api';
+import Api from '../../api';
 import post_none from '../../assets/post_none.png';
 import user_none from '../../assets/user_none.png';
 import { seoulDistricts } from '../../assets/exportData';

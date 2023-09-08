@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import * as Api from '../../api';
+import Api from '../../api';
 import styles from './index.module.scss';
 import { useLocation } from 'react-router-dom';
 import { seoulDistricts } from '../../assets/exportData';

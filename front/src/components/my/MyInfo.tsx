@@ -1,7 +1,7 @@
 import styles from './index.module.scss';
 import React, { useEffect, useState } from 'react';
 import user_none from '../../assets/user_none.png';
-import * as Api from '../../api';
+import Api from '../../api';
 import { seoulDistricts } from '../../assets/exportData';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';

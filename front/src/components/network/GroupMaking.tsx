@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
 import styles from './index.module.scss';
-import * as Api from '../../api';
+import Api from '../../api';
 import { seoulDistricts } from '../../assets/exportData';
 import { useDispatch } from 'react-redux';
 import post_none from '../../assets/post_none.png';
@@ -12,7 +12,7 @@ const GroupMaking = ({
   setDatas,
 }: {
   setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setDatas: React.Dispatch<React.SetStateAction<NetworkGroupType>>;
+  setDatas: React.Dispatch<React.SetStateAction<NetworkGroupType[]>>;
 }) => {
   const dispatch = useDispatch();
   const [imgContainer, setImgContainer] = useState();

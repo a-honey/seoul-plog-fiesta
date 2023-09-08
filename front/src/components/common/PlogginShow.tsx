@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { seoulDistricts } from '../../assets/exportData';
 import styles from './index.module.scss';
-import * as Api from '../../api';
+import Api from '../../api';
 import { handleCreatedDate } from '../../utils/handleCreatedDate';
 import { useSelector } from 'react-redux';
 import CommentAdd from './Comment';

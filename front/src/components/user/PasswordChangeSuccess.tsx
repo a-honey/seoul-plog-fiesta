@@ -2,7 +2,7 @@ import styles from './user.module.scss';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
-import * as Api from '../../api';
+import Api from '../../api';
 import { validateEmail } from '../../utils/handleRegex';
 
 const PasswordChangeSuccess = () => {

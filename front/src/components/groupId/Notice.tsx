@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import * as Api from '../../api';
+import Api from '../../api';
 import Writing from './WritingNotice';
 import styles from './index.module.scss';
 import { useSelector } from 'react-redux';

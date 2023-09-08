@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import * as Api from '../../api';
+import Api from '../../api';
 import styles from './index.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { openToast, setToastMessage } from '../../features/toastSlice';
@@ -13,7 +13,7 @@ const CommentAdd = ({
   setCommentTow,
 }) => {
   const [data, setData] = useState();
-  const dispatch  = useDispatch();
+  const dispatch = useDispatch();
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -30,8 +30,8 @@ const CommentAdd = ({
 
       setComments((prevComments) => [...prevComments, res.data]);
       setData('');
-      dispatch(setToastMessage('댓글이 생성되었습니다.'))
-      dispatch(openToast())    
+      dispatch(setToastMessage('댓글이 생성되었습니다.'));
+      dispatch(openToast());
     } catch (err) {
       console.log(err);
     }
@@ -52,8 +52,8 @@ const CommentAdd = ({
       }
       setComments((prevComments) => [...prevComments, res.data]);
       setData('');
-      dispatch(setToastMessage('답글이 생성되었습니다.'))
-      dispatch(openToast())    
+      dispatch(setToastMessage('답글이 생성되었습니다.'));
+      dispatch(openToast());
       setCommentTow(false);
     } catch (err) {
       console.log(err);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import * as Api from '../../api';
+import Api from '../../api';
 import { useParams } from 'react-router-dom';
 import { handleCreatedDate } from '../../utils/handleCreatedDate';
 import styles from './index.module.scss';

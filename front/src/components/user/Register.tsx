@@ -2,7 +2,7 @@ import styles from './user.module.scss';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
-import * as Api from '../../api';
+import Api from '../../api';
 import { validateEmail } from '../../utils/handleRegex';
 import { openToast, setToastMessage } from '../../features/toastSlice';
 import { useDispatch } from 'react-redux';

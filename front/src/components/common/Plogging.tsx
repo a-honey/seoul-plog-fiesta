@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { seoulDistricts } from '../../assets/exportData';
 import styles from './index.module.scss';
-import * as Api from '../../api';
+import Api from '../../api';
 import post_none from '../../assets/post_none.png';
 import { useDispatch } from 'react-redux';
 import { openToast, setToastMessage } from '../../features/toastSlice';

@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
-import { useRecoilState } from 'recoil';
-import { isChatOpenState } from '../../features/recoilState';
-import * as Api from '../../api';
+import Api from '../../api';
 import { useNavigate } from 'react-router-dom';
 
 const ChatList = () => {
@@ -12,8 +10,6 @@ const ChatList = () => {
   const [searchText, setSearchText] = useState('');
   const [searchResult, setSearchResult] = useState(null);
 
-  const [isChatOpen, setIsChatOpen] = useRecoilState(isChatOpenState);
-
   const handleInputChange = async (event) => {
     const newSearchText = event.target.value;
     setSearchText(newSearchText);
@@ -22,10 +18,7 @@ const ChatList = () => {
       const res = await Api.get(`/user/${newSearchText}`);
       setSearchResult(res.data.searchNickname);
     } catch (err) {
-      console.log(
-        '이름 검색데이터를 불러오는데 실패.',
-        err.response.data.message,
-      );
+      console.log(err);
     }
   };
 
@@ -36,10 +29,7 @@ const ChatList = () => {
         const res = await Api.get('/unread');
         setDatas(res.data);
       } catch (err) {
-        console.log(
-          '채팅방 리스트를 불러오는데 실패.',
-          err.response.data.message,
-        );
+        console.log(err);
       } finally {
         setIsFetching(false);
       }

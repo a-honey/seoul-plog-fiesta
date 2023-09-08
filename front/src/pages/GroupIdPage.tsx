@@ -8,7 +8,7 @@ import PageNav from '../components/common/PageTap';
 import { useSelector } from 'react-redux';
 import React, { createContext, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import * as Api from '../api';
+import Api from '../api';
 import GroupUsers from '../components/groupId/UsersPosts';
 import GroupPosts from '../components/groupId/GroupPosts';
 import Notice from '../components/groupId/Notice';

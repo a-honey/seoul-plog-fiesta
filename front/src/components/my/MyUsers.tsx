@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './index.module.scss';
 import { useEffect, useState } from 'react';
-import * as Api from '../../api';
+import Api from '../../api';
 import { handleImgUrl } from '../../utils/handleImgUrl';
 import user_none from '../../assets/user_none.png';
 import { openToast, setToastMessage } from '../../features/toastSlice';

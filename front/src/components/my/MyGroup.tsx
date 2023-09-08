@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './index.module.scss';
 import user_none from '../../assets/user_none.png';
 import { handleImgUrl } from '../../utils/handleImgUrl';
-import * as Api from '../../api';
+import Api from '../../api';
 
 const MyGroup = ({ data, isEditing, setDatas }) => {
   const navigator = useNavigate();

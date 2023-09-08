@@ -3,11 +3,11 @@ import Api from '../api';
 
 // 페이지네이션의 유무에 따른 데이터 설정은 컴포넌트에서함 => hook은 데이터를 받아와서 반환값만 가져갈 수 있게함
 // 단, 현재는 받는 데이터 모양이 모두 달라서 사용 불가능함
-const useFetchData = (endpoint) => {
+const useFetchData = (endpoint: string) => {
   const [data, setData] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [isFetching, setIsFetching] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   // setIsFeting은 useEffect 안에서만 사용하니까 반환안함
   useEffect(() => {
@@ -18,7 +18,7 @@ const useFetchData = (endpoint) => {
         setData(res.data.posts);
         setTotalPages(res.data.totalPages);
       } catch (err) {
-        setError(err.response.data.message); // 에러메시지를 바로 error state로 담아서 사용(alert);
+        setError(err as string); // 에러메시지를 바로 error state로 담아서 사용(alert);
       } finally {
         setIsFetching(false);
       }

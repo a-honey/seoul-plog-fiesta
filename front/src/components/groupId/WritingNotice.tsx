@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useContext, useState } from 'react';
 import styles from './index.module.scss';
-import * as Api from '../../api';
+import Api from '../../api';
 import { useLocation, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { openToast, setToastMessage } from '../../features/toastSlice';

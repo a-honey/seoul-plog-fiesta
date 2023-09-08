@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './mylanking.module.scss';
-import * as Api from '../../api';
+import Api from '../../api';
 
 const MyRanking = ({
   setIsMyRankingOpen,

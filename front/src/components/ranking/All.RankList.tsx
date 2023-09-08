@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import * as Api from '../../api';
+import Api from '../../api';
 import styles from './index.module.scss';
 import Pagination from '../common/Pagenation';
 import { handlePagenation } from '../../utils/handlePagenation';

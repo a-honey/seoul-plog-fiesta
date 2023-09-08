@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import * as Api from '../../api';
+import Api from '../../api';
 import { useLocation } from 'react-router-dom';
 import styles from './index.module.scss';
 import { useDispatch } from 'react-redux';

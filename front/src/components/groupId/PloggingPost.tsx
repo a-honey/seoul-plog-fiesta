@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import * as Api from '../../api';
+import Api from '../../api';
 import { handlePagenation } from '../../utils/handlePagenation';
 import Pagination from '../common/Pagenation';
 import PloggingShow from '../common/PlogginShow';

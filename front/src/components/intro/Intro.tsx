@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import style from './intro.module.scss';
 import { useNavigate } from 'react-router-dom';
-import * as Api from '../../api';
+import Api from '../../api';
 import { handleImgUrl } from '../../utils/handleImgUrl';
 import { RankingUserDataType } from '../../types/fetchDataTypes';
 

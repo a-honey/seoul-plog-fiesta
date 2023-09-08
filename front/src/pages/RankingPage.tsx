@@ -7,7 +7,7 @@ import TopUser from '../components/ranking/TopUser';
 import useIsLogin from '../hooks/useIsLogin';
 import Layout from './Layout';
 import { useLocation } from 'react-router-dom';
-import * as Api from '../api';
+import Api from '../api';
 import Map from '../components/ranking/Map';
 import { AxiosError } from 'axios';
 
