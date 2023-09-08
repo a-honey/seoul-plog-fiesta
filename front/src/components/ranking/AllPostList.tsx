@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Api from '../../api';
 import styles from './index.module.scss';
 import { handleCreatedDate } from '../../utils/handleCreatedDate';
 import Pagination from '../common/Pagenation';
 import { handlePagenation } from '../../utils/handlePagenation';
 import PloggingShow from '../common/PlogginShow';
+import { PostMinDataType } from '../../types/fetchDataTypes';
 
 const AllPostList = () => {
   const [isFetching, setIsFetching] = useState(false);
@@ -17,7 +17,7 @@ const AllPostList = () => {
 
   const paginatedData = handlePagenation(datas, currentPage, itemsPerPage);
 
-  const handlePage = (pageNumber) => {
+  const handlePage = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
@@ -31,10 +31,7 @@ const AllPostList = () => {
         setDatas(res.data.posts);
         setTotalPages(res.data.totalPages);
       } catch (err) {
-        console.log(
-          '모든 인증글 데이터를 불러오는데 실패.',
-          err.response.data.message,
-        );
+        console.log(err);
       } finally {
         setIsFetching(false);
       }
@@ -54,7 +51,7 @@ const AllPostList = () => {
         ) : datas?.length === 0 ? (
           <div>데이터가 없습니다.</div>
         ) : (
-          datas.map((data, index) => (
+          datas.map((data: PostMinDataType, index) => (
             <Item data={data} key={data.id} order={index + 1} />
           ))
         )}
@@ -72,7 +69,7 @@ const AllPostList = () => {
 
 export default AllPostList;
 
-const Item = ({ data, order }) => {
+const Item = ({ data, order }: { data: PostMinDataType; order: number }) => {
   const [isPlogginShowOpen, setIsPlogginShowOpen] = useState(false);
 
   return (

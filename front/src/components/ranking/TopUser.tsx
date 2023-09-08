@@ -2,8 +2,15 @@ import React, { useEffect, useState } from 'react';
 import Api from '../../api';
 import styles from './index.module.scss';
 import { useNavigate } from 'react-router-dom';
+import { RankingUserDataType } from '../../types/fetchDataTypes';
 
-const TopUser = ({ isFetching, datas }) => {
+const TopUser = ({
+  isFetching,
+  datas,
+}: {
+  isFetching: boolean;
+  datas: RankingUserDataType[];
+}) => {
   return (
     <div className="gContainer">
       <div className="titleContainer">
@@ -15,7 +22,9 @@ const TopUser = ({ isFetching, datas }) => {
         ) : datas.length === 0 ? (
           <div>데이터가 없습니다</div>
         ) : (
-          datas.map((data) => <Item key={data.id} data={data} />)
+          datas.map((data: RankingUserDataType) => (
+            <Item key={data.id} data={data} />
+          ))
         )}
       </div>
     </div>
@@ -24,18 +33,7 @@ const TopUser = ({ isFetching, datas }) => {
 
 export default TopUser;
 
-/*
-          "id": 3,
-          "name": "KIA",
-          "nickname": "타이거즈",
-          "activity": null,
-          "profileImage": null,
-          "score": 353,
-          "rank": 5,
-          "postCount": 1
-*/
-
-const Item = ({ data }) => {
+const Item = ({ data }: { data: RankingUserDataType }) => {
   const navigator = useNavigate();
 
   return (

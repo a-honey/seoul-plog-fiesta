@@ -1,8 +1,15 @@
 import React from 'react';
 import styles from './index.module.scss';
 import { useNavigate } from 'react-router-dom';
+import { RankingGroupDataType } from '../../types/fetchDataTypes';
 
-const TopGroup = ({ isFetching, datas }) => {
+const TopGroup = ({
+  isFetching,
+  datas,
+}: {
+  isFetching: boolean;
+  datas: RankingGroupDataType[];
+}) => {
   return (
     <div className="gContainer">
       <div className="titleContainer">
@@ -14,7 +21,9 @@ const TopGroup = ({ isFetching, datas }) => {
         ) : datas.length === 0 ? (
           <div>데이터가 없습니다</div>
         ) : (
-          datas.map((data) => <Item key={data.id} data={data} />)
+          datas.map((data: RankingGroupDataType) => (
+            <Item key={data.id} data={data} />
+          ))
         )}
       </div>
     </div>
@@ -23,7 +32,7 @@ const TopGroup = ({ isFetching, datas }) => {
 
 export default TopGroup;
 
-const Item = ({ data }) => {
+const Item = ({ data }: { data: RankingGroupDataType }) => {
   //{ id: '1', name: '모임이름1', score: 100 },
   const navigator = useNavigate();
 

@@ -41,6 +41,13 @@ export type RankingUserDataType = {
   imageUrl: string;
 };
 
+export type RankingGroupDataType = {
+  id: number;
+  name: string;
+  score?: number;
+  rank?: number;
+};
+
 export type NoticePostType = {
   id: number;
   writerId: string;

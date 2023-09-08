@@ -1,10 +1,11 @@
 import styles from './index.module.scss';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeToast } from '../../features/toastSlice';
+import { RootState } from '../../store';
 
 const Modal = () => {
-  const { toastMessage } = useSelector((state) => state.toast);
+  const { toastMessage } = useSelector((state: RootState) => state.toast);
 
   const dispatch = useDispatch();
 

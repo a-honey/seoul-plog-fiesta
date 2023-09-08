@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { seoulDistricts } from '../../assets/exportData';
 import styles from './index.module.scss';
 import Api from '../../api';

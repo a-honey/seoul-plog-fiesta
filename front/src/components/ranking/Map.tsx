@@ -11,7 +11,7 @@ const RankingMap = () => {
         <h1>플로깅 지도</h1>
       </div>
       <div className="contentMapContainer">
-        <Map endpoint="/plo/count/all" id="" />
+        <Map endpoint="/plo/count/all" />
       </div>
     </div>
   );
@@ -19,12 +19,12 @@ const RankingMap = () => {
 
 export default RankingMap;
 
-const Map = ({ endpoint, id }) => {
+const Map = ({ endpoint }: { endpoint: string }) => {
   const [data, setData] = useState({});
   const [isFetching, setIsFetching] = useState(false);
 
   // svg 요소에 지도를 그리기 위해 참조를 생성함
-  const svgRef = useRef();
+  const svgRef = useRef<SVGSVGElement | null>(null);
 
   const createMap = useCallback(() => {
     // 현재 참조된 요소에 지도를 그리겠다고 선언함
@@ -48,11 +48,11 @@ const Map = ({ endpoint, id }) => {
       .enter()
       .append('path') // 모든 지역구를 추가함
       .attr('d', pathGenerator)
-      .style('fill', (d) => {
+      .style('fill', (d: any) => {
         const districtName = d.properties.name_eng
           .replace(/-gu/g, '')
           .toLowerCase(); // 현재 geojson의 지역 이름을 조정함
-        return colorScale(data[districtName] || 0); // 지역구의 값에 따라서 색상을 결정함
+        return colorScale((data as any)[districtName] || 0); // 지역구의 값에 따라서 색상을 결정함
       })
       .style('stroke', '#000000');
   }, [data]);
@@ -61,17 +61,17 @@ const Map = ({ endpoint, id }) => {
     const getData = async () => {
       try {
         setIsFetching(true);
-        const res = await Api.get(`${endpoint}${id}`);
+        const res = await Api.get(`${endpoint}`);
         setData(handleMapData(res.data));
       } catch (err) {
-        console.log('지도데이터를 불러오는데 실패.', err.response.data.message);
+        console.log(err);
       } finally {
         setIsFetching(false);
       }
     };
 
     getData();
-  }, [endpoint, id]);
+  }, [endpoint]);
 
   useEffect(() => {
     if (!isFetching) {
