@@ -15,7 +15,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
 
   //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
-  const validateEmail = (email) => {
+  const validateEmail = (email: string) => {
     return email
       .toLowerCase()
       .match(
@@ -27,7 +27,7 @@ const Login = () => {
   const isPasswordValid = password.length >= 4;
 
   // 로그인 버튼 클릭 시 토큰을 받아와서 스토리지에 저장 => 상태 업데이트 => 홈페이지 이동
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     /*
@@ -49,7 +49,7 @@ const Login = () => {
       navigate('/?view=main', { replace: true });
       dispatch(setToastMessage('반갑습니다.'));
       dispatch(openToast());
-    } catch (err) {
+    } catch (err: any) {
       if (err.response && err.response.status === 401) {
         alert('이메일 또는 비밀번호가 일치하지 않습니다');
         console.error('입력하신 회원정보가 없습니다.');

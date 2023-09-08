@@ -1,5 +1,5 @@
 import styles from './user.module.scss';
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import Api from '../../api';
@@ -32,7 +32,7 @@ const Register = () => {
   const isFormValid =
     isEmailValid && isPasswordValid && isPasswordSame && isNameValid;
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserData((prevData) => ({
       ...prevData,
@@ -40,7 +40,7 @@ const Register = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!isFormValid) {
       alert('입력값을 다시 확인해주세요');
@@ -64,7 +64,7 @@ const Register = () => {
       dispatch(openToast());
       navigate('/login');
     } catch (err) {
-      console.log('회원가입에 실패하였습니다.', err.response.data.message);
+      console.log('회원가입에 실패하였습니다.');
     }
   };
 

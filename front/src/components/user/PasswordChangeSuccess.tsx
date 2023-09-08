@@ -27,7 +27,7 @@ const PasswordChangeSuccess = () => {
     }
   }, [navigate, pwToken]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!isValidForm) {
