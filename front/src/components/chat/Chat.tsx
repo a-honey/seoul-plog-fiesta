@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import styles from './index.module.scss';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { isChatOpenState, isChatWiState } from '../../features/recoilState';
 import { useSelector } from 'react-redux';
 
+interface Message {
+  senderId: string;
+  message: string;
+}
+
 function Chat() {
-  const [messages, setMessages] = useState([]); // 받은 채팅 메시지를 저장함
+  const [messages, setMessages] = useState<Message[]>([]); // 받은 채팅 메시지를 저장함
   const [messageText, setMessageText] = useState(''); // 메시지 input값을 저장
 
   const userToken = localStorage.getItem('userToken');
 
-  const user = useSelector((state) => state.user);
-
-  const [, setIsChatOpen] = useRecoilState(isChatOpenState);
-  const [chatId] = useRecoilState(isChatWiState);
+  const user = useSelector((state: any) => state.user);
+  const chatId = 0; //추후 전역상태관리
 
   // 웹 소켓을 연결함
   const socket = io.connect('ws://localhost:3001', {
@@ -28,15 +29,15 @@ function Chat() {
     console.log('소켓이 연결되었습니다.');
   });
 
-  socket.on('connect_error', (error) => {
+  socket.on('connect_error', (error: any) => {
     console.log('소켓 연결 에러:', error);
   });
 
-  socket.on('error', (error) => {
+  socket.on('error', (error: any) => {
     console.log('소켓 에러:', error);
   });
 
-  socket.on('disconnect', (reason) => {
+  socket.on('disconnect', (reason: any) => {
     console.log('소켓이 연결이 끊어졌습니다. 사유:', reason);
   });
 
@@ -50,7 +51,7 @@ function Chat() {
     socket.emit('joinRoom', chatId);
 
     // 초기 메시지들을 받음
-    socket.on('messages', (receivedMessages) => {
+    socket.on('messages', (receivedMessages: Message[]) => {
       try {
         console.log('초기메시지: ', receivedMessages);
         setMessages(receivedMessages);
@@ -58,8 +59,9 @@ function Chat() {
         console.log('Error in messages event:', error);
       }
     });
+
     // 새로운 메시지를 받음
-    socket.on('message', (newMessage) => {
+    socket.on('message', (newMessage: Message) => {
       try {
         console.log('보낸 메시지: ', newMessage);
         // 기존 메시지리스트에 받은 메시지를 추가함
@@ -86,7 +88,7 @@ function Chat() {
       console.log('백에서 받은값: ', res);
       setMessageText('');
     } catch (err) {
-      console.log('메시지 보내기 실패', err.response.data.message);
+      console.log('메시지 보내기 실패');
     }
   };
 
