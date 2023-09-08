@@ -62,7 +62,8 @@ export type NetworkGroupType = {
   goal: string;
   region: string;
   memberCount: number;
-  images: string[];
+  imageUrl: string;
+  memberLimit: number;
 };
 
 export type NetworkUserType = {
@@ -70,4 +71,5 @@ export type NetworkUserType = {
   nickname: string;
   about: string;
   activity: string;
+  imageUrl: string;
 };

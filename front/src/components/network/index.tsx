@@ -6,7 +6,6 @@ import * as Api from '../../api';
 import post_none from '../../assets/post_none.png';
 import user_none from '../../assets/user_none.png';
 import { seoulDistricts } from '../../assets/exportData';
-import { handlePagenation } from '../../utils/handlePagenation';
 import Pagination from '../common/Pagenation';
 import { handleImgUrl } from '../../utils/handleImgUrl';
 import { NetworkGroupType, NetworkUserType } from '../../types/fetchDataTypes';
@@ -25,7 +24,6 @@ const ItemList = () => {
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const paginatedData = handlePagenation(datas, currentPage, itemsPerPage);
 
   const handlePage = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -86,9 +84,18 @@ const ItemList = () => {
 
   return (
     <div className="gContainer  gList navVh">
-      {isModal && <GroupMaking setIsModal={setIsModal} setDatas={setDatas} />}
+      {isModal && (
+        <GroupMaking
+          setIsModal={
+            setIsModal as React.Dispatch<React.SetStateAction<boolean>>
+          }
+          setDatas={
+            setDatas as React.Dispatch<React.SetStateAction<NetworkGroupType[]>>
+          }
+        />
+      )}
       <NetworkHeader
-        view={view}
+        view={view as string}
         setIsModal={setIsModal}
         setIsCheck={setIsCheck}
       />
@@ -98,9 +105,13 @@ const ItemList = () => {
         ) : datas.length === 0 ? (
           <div>데이터가 없습니다.</div>
         ) : (
-          datas.map((data) => (
-            <Item view={view} data={data} key={`${view}_${data.id}`} />
-          ))
+          datas.map((data: NetworkGroupType | NetworkUserType) =>
+            view === 'group' ? (
+              <GroupItem data={data as NetworkGroupType} key={data.id} />
+            ) : (
+              <UserItem data={data as NetworkUserType} key={data.id} />
+            ),
+          )
         )}
       </div>
       <div>
@@ -116,7 +127,15 @@ const ItemList = () => {
 
 export default ItemList;
 
-const NetworkHeader = ({ view, setIsModal, setIsCheck }) => {
+const NetworkHeader = ({
+  view,
+  setIsModal,
+  setIsCheck,
+}: {
+  view: string;
+  setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsCheck: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   return (
     <div className="titleContainer">
       <div>
@@ -126,7 +145,7 @@ const NetworkHeader = ({ view, setIsModal, setIsCheck }) => {
             type="checkbox"
             name="isMine"
             onClick={() => {
-              setIsCheck((isCheck) => !isCheck);
+              setIsCheck((isCheck: boolean) => !isCheck);
             }}
           />
           <div>나의 {view === 'group' ? '그룹' : '친구'}만 보기</div>
@@ -146,71 +165,88 @@ const NetworkHeader = ({ view, setIsModal, setIsCheck }) => {
   );
 };
 
-const Item = ({
-  data,
-  view,
-}: {
-  data: NetworkGroupType | NetworkUserType;
-  view: string;
-}) => {
+const GroupItem = ({ data }: { data: NetworkGroupType }) => {
   const navigator = useNavigate();
 
   return (
     <div
       className={styles.itemContainer}
       onClick={() => {
-        if (view === 'group') {
-          navigator(`/${view}s/${data.id}?admin=${data.managerId}&view=main`);
-        } else {
-          navigator(`/${view}s/${data.id}?view=main`);
-        }
+        navigator(`/groups/${data.id}?admin=${data.managerId}&view=main`);
       }}
     >
       <div className={styles.imgContainer} key={data.id}>
         <img
           src={
-            data.images && data.images.length !== 0
-              ? `${handleImgUrl(data.images[0])}`
-              : data.profileImage
-              ? handleImgUrl(data?.profileImage.imageUrl)
-              : data.imageUrl
-              ? handleImgUrl(data.imageUrl)
-              : view === 'group'
-              ? post_none
-              : user_none
+            data.imageUrl && data.imageUrl.length !== 0
+              ? `${handleImgUrl(data.imageUrl)}`
+              : post_none
           }
           alt="그룹 이미지"
-          onError={(e) =>
-            view === 'group'
-              ? (e.target.src = post_none)
-              : (e.target.src = user_none)
+          onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) =>
+            (e.currentTarget.src = post_none)
           }
         />
       </div>
       <ul className={styles.item}>
         <li key="1">
-          <label>{view === 'group' ? '그룹이름' : '유저별명'}</label>
-          <div>{view === 'group' ? data.name : data.nickname}</div>
+          <label>그룹이름</label>
+          <div>{data.name}</div>
         </li>
         <li key="2">
-          <label>{view === 'group' ? '그룹목표' : '유저소개'}</label>
-          <div>{view === 'group' ? data.goal : data.about}</div>
+          <label>그룹목표</label>
+          <div>data.goal</div>
         </li>
         <li key="3">
-          <label>{view === 'group' ? '그룹지역' : '유저활동'}</label>
-          <div>
-            {view === 'group'
-              ? seoulDistricts[data.region]
-              : seoulDistricts[data.activity]}
-          </div>
+          <label>그룹지역</label>
+          <div>{seoulDistricts[data.region]}</div>
         </li>
         <div>
-          {view === 'group' && (
-            <div>
-              {data.memberCount} / {data.memberLimit || 50}
-            </div>
-          )}
+          <div>
+            {data.memberCount} / {data.memberLimit || 50}
+          </div>
         </div>
+      </ul>
+    </div>
+  );
+};
+
+const UserItem = ({ data }: { data: NetworkUserType }) => {
+  const navigator = useNavigate();
+
+  return (
+    <div
+      className={styles.itemContainer}
+      onClick={() => {
+        navigator(`/$users/${data.id}?view=main`);
+      }}
+    >
+      <div className={styles.imgContainer} key={data.id}>
+        <img
+          src={
+            data.imageUrl && data.imageUrl.length !== 0
+              ? `${handleImgUrl(data.imageUrl)}`
+              : user_none
+          }
+          alt="그룹 이미지"
+          onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) =>
+            (e.currentTarget.src = user_none)
+          }
+        />
+      </div>
+      <ul className={styles.item}>
+        <li key="1">
+          <label>유저별명'</label>
+          <div>{data.nickname}</div>
+        </li>
+        <li key="2">
+          <label>유저소개</label>
+          <div>{data.about}</div>
+        </li>
+        <li key="3">
+          <label>유저활동</label>
+          <div>{seoulDistricts[data.activity]}</div>
+        </li>
       </ul>
     </div>
   );

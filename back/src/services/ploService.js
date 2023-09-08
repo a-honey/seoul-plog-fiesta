@@ -86,7 +86,7 @@ const getAllCertPosts = async (page, limit) => {
 			return {
 				...certPost,
 				comments: comments,
-				images: imageUrls,
+				imageUrl: imageUrls,
 				participants: participants,
 			};
 		});
@@ -150,7 +150,7 @@ const getCertPostDetails = async (certPostId) => {
 		}));
 		return {
 			...restCertPost,
-			images: imageUrls,
+			imageUrl: imageUrls,
 			participants: participants,
 			authorNickname: writer.nickname,
 			comments: commentDetails,

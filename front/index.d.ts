@@ -1,9 +1,3 @@
-declare module '*.scss' {
-  const content: { [className: string]: string };
-  export = content;
-}
+declare module '*.scss';
 
-declare module '*.png' {
-  const content: { [className: string]: string };
-  export = content;
-}
+declare module '*.png';

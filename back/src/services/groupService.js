@@ -84,7 +84,7 @@ const getAllGroups = async (page, limit) => {
 				return {
 					...group,
 					memberCount,
-					images: imageUrls,
+					imageUrl: imageUrls,
 				};
 			}),
 		);

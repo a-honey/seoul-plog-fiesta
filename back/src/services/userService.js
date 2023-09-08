@@ -32,7 +32,7 @@ const getAllUsers = async (page, limit) => {
 
 				return {
 					...user,
-					images: userProfilesUrl,
+					imageUrl: userProfilesUrl,
 				};
 			}),
 		);
@@ -116,7 +116,7 @@ const getRandomUsers = async () => {
 
 				return {
 					...user,
-					images: userProfilesUrl,
+					imageUrl: userProfilesUrl,
 				};
 			}),
 		);
