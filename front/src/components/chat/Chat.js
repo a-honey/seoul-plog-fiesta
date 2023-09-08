@@ -6,6 +6,8 @@ import { isChatOpenState, isChatWiState } from '../../features/recoilState';
 import { useSelector } from 'react-redux';
 
 function Chat() {
+  console.log('hello, websoket:D');
+
   const [messages, setMessages] = useState([]); // 받은 채팅 메시지를 저장함
   const [messageText, setMessageText] = useState(''); // 메시지 input값을 저장
 
