@@ -24,12 +24,15 @@
 
 ### 프론트엔드
 
-![React](https://img.shields.io/badge/-React-222222?style=for-the-badge&logo=react)
+![React](https://img.shields.io/badge/-React-222222?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![SCSS](https://img.shields.io/badge/-SCSS-CC6699?style=for-the-badge&logo=sass&logoColor=ffffff)
 ![Redux Toolkit](https://img.shields.io/badge/-Redux_Toolkit-764ABC?style=for-the-badge&logo=redux&logoColor=ffffff)
-![recoil](https://img.shields.io/badge/-recoil-40A9FF?style=for-the-badge&logo=recoil&logoColor=ffffff)
+![TypeScript](https://img.shields.io/badge/-TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=ffffff)
 ![D3.js](https://img.shields.io/badge/-D3.js-F9A03C?style=for-the-badge&logo=d3.js&logoColor=ffffff)
 ![axios](https://img.shields.io/badge/-axios-007ACC?style=for-the-badge&logo=axios&logoColor=ffffff)
+
+- **2023-09-07**: Recoil 상태 관리 라이브러리 제거
+- **2023-09-08**: 타입스크립트로 프로젝트 변환 및 업데이트
 
 ### 백엔드
 
@@ -43,7 +46,7 @@
 
 ![Figma](https://img.shields.io/badge/-Figma-A259FF?style=for-the-badge&logo=figma&logoColor=white)
 ![GitLab](https://img.shields.io/badge/-GitLab-FCA121?style=for-the-badge&logo=gitlab&logoColor=white)
-![Vercel](https://img.shields.io/badge/-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+![Nginx](https://img.shields.io/badge/-Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)
 ![VM](https://img.shields.io/badge/-VM-00B0FF?style=for-the-badge&logo=virtualbox&logoColor=white)
 ![PM2](https://img.shields.io/badge/-PM2-2B037A?style=for-the-badge&logo=pm2&logoColor=white)
 
