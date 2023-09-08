@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import post_none from '../../assets/post_none.png';
 import { openToast, setToastMessage } from '../../features/toastSlice';
 import { NetworkGroupType } from '../../types/fetchDataTypes';
+import useImgChange from '../../hooks/useImgChange';
 
 const GroupMaking = ({
   setIsModal,
@@ -15,20 +16,18 @@ const GroupMaking = ({
   setDatas: React.Dispatch<React.SetStateAction<NetworkGroupType[]>>;
 }) => {
   const dispatch = useDispatch();
-  const [imgContainer, setImgContainer] = useState();
 
   const [formData, setFormData] = useState({
     name: '',
     goal: '',
-    region: '',
-    introduction: '',
   });
+
+  const [selectData, setSelectData] = useState('');
+  const [textareaData, setTextareaData] = useState('');
 
   const imgData = new FormData();
 
-  const handleInputChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -36,40 +35,7 @@ const GroupMaking = ({
     }));
   };
 
-  const handleImgChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const img = event.target.files[0];
-
-    if (!img) {
-      alert('이미지 파일을 넣어주세요.');
-      return;
-    } else if (
-      img.type !== 'image/png' &&
-      img.type !== 'image/jpeg' &&
-      img.type !== 'images/jpg'
-    ) {
-      alert('JPG 혹은 PNG확장자의 이미지 파일만 등록 가능합니다.');
-      return;
-    }
-
-    if (img) {
-      try {
-        const reader = new FileReader();
-
-        reader.onload = () => {
-          const previewImg = document.getElementById('GroupPreviewImg');
-          previewImg.src = reader.result;
-        };
-
-        reader.readAsDataURL(img);
-
-        setImgContainer(img);
-      } catch (e) {
-        alert(e);
-      }
-    }
-  };
+  const { handleImgChange, imgContainer, imgRef } = useImgChange();
 
   const uploadImage = async (groupId: number) => {
     try {
@@ -87,7 +53,11 @@ const GroupMaking = ({
     event.preventDefault();
 
     try {
-      const postRes = await Api.post('/group', formData);
+      const postRes = await Api.post('/group', {
+        ...formData,
+        selectData,
+        textareaData,
+      });
 
       if (imgData) {
         const imageUploadRes = await uploadImage(postRes.data.id);
@@ -111,7 +81,7 @@ const GroupMaking = ({
         <div className="container">
           <div className="img">
             <div className="img-container">
-              <img src={post_none} id="GroupPreviewImg" alt="인증이미지" />
+              <img src={post_none} ref={imgRef} alt="인증이미지" />
             </div>
             <input
               type="file"
@@ -145,8 +115,8 @@ const GroupMaking = ({
               <label>그룹 지역구</label>
               <select
                 name="region"
-                value={formData.region}
-                onChange={handleInputChange}
+                value={selectData}
+                onChange={(e) => setSelectData(e.target.value)}
               >
                 <option value="">자치구 선택</option>
                 {Object.keys(seoulDistricts).map((region) => (
@@ -159,11 +129,10 @@ const GroupMaking = ({
             <div>
               <label>그룹 소개</label>
               <textarea
-                type="text"
                 name="introduction"
                 placeholder="그룹 소개"
-                value={formData.introduction}
-                onChange={handleInputChange}
+                value={textareaData}
+                onChange={(e) => setTextareaData(e.target.value)}
               />
             </div>
           </div>
