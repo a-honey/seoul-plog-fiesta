@@ -4,12 +4,12 @@ import geojson from '../../assets/seoul_municipalities_geo_simple.json';
 import Api from '../../api';
 import { handleMapData } from '../../utils/handleMapData';
 
-const Map = ({ endpoint, id }) => {
+const Map = ({ endpoint, id }: { endpoint: string; id: string }) => {
   const [data, setData] = useState({});
   const [isFetching, setIsFetching] = useState(false);
 
   // svg 요소에 지도를 그리기 위해 참조를 생성함
-  const svgRef = useRef();
+  const svgRef = useRef<SVGSVGElement | null>(null);
 
   const createMap = useCallback(() => {
     // 현재 참조된 요소에 지도를 그리겠다고 선언함
@@ -33,11 +33,11 @@ const Map = ({ endpoint, id }) => {
       .enter()
       .append('path') // 모든 지역구를 추가함
       .attr('d', pathGenerator)
-      .style('fill', (d) => {
+      .style('fill', (d: any) => {
         const districtName = d.properties.name_eng
           .replace(/-gu/g, '')
           .toLowerCase(); // 현재 geojson의 지역 이름을 조정함
-        return colorScale(data[districtName] || 0); // 지역구의 값에 따라서 색상을 결정함
+        return colorScale((data as any)[districtName] || 0); // 지역구의 값에 따라서 색상을 결정함
       })
       .style('stroke', '#000000');
   }, [data]);
@@ -49,7 +49,7 @@ const Map = ({ endpoint, id }) => {
         const res = await Api.get(`${endpoint}${id}`);
         setData(handleMapData(res.data));
       } catch (err) {
-        console.log('지도데이터를 불러오는데 실패.', err.response.data.message);
+        console.log('지도데이터를 불러오는데 실패');
       } finally {
         setIsFetching(false);
       }

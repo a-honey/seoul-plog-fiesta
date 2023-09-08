@@ -9,10 +9,11 @@ import { UserIdContext } from '../../pages/UserIdPage';
 import user_none from '../../assets/user_none.png';
 import { useDispatch } from 'react-redux';
 import { openToast, setToastMessage } from '../../features/toastSlice';
+import { UserDataType } from '../../types/fetchDataTypes';
 
 const Info = () => {
   const dispatch = useDispatch();
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<UserDataType | null>(null);
   const [isFetching, setIsFetching] = useState(false);
   const [isMyRankingOpen, setIsMyRankingOpen] = useState(false);
 
@@ -47,7 +48,7 @@ const Info = () => {
       try {
         setIsFetching(true);
         const res = await Api.get(`/search/${ownerId}`);
-        setData(res.data);
+        setData(res.data.searchId);
         await Api.get(`/profileimg/${ownerId}`)
           .then((res) => setImageContainer(res.data))
           .catch((err) => setImageContainer(null));
@@ -71,28 +72,30 @@ const Info = () => {
         />
       )}
       <div className="titleContainer">
-        <h1>{data?.searchId?.nickname}의 정보</h1>
+        <h1>{data?.nickname}의 정보</h1>
       </div>
       <ul className={styles.info}>
         <div className={styles.imgContainer}>
           <img
             src={imgContainer ? handleImgUrl(imgContainer) : user_none}
-            onError={(e) => (e.target.src = user_none)}
+            onError={(e) => (e.currentTarget.src = user_none)}
             alt="profile"
           />
         </div>
         <li key="myNickName">
           <label>별명</label>
-          <div>{data.searchId?.nickname}</div>
+          <div>{data?.nickname}</div>
         </li>
         <li key="myAbout">
           <label>소개</label>
-          <div>{data.searchId?.about}</div>
+          <div>{data?.about}</div>
         </li>
-        <li key="activity">
-          <label>지역구</label>
-          <div>{seoulDistricts[data.searchId?.activity]}</div>
-        </li>
+        {data?.activity && (
+          <li key="activity">
+            <label>지역구</label>
+            <div>{seoulDistricts[data.activity]}</div>
+          </li>
+        )}
       </ul>
       {isFriend ? (
         <button

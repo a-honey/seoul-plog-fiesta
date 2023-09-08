@@ -11,7 +11,7 @@ const GroupMap = () => {
         <h1>{name}의 플로깅 지도</h1>
       </div>
       <div className="contentMapContainer">
-        <Map endpoint="/plo/count/group/" id={name} />
+        <Map endpoint="/plo/count/group/" id={name as string} />
       </div>
     </div>
   );
