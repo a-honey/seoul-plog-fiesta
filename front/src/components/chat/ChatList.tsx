@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import Api from '../../api';
 import { useNavigate } from 'react-router-dom';
+import { UserDataType } from '../../types/fetchDataTypes';
 
 const ChatList = () => {
-  const [datas, setDatas] = useState(false);
+  const [datas, setDatas] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
 
   const [searchText, setSearchText] = useState('');
   const [searchResult, setSearchResult] = useState(null);
 
-  const handleInputChange = async (event) => {
+  const handleInputChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const newSearchText = event.target.value;
     setSearchText(newSearchText);
 
@@ -68,7 +69,7 @@ const ChatList = () => {
 
 export default ChatList;
 
-const Item = ({ data }) => {
+const Item = ({ data }: { data: any }) => {
   return (
     <div>
       <div>_님과의 채팅</div>
@@ -77,7 +78,7 @@ const Item = ({ data }) => {
   );
 };
 
-const UserItem = ({ data }) => {
+const UserItem = ({ data }: { data: UserDataType }) => {
   const navigator = useNavigate();
 
   return (

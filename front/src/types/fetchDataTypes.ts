@@ -1,6 +1,7 @@
 export type PostDataType = {
   id: number;
   writerId: number;
+  authorNickname: string;
   title: string;
   region: string;
   location: string;
@@ -11,8 +12,21 @@ export type PostDataType = {
   startTime: string;
   endTime: string;
   createdAt: string;
-  isGroupPost: boolean;
-  groupName: string;
+  isGroupPost?: boolean;
+  groupName?: string;
+  imageUrl?: string;
+  participants: string[];
+  comments?: string[];
+};
+
+export type CommentDataType = {
+  id: number;
+  nickname: string;
+  parentId: number;
+  content: string;
+  commenterNickname?: string;
+  createdAt: string;
+  writerId: number;
 };
 
 export type PostMinDataType = {

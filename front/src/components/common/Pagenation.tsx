@@ -1,7 +1,17 @@
 import styles from './index.module.scss';
+import React from 'react';
 
-const Pagination = ({ totalPages, currentPage, handlePage }) => {
+const Pagination = ({
+  totalPages,
+  currentPage,
+  handlePage,
+}: {
+  totalPages: number;
+  currentPage: number;
+  handlePage: (pageNumber: number) => void;
+}) => {
   currentPage = Number(currentPage);
+
   function handleLeftClick() {
     handlePage(currentPage - 1);
   }
@@ -35,7 +45,7 @@ const Pagination = ({ totalPages, currentPage, handlePage }) => {
       <ul>
         <li
           className={currentPage === 1 ? styles.disabled : ''}
-          onClick={currentPage === 1 ? null : handleLeftClick}
+          onClick={currentPage === 1 ? undefined : handleLeftClick}
         >
           &lt;
         </li>
@@ -45,7 +55,7 @@ const Pagination = ({ totalPages, currentPage, handlePage }) => {
 
         <li
           className={currentPage === totalPages ? styles.disabled : ''}
-          onClick={currentPage === totalPages ? null : handleRightClick}
+          onClick={currentPage === totalPages ? undefined : handleRightClick}
         >
           &gt;
         </li>
