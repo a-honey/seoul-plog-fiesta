@@ -1,23 +1,29 @@
 import styles from './index.module.scss';
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import user_none from '../../assets/user_none.png';
 import Api from '../../api';
 import { seoulDistricts } from '../../assets/exportData';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../features/userSlice';
-import { handleImgUrl } from '../../utils/handleImgUrl';
-import { useRecoilState } from 'recoil';
 import { openToast, setToastMessage } from '../../features/toastSlice';
 import useImgChange from '../../hooks/useImgChange';
+import { RootState } from '../../store';
 
-const initialData = {
+const initialData: Partial<{
+  email: string;
+  name: string;
+  nickname: string;
+  about: string;
+  activity: string;
+  password?: string;
+  passwordConfirm?: string;
+}> = {
+  email: '',
   name: '',
   nickname: '',
   about: '',
   activity: '',
-  password: '',
-  confirmPassword: '',
 };
 
 const MyInfo = () => {
@@ -25,18 +31,20 @@ const MyInfo = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [data, setData] = useState(initialData);
-  const [originData, setDriginData] = useState(initialData);
+  const [originData, setOriginData] = useState(initialData);
+  const [selectData, setSelectData] = useState('');
+
   const dispatch = useDispatch();
 
   const [isChanging, setIsChanging] = useState(false);
 
   const navigator = useNavigate();
 
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
 
   const { handleImgChange, imgContainer, imgRef } = useImgChange();
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setData((prevData) => ({
       ...prevData,
@@ -44,7 +52,7 @@ const MyInfo = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async () => {
     if (!data.password || data.password === null) {
       alert('수정을 위해서 비밀번호를 입력해주세요');
       return;
@@ -64,13 +72,13 @@ const MyInfo = () => {
           });
           return res;
         } catch (err) {
-          console.log('이미지 업로드 에러', err.response.data.message);
+          console.log(err);
           throw err;
         }
       }
       setIsEditing(false);
     } catch (err) {
-      console.log('데이터 수정 실패.', err.response.data.message);
+      console.log(err);
       setData(originData);
     } finally {
       setIsFetching(false);
@@ -90,7 +98,7 @@ const MyInfo = () => {
           alert(res.data);
         }
       } catch (err) {
-        console.log('계정삭제 실패.', err.response.data.message);
+        console.log(err);
       }
     } else {
       console.log('그룹 탈퇴가 취소되었습니다.');
@@ -103,7 +111,7 @@ const MyInfo = () => {
       try {
         await Api.get('/user').then((res) => {
           console.log(res.data.currentUserInfo);
-          setDriginData({
+          setOriginData({
             email: res.data.currentUserInfo.email,
             name: res.data.currentUserInfo.name,
             nickname: res.data.currentUserInfo.nickname,
@@ -122,7 +130,7 @@ const MyInfo = () => {
           setImg(res.data),
         );
       } catch (err) {
-        console.log('데이터를 불러오는데 실패.', err.response.data.message);
+        console.log(err);
       } finally {
         setIsFetching(false);
       }
@@ -138,11 +146,7 @@ const MyInfo = () => {
       </div>
       <ul className={`${styles.info} ${isEditing ? styles.editing : ''}`}>
         <div className={styles.imgContainer}>
-          <img
-            ref={imgRef}
-            src={handleImgUrl(img) || user_none}
-            alt="profile"
-          />
+          <img ref={imgRef} src={imgContainer || user_none} alt="profile" />
         </div>
         <>
           {isEditing && (
@@ -201,8 +205,8 @@ const MyInfo = () => {
             {isEditing ? (
               <select
                 name="activity"
-                value={data.activity}
-                onChange={handleInputChange}
+                value={selectData}
+                onChange={(e) => setSelectData(e.target.value)}
               >
                 {Object.keys(seoulDistricts).map((activity) => (
                   <option key={activity} value={activity}>
@@ -211,7 +215,7 @@ const MyInfo = () => {
                 ))}
               </select>
             ) : (
-              <div>{seoulDistricts[data.activity]}</div>
+              <div>{data.activity && seoulDistricts[data.activity]}</div>
             )}
           </li>
           {isEditing && (
@@ -280,7 +284,11 @@ const MyInfo = () => {
 
 export default MyInfo;
 
-const PasswordChange = ({ setIsChanging }) => {
+const PasswordChange = ({
+  setIsChanging,
+}: {
+  setIsChanging: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const dispatch = useDispatch();
 
   const [data, setData] = useState({
@@ -289,7 +297,7 @@ const PasswordChange = ({ setIsChanging }) => {
     newConfirmPassword: '',
   });
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setData((prevData) => ({
       ...prevData,
@@ -297,11 +305,11 @@ const PasswordChange = ({ setIsChanging }) => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     for (const key in data) {
-      if (data[key] === '') {
+      if ((data as any)[key] === '') {
         alert('입력값을 확인해주세요');
         return;
       }
@@ -316,7 +324,7 @@ const PasswordChange = ({ setIsChanging }) => {
       dispatch(openToast);
       dispatch(logout());
     } catch (err) {
-      alert('비밀번호 변경 실패', err.response.data.message);
+      alert(err);
     }
   };
   return (

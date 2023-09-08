@@ -107,7 +107,7 @@ const Api = {
     }
   },
 
-  del: async (endpoint: string) => {
+  delete: async (endpoint: string) => {
     try {
       console.log(`DELETE: ${baseURL}${endpoint} ${userToken}`);
       const res = await instance.delete(endpoint);

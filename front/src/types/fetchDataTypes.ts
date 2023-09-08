@@ -68,6 +68,7 @@ export type NetworkGroupType = {
 
 export type NetworkUserType = {
   id: number;
+  email: string;
   nickname: string;
   about: string;
   activity: string;

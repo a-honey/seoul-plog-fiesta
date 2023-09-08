@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './index.module.scss';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Api from '../../api';
 import { handleImgUrl } from '../../utils/handleImgUrl';
 import user_none from '../../assets/user_none.png';
 import { openToast, setToastMessage } from '../../features/toastSlice';
 import { useDispatch } from 'react-redux';
+import { NetworkUserType } from '../../types/fetchDataTypes';
 
 const MyUsers = () => {
   const [datas, setDatas] = useState([]);
@@ -25,7 +26,7 @@ const MyUsers = () => {
           setDatas([]);
         }
       } catch (err) {
-        console.log('모임데이터를 불러오는데 실패.', err.response.data.message);
+        console.log(err);
       } finally {
         setIsFetching(false);
       }
@@ -53,12 +54,16 @@ const MyUsers = () => {
         ) : datas.length === 0 ? (
           <div>데이터가 없습니다</div>
         ) : (
-          datas.map((data) => (
+          datas.map((data: NetworkUserType) => (
             <MyUser
               isEditing={isEditing}
               key={`my_group_list_${data.id}`}
               data={data}
-              setDatas={setDatas}
+              setDatas={
+                setDatas as React.Dispatch<
+                  React.SetStateAction<NetworkUserType[]>
+                >
+              }
             />
           ))
         )}
@@ -69,7 +74,15 @@ const MyUsers = () => {
 
 export default MyUsers;
 
-const MyUser = ({ data, isEditing, setDatas }) => {
+const MyUser = ({
+  data,
+  isEditing,
+  setDatas,
+}: {
+  data: NetworkUserType;
+  isEditing: boolean;
+  setDatas: React.Dispatch<React.SetStateAction<NetworkUserType[]>>;
+}) => {
   const navigator = useNavigate();
   const dispatch = useDispatch();
 
@@ -83,7 +96,7 @@ const MyUser = ({ data, isEditing, setDatas }) => {
         dispatch(setToastMessage('인증글이 생성되었습니다.'));
         dispatch(openToast());
       } catch (err) {
-        console.log('친구 삭제 실패.', err.response.data.message);
+        console.log(err);
       }
     } else {
       console.log('친구 삭제가 취소되었습니다.');
@@ -99,11 +112,7 @@ const MyUser = ({ data, isEditing, setDatas }) => {
     >
       <div className={styles.imgContainer}>
         <img
-          src={
-            data?.profileImage?.imageUrl
-              ? handleImgUrl(data.profileImage.imageUrl)
-              : user_none
-          }
+          src={data.imageUrl ? handleImgUrl(data.imageUrl) : user_none}
           alt="이미지"
         />
       </div>
