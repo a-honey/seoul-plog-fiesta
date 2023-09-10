@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { closeChat } from '../../features/chatSlice';
 
 let socket;
-let roomName;
 
 function Chat() {
   console.log('hello, websoket:D');
@@ -17,6 +16,7 @@ function Chat() {
 
   const user = useSelector((state) => state.user);
   const { chatId } = useSelector((state) => state.chat);
+  const [roomName, setRoomName] = useState(''); // h3 재렌더링을 위한 상태관리
 
   const dispatch = useDispatch();
 
@@ -34,7 +34,7 @@ function Chat() {
       console.log('소켓이 연결되었습니다.');
       // 백에 상대방의 id를 전달하여 RoomID 찾기 혹은 생성 후 입장 및 roomName 저장
       socket.emit('joinRoom', chatId, (roomId) => {
-        roomName = roomId;
+        setRoomName(roomId);
       });
     });
 
@@ -110,9 +110,9 @@ function Chat() {
   return (
     <div className={styles.chat}>
       <h1>{roomName}님과의 채팅방</h1>
-      <div>
+      <div className={styles.messges}>
         {messages.map((message, index) => (
-          <div key={index}>
+          <div className={styles.item} key={index}>
             {message.senderId === user.loginId
               ? '나의 메시지: '
               : `${chatId}의 메시지: `}
@@ -125,19 +125,22 @@ function Chat() {
           <input
             type="text"
             value={messageText}
+            placeholder="메시지를 입력하세요."
             onChange={(e) => setMessageText(e.target.value)}
           />
-          <button className="gBtn">전송</button>
-          <button
-            type="button"
-            className="gBtn"
-            onClick={() => {
-              handleLeaveRoom();
-              dispatch(closeChat());
-            }}
-          >
-            뒤로가기
-          </button>
+          <div>
+            <button className="gBtn">전송</button>
+            <button
+              type="button"
+              className="gBtn"
+              onClick={() => {
+                handleLeaveRoom();
+                dispatch(closeChat());
+              }}
+            >
+              뒤로가기
+            </button>
+          </div>
         </form>
       </div>
     </div>

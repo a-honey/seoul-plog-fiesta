@@ -1,17 +1,38 @@
 .chat {
   position: fixed;
-  left: 150px;
+  left: 140px;
   top: 500px;
   width: 500px;
   height: 700px;
   display: flex;
   flex-direction: column;
-  background-color: pink;
+  border-radius: 5px;
+  background-color: rgb(208, 208, 208);
+  padding: 20px;
+  .messges {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    .item {
+      background-color: rgb(184, 184, 184);
+      padding: 5px;
+    }
+  }
+  form {
+    margin-top: 10px;
+    input {
+      margin-bottom: 10px;
+    }
+    div {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
 }
 
 .chatList {
   position: fixed;
-  left: 150px;
+  left: 140px;
   bottom: 0px;
   width: 300px;
   height: 400px;
