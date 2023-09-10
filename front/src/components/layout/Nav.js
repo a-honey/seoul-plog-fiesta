@@ -5,7 +5,8 @@ import styles from './layout.module.scss';
 import { useState } from 'react';
 import ChatList from '../chat/ChatList';
 import Chat from '../chat/Chat';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { closeChat } from '../../features/chatSlice';
 
 const Nav = () => {
   const location = useLocation(); // 현재 URL 정보를 가져오는 hook
@@ -23,6 +24,8 @@ const Nav = () => {
   const user = useSelector((state) => state.user);
   const token = localStorage.getItem('userToken');
   const isLogin = user.email && token;
+
+  const dispatch = useDispatch();
 
   const handleNotLogin = () => {
     alert('로그인을 해주세요');
@@ -63,16 +66,26 @@ const Nav = () => {
       </nav>
       {isOpen && <ChatList />}
       {isChatOpen && <Chat />}
-      {isLogin && (
-        <button
-          className="gBtn"
-          onClick={() => {
-            setIsOpen(!isOpen);
-          }}
-        >
-          채팅목록
-        </button>
-      )}
+      {isLogin &&
+        (isChatOpen ? (
+          <button
+            className="gBtn"
+            onClick={() => {
+              dispatch(closeChat());
+            }}
+          >
+            Quit
+          </button>
+        ) : (
+          <button
+            className="gBtn"
+            onClick={() => {
+              setIsOpen(!isOpen);
+            }}
+          >
+            채팅목록
+          </button>
+        ))}
     </div>
   );
 };

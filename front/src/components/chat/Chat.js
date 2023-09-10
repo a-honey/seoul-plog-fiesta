@@ -35,6 +35,7 @@ function Chat() {
       // 백에 상대방의 id를 전달하여 RoomID 찾기 혹은 생성 후 입장 및 roomName 저장
       socket.emit('joinRoom', chatId, (roomId) => {
         setRoomName(roomId);
+        setMessages([]);
       });
     });
 
@@ -82,7 +83,12 @@ function Chat() {
         console.log('Error in message event:', error);
       }
     });
-  }, [userToken, chatId]);
+
+    return () => {
+      socket.emit('leaveRoom', chatId);
+      dispatch(closeChat());
+    };
+  }, [userToken, chatId, dispatch]);
 
   // 클라에서 메시지를 전송하는 함수
   const sendMessage = async (e) => {
@@ -104,10 +110,6 @@ function Chat() {
     } catch (err) {
       console.log('메시지 보내기 실패', err.response.data.message);
     }
-  };
-
-  const handleLeaveRoom = () => {
-    socket.emit('leaveRoom', chatId);
   };
 
   return (
@@ -138,16 +140,6 @@ function Chat() {
           />
           <div>
             <button className="gBtn">전송</button>
-            <button
-              type="button"
-              className="gBtn"
-              onClick={() => {
-                handleLeaveRoom();
-                dispatch(closeChat());
-              }}
-            >
-              뒤로가기
-            </button>
           </div>
         </form>
       </div>
