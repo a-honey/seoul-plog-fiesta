@@ -124,6 +124,8 @@ io.on('connection', (socket) => {
         senderId: loggedInUserId,
       },
     });
+
+    console.log('메시지 저장 성공');
     // 상대방에게 브로드캐스팅
     socket.to(roomId).emit('message', { senderId: loggedInUserId, message });
   });

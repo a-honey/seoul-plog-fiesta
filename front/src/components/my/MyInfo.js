@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../features/userSlice';
 import { handleImgUrl } from '../../utils/handleImgUrl';
-import { useRecoilState } from 'recoil';
 import { openToast, setToastMessage } from '../../features/toastSlice';
 import useImgChange from '../../hooks/useImgChange';
 
