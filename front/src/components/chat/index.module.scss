@@ -1,9 +1,8 @@
 .chat {
   position: fixed;
   left: 140px;
-  top: 500px;
+  bottom: 0;
   width: 500px;
-  height: 700px;
   display: flex;
   flex-direction: column;
   border-radius: 5px;
@@ -14,15 +13,22 @@
     flex-direction: column;
     gap: 3px;
     .item {
-      background-color: rgb(184, 184, 184);
-      padding: 5px;
+      border-radius: 5px;
+      background-color: rgb(161, 207, 158);
+      margin-right: 50px;
+      padding: 10px;
+    }
+    .myItem {
+      border-radius: 5px;
+      background-color: rgb(183, 183, 183);
+      margin-left: 50px;
+      padding: 10px;
+      text-align: right;
     }
   }
   form {
     margin-top: 10px;
-    input {
-      margin-bottom: 10px;
-    }
+    padding-top: 10px;
     div {
       display: flex;
       justify-content: flex-end;

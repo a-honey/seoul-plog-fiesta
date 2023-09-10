@@ -9,7 +9,7 @@ import { UserIdContext } from '../../pages/UserIdPage';
 import user_none from '../../assets/user_none.png';
 import { useDispatch } from 'react-redux';
 import { openToast, setToastMessage } from '../../features/toastSlice';
-import { openChat, setChatId } from '../../features/chatSlice';
+import { openChat, setChatId, setChatNickName } from '../../features/chatSlice';
 
 const Info = () => {
   const dispatch = useDispatch();
@@ -28,6 +28,7 @@ const Info = () => {
 
   const handleChat = () => {
     dispatch(setChatId(currentPath.split('/')[2].split('?')[0]));
+    dispatch(setChatNickName(data.searchId?.nickname));
     dispatch(openChat());
   };
 

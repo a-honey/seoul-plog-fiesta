@@ -15,7 +15,7 @@ function Chat() {
   const userToken = localStorage.getItem('userToken');
 
   const user = useSelector((state) => state.user);
-  const { chatId } = useSelector((state) => state.chat);
+  const { chatId, chatNickName } = useSelector((state) => state.chat);
   const [roomName, setRoomName] = useState(''); // h3 재렌더링을 위한 상태관리
 
   const dispatch = useDispatch();
@@ -96,7 +96,10 @@ function Chat() {
       const value = messageText;
       console.log('백으로 보내는 메시지: ', value);
       await socket.emit('sendMessage', chatId, value);
-      setMessages((prevMessages) => [...prevMessages, `나: ${value}`]);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { senderId: user.loginId, message: value },
+      ]);
       setMessageText('');
     } catch (err) {
       console.log('메시지 보내기 실패', err.response.data.message);
@@ -109,10 +112,15 @@ function Chat() {
 
   return (
     <div className={styles.chat}>
-      <h1>{roomName}님과의 채팅방</h1>
+      <h1>{chatNickName}님과의 채팅방</h1>
       <div className={styles.messges}>
         {messages.map((message, index) => (
-          <div className={styles.item} key={index}>
+          <div
+            className={
+              message.senderId === user.loginId ? styles.myItem : styles.item
+            }
+            key={index}
+          >
             {message.senderId === user.loginId
               ? '나의 메시지: '
               : `${chatId}의 메시지: `}
