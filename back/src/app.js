@@ -60,11 +60,24 @@ io.use(
   }),
 );
 
+/*
+
+클라이언트에서 방 이름(), 본인 닉네임을 넘겨주는 방식도 가능(반영 X)
+
+ex) 방이름을 클라이언트에서 저장하고 있어서, 요청시마다 argument로 넘겨줄 수 있음 => 매번 roomId 생성할 필요없음
+ex)
+속성에 nickname을 저장  // socket['nickname'] = 받아온 닉네임
+nickname과 함께 보내기  // socket.to(roomId).emit(newMsg, socket.nickname)
+해당 nickname을 받아 출력  // (newMsg, nickname) => {console.log(`${nickname}의 메시지: ${newMsg}`)}
+
+*/
+
 io.on('connection', (socket) => {
   // 인증된 사용자 정보는 소켓.decoded_token에서 확인 가능
   const loggedInUserId = socket.decoded_token.id;
   console.log(`User ${loggedInUserId} connected`);
 
+  // 모든 이벤트가 발생할때마다 콘솔에 출력
   socket.onAny((e) => {
     console.log(`Socket Event: ${e}`);
   });
@@ -75,10 +88,14 @@ io.on('connection', (socket) => {
       loggedInUserId,
       otherUserId,
     )}`;
+
     console.log('방 이름: ', roomId);
     // 방 들어가기
     socket.join(roomId);
+
+    // 받은 콜백함수를 실행시킴(프론트에서 실행됨)
     handleRoomName(roomId);
+
     socket.to(roomId).emit('other_enter', loggedInUserId);
 
     // roomId에 해당하는 기존 채팅 메시지가 있는 경우 검색하고 내보냄
@@ -99,6 +116,7 @@ io.on('connection', (socket) => {
     )}`;
 
     console.log(message);
+
     await prisma.chatMessage.create({
       data: {
         roomId,
