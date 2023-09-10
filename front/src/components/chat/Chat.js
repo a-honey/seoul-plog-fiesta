@@ -4,6 +4,9 @@ import styles from './index.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeChat } from '../../features/chatSlice';
 
+let socket;
+let roomName;
+
 function Chat() {
   console.log('hello, websoket:D');
 
@@ -17,40 +20,33 @@ function Chat() {
 
   const dispatch = useDispatch();
 
-  // 웹 소켓을 연결함
-  const socket = io.connect('ws://localhost:3001', {
-    path: '/chat',
-    extraHeaders: {
-      Authorization: `Bearer ${userToken}`, // JWT 토큰을 전달
-    },
-  });
-
-  socket.on('connect', () => {
-    console.log('소켓이 연결되었습니다.');
-  });
-
-  socket.on('connect_error', (error) => {
-    console.log('소켓 연결 에러:', error);
-  });
-
-  socket.on('error', (error) => {
-    console.log('소켓 에러:', error);
-  });
-
-  socket.on('disconnect', (reason) => {
-    console.log('소켓이 연결이 끊어졌습니다. 사유:', reason);
-  });
-
   useEffect(() => {
-    if (!socket) {
-      console.log('socket 생성 에러');
-      return;
-    } // 웹 소켓 연결 실패 혹은 없을 시 종료함
+    socket = io.connect('ws://localhost:3001', {
+      path: '/chat',
+      extraHeaders: {
+        Authorization: `Bearer ${userToken}`, // JWT 토큰을 전달
+      },
+    });
+    // 웹 소켓을 연결함
+    socket.on('connect', () => {
+      console.log('소켓이 연결되었습니다.');
+      // 백에 상대방의 id를 전달하여 RoomID 찾기 혹은 생성
+      socket.emit('joinRoom', chatId, (roomId) => {
+        roomName = roomId;
+      });
+    });
 
-    // 백에 상대방의 id를 전달하여 RoomID 찾기 혹은 생성
-    socket.emit('joinRoom', chatId);
+    socket.on('connect_error', (error) => {
+      console.log('소켓 연결 에러:', error);
+    });
 
-    // 초기 메시지들을 받음
+    socket.on('error', (error) => {
+      console.log('소켓 에러:', error);
+    });
+
+    socket.on('disconnect', (reason) => {
+      console.log('소켓이 연결이 끊어졌습니다. 사유:', reason);
+    });
     socket.on('messages', (receivedMessages) => {
       try {
         console.log('초기메시지: ', receivedMessages);
@@ -70,29 +66,43 @@ function Chat() {
       }
     });
 
-    return () => {
-      // 컴포넌트를 나가면 방을 나감
-      socket.emit('leaveRoom', chatId);
-    };
-  }, [socket, chatId]);
+    socket.on('other_enter', (userId) => {
+      try {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          `${userId}님이 입장했습니다.`,
+        ]);
+      } catch (error) {
+        console.log('Error in message event:', error);
+      }
+    });
+  }, [userToken, chatId]);
 
   // 클라에서 메시지를 전송하는 함수
-  const sendMessage = async () => {
-    if (!socket || !messageText.trim()) return; // 연결이 실패 및 없음 혹은 빈 메시지면 종료함
+  const sendMessage = async (e) => {
+    e.preventDefault();
+
+    if (!messageText.trim()) return; // 연결이 실패 및 없음 혹은 빈 메시지면 종료함
 
     console.log('메시지를 보냄: ', messageText);
     // 메시지를 서버에 전송
     try {
-      const res = await socket.emit('sendMessage', chatId, messageText);
-      console.log('백에서 받은값: ', res);
+      const value = messageText;
+      await socket.emit('sendMessage', chatId, value);
+      setMessages((prevMessages) => [...prevMessages, `나: ${value}`]);
       setMessageText('');
     } catch (err) {
       console.log('메시지 보내기 실패', err.response.data.message);
     }
   };
 
+  const handleLeaveRoom = () => {
+    socket.emit('leaveRoom', chatId);
+  };
+
   return (
     <div className={styles.chat}>
+      <h1>{roomName}님과의 채팅방</h1>
       <div>
         {messages.map((message, index) => (
           <div key={index}>
@@ -104,22 +114,24 @@ function Chat() {
         ))}
       </div>
       <div>
-        <input
-          type="text"
-          value={messageText}
-          onChange={(e) => setMessageText(e.target.value)}
-        />
-        <button className="gBtn" onClick={sendMessage}>
-          전송
-        </button>
-        <button
-          className="gBtn"
-          onClick={() => {
-            dispatch(closeChat());
-          }}
-        >
-          뒤로가기
-        </button>
+        <form onSubmit={sendMessage}>
+          <input
+            type="text"
+            value={messageText}
+            onChange={(e) => setMessageText(e.target.value)}
+          />
+          <button className="gBtn">전송</button>
+          <button
+            type="button"
+            className="gBtn"
+            onClick={() => {
+              handleLeaveRoom();
+              dispatch(closeChat());
+            }}
+          >
+            뒤로가기
+          </button>
+        </form>
       </div>
     </div>
   );
