@@ -4,8 +4,6 @@ import { FaUserFriends, FaAward, FaWalking } from 'react-icons/fa';
 import styles from './layout.module.scss';
 import { useState } from 'react';
 import ChatList from '../chat/ChatList';
-import { useRecoilState } from 'recoil';
-import { isChatOpenState, isChatWiState } from '../../features/recoilState';
 import Chat from '../chat/Chat';
 import { useSelector } from 'react-redux';
 
@@ -13,8 +11,7 @@ const Nav = () => {
   const location = useLocation(); // 현재 URL 정보를 가져오는 hook
   const [isOpen, setIsOpen] = useState(false);
 
-  const [isChatOpen, setIsChatOpen] = useRecoilState(isChatOpenState);
-  const [, setErrorMessage] = useRecoilState(isChatWiState);
+  const { isChatOpen } = useSelector((state) => state.chat);
 
   const navItems = [
     { to: '/?view=main', icon: <BiSolidHome /> },

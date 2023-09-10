@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import styles from './index.module.scss';
-import { useRecoilState } from 'recoil';
-import { isChatOpenState } from '../../features/recoilState';
 import * as Api from '../../api';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 const ChatList = () => {
   const [datas, setDatas] = useState(false);
@@ -12,7 +11,9 @@ const ChatList = () => {
   const [searchText, setSearchText] = useState('');
   const [searchResult, setSearchResult] = useState(null);
 
-  const [isChatOpen, setIsChatOpen] = useRecoilState(isChatOpenState);
+  const { isChatOpen } = useSelector((state) => state.chat);
+
+  const dispatch = useDispatch();
 
   const handleInputChange = async (event) => {
     const newSearchText = event.target.value;

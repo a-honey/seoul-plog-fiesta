@@ -2,8 +2,6 @@ import { useContext, useEffect, useState } from 'react';
 import * as Api from '../../api';
 import styles from './index.module.scss';
 import { useLocation } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { isChatOpenState, isChatWiState } from '../../features/recoilState';
 import { seoulDistricts } from '../../assets/exportData';
 import MyLanking from '../feat/Lanking';
 import { handleImgUrl } from '../../utils/handleImgUrl';
@@ -11,6 +9,7 @@ import { UserIdContext } from '../../pages/UserIdPage';
 import user_none from '../../assets/user_none.png';
 import { useDispatch } from 'react-redux';
 import { openToast, setToastMessage } from '../../features/toastSlice';
+import { openChat, setChatId } from '../../features/chatSlice';
 
 const Info = () => {
   const dispatch = useDispatch();
@@ -27,12 +26,9 @@ const Info = () => {
   const [imgContainer, setImageContainer] = useState(null);
   const isFriend = friends.includes(parseInt(ownerId));
 
-  const [isChatOpen, setIsChatOpen] = useRecoilState(isChatOpenState);
-  const [, setChatId] = useRecoilState(isChatWiState);
-
   const handleChat = () => {
-    setChatId(currentPath.split('/')[2].split('?')[0]);
-    setIsChatOpen(!isChatOpen);
+    dispatch(setChatId(currentPath.split('/')[2].split('?')[0]));
+    dispatch(openChat());
   };
 
   const handleClick = async () => {
@@ -118,12 +114,7 @@ const Info = () => {
           친구추가
         </button>
       )}
-      <button
-        className="gBtn"
-        onClick={() => {
-          alert('준비중인 기능입니다');
-        }}
-      >
+      <button className="gBtn" onClick={handleChat}>
         채팅보내기
       </button>
     </div>

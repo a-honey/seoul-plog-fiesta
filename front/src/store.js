@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './features/userSlice';
 import toastReducer from './features/toastSlice';
 import relationReducer from './features/relationSlice';
+import chatReducer from './features/chatSlice';
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     toast: toastReducer,
     relation: relationReducer,
+    chat: chatReducer,
   },
 });
 

@@ -98,7 +98,7 @@ io.on('connection', (socket) => {
 			},
 		});
 		// 상대방에게 브로드캐스팅
-		io.to(roomId).emit('message', { senderId: loggedInUserId, message });
+		socket.to(roomId).emit('message', { senderId: loggedInUserId, message });
 	});
 
 	socket.on('leaveRoom', async (otherUserId) => {

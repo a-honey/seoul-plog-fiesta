@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import styles from './index.module.scss';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { isChatOpenState, isChatWiState } from '../../features/recoilState';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { closeChat } from '../../features/chatSlice';
 
 function Chat() {
   console.log('hello, websoket:D');
@@ -14,9 +13,9 @@ function Chat() {
   const userToken = localStorage.getItem('userToken');
 
   const user = useSelector((state) => state.user);
+  const { chatId } = useSelector((state) => state.chat);
 
-  const [, setIsChatOpen] = useRecoilState(isChatOpenState);
-  const [chatId] = useRecoilState(isChatWiState);
+  const dispatch = useDispatch();
 
   // 웹 소켓을 연결함
   const socket = io.connect('ws://localhost:3001', {
@@ -116,7 +115,7 @@ function Chat() {
         <button
           className="gBtn"
           onClick={() => {
-            setIsChatOpen(false);
+            dispatch(closeChat());
           }}
         >
           뒤로가기
