@@ -55,7 +55,12 @@ function Chat() {
     socket.on('messages', (receivedMessages) => {
       try {
         console.log('초기 메시지: ', receivedMessages);
-        setMessages(receivedMessages);
+        setMessages(
+          receivedMessages.map((data) => ({
+            senderId: data.senderId,
+            message: data.message,
+          })),
+        );
       } catch (error) {
         console.log('Error in messages event:', error);
       }
@@ -77,7 +82,7 @@ function Chat() {
       try {
         setMessages((prevMessages) => [
           ...prevMessages,
-          `${userId}님이 입장했습니다.`,
+          { message: `${userId}님이 입장했습니다.` },
         ]);
       } catch (error) {
         console.log('Error in message event:', error);
@@ -85,8 +90,7 @@ function Chat() {
     });
 
     return () => {
-      socket.emit('leaveRoom', chatId);
-      dispatch(closeChat());
+      socket.emit('leaveRoom');
     };
   }, [userToken, chatId, dispatch]);
 
@@ -123,9 +127,6 @@ function Chat() {
             }
             key={index}
           >
-            {message.senderId === user.loginId
-              ? '나의 메시지: '
-              : `${chatId}의 메시지: `}
             {message.message}
           </div>
         ))}
