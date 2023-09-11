@@ -91,6 +91,7 @@ function Chat() {
 
     return () => {
       socket.emit('leaveRoom');
+      dispatch(closeChat());
     };
   }, [userToken, chatId, dispatch]);
 
