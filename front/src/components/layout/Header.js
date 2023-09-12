@@ -9,6 +9,7 @@ import {
   toggleRequestList,
   toggleGroupRequestList,
 } from '../../features/relationSlice';
+import { socket } from '../../pages/Layout';
 
 const Header = ({ setIsWriting }) => {
   const dispatch = useDispatch();
@@ -102,6 +103,13 @@ const Header = ({ setIsWriting }) => {
     const updatedVisibleButton = buttons.find((button) => button.condition);
     setVisibleButton(updatedVisibleButton);
   }, [currentPath, user.groups, user.users, isGroupAdmin, buttons]);
+
+  socket.on('newMessage', (message) => {
+    dispatch(
+      setToastMessage(`${message.nickname}의 메시지: ${message.nessage}`),
+    );
+    dispatch(openToast());
+  });
 
   return (
     <header className={styles.header}>
