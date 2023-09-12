@@ -35,11 +35,13 @@ const Nav = () => {
   };
 
   useEffect(() => {
-    socket.emit('initialize', user.loginId, () => {});
+    if (socket) {
+      socket.emit('initialize', user.loginId, () => {});
 
-    socket.on('messages', () => {
-      setIsNewMessage(true);
-    });
+      socket.on('messages', () => {
+        setIsNewMessage(true);
+      });
+    }
   }, [user]);
 
   return (
