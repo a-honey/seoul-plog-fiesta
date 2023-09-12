@@ -26,7 +26,7 @@ const Nav = () => {
   const token = localStorage.getItem('userToken');
   const isLogin = user.email && token;
 
-  const [isNewMessage, setIsNewMessage] = useState(true);
+  const [isNewMessage, setIsNewMessage] = useState(false);
   const dispatch = useDispatch();
 
   const handleNotLogin = () => {

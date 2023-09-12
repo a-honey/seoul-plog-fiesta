@@ -3,14 +3,14 @@ import styles from './index.module.scss';
 import * as Api from '../../api';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { socket } from '../../pages/Layout';
 
 const ChatList = () => {
-  const [datas, setDatas] = useState(false);
-  const [isFetching, setIsFetching] = useState(false);
-
   const [searchText, setSearchText] = useState('');
   const [searchResult, setSearchResult] = useState(null);
+  const [messages, setMessages] = useState([]);
 
+  const { loginId } = useSelector((state) => state.user);
   const { isChatOpen } = useSelector((state) => state.chat);
 
   const dispatch = useDispatch();
@@ -31,31 +31,12 @@ const ChatList = () => {
   };
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        setIsFetching(true);
-        const res = await Api.get('/unread');
-        setDatas(res.data);
-      } catch (err) {
-        console.log(
-          '채팅방 리스트를 불러오는데 실패.',
-          err.response.data.message,
-        );
-      } finally {
-        setIsFetching(false);
-      }
-    };
+    socket.emit('initialize', loginId);
 
-    const intervalId = setInterval(() => {
-      getData();
-    }, 5000);
-
-    getData();
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
+    socket.on('messages', (messages) => {
+      setMessages(messages);
+    });
+  }, [loginId]);
 
   return (
     <div className={styles.chatList}>
@@ -66,12 +47,10 @@ const ChatList = () => {
         placeholder="유저의 별명을 검색하세요"
       />
       {searchResult && <UserItem data={searchResult} />}
-      {isFetching ? (
-        <div>로딩중</div>
-      ) : !datas || datas.length === 0 ? (
-        <div>채팅 서비스 준비중</div>
+      {messages.length === 0 || !messages ? (
+        <div>새로운 채팅을 시작하세요</div>
       ) : (
-        datas.map((data) => <Item data={data} />)
+        messages.map((data) => <Item data={data} />)
       )}
     </div>
   );
