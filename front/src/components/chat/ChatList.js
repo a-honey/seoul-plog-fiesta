@@ -4,6 +4,7 @@ import * as Api from '../../api';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { socket } from '../../pages/Layout';
+import { openChat, setChatId, setChatNickName } from '../../features/chatSlice';
 
 const ChatList = () => {
   const [searchText, setSearchText] = useState('');
@@ -59,10 +60,18 @@ const ChatList = () => {
 export default ChatList;
 
 const Item = ({ data }) => {
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    dispatch(setChatId(data.senderId));
+    dispatch(setChatNickName(data.senderId));
+    dispatch(openChat());
+  };
+
   return (
-    <div>
-      <div>_님과의 채팅</div>
-      <div>{data}</div>
+    <div onClick={handleClick}>
+      <div>{data.senderId}님과의 채팅</div>
+      <div>{data.message}</div>
     </div>
   );
 };
