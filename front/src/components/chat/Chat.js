@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import io from 'socket.io-client';
+
 import styles from './index.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeChat } from '../../features/chatSlice';
-
-let socket;
+import { socket } from '../../pages/Layout';
 
 function Chat() {
   console.log('hello, websoket:D');
@@ -21,22 +20,10 @@ function Chat() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // 해당 소켓을 저장
-    socket = io.connect('ws://localhost:3001', {
-      path: '/chat',
-      extraHeaders: {
-        Authorization: `Bearer ${userToken}`, // JWT 토큰을 전달
-      },
-    });
-
-    // 웹 소켓을 연결함
-    socket.on('connect', () => {
-      console.log('소켓이 연결되었습니다.');
-      // 백에 상대방의 id를 전달하여 RoomID 찾기 혹은 생성 후 입장 및 roomName 저장
-      socket.emit('joinRoom', chatId, (roomId) => {
-        setRoomName(roomId);
-        setMessages([]);
-      });
+    // 백에 상대방의 id를 전달하여 RoomID 찾기 혹은 생성 후 입장 및 roomName 저장
+    socket.emit('joinRoom', chatId, (roomId) => {
+      setRoomName(roomId);
+      setMessages([]);
     });
 
     socket.on('connect_error', (error) => {
