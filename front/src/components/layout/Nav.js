@@ -2,11 +2,12 @@ import { Link, useLocation } from 'react-router-dom';
 import { BiSolidHome } from 'react-icons/bi';
 import { FaUserFriends, FaAward, FaWalking } from 'react-icons/fa';
 import styles from './layout.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ChatList from '../chat/ChatList';
 import Chat from '../chat/Chat';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeChat } from '../../features/chatSlice';
+import { socket } from '../../pages/Layout';
 
 const Nav = () => {
   const location = useLocation(); // 현재 URL 정보를 가져오는 hook
@@ -25,12 +26,22 @@ const Nav = () => {
   const token = localStorage.getItem('userToken');
   const isLogin = user.email && token;
 
+  const [isNewMessage, setIsNewMessage] = useState(true);
   const dispatch = useDispatch();
 
   const handleNotLogin = () => {
     alert('로그인을 해주세요');
     return;
   };
+
+  useEffect(() => {
+    socket.emit('initialize', user.loginId, () => {});
+
+    socket.on('messages', () => {
+      setIsNewMessage(true);
+    });
+  }, [user]);
+
   return (
     <div className={styles.LeftNav}>
       <nav className={styles.LeftNavContainer}>
@@ -78,11 +89,12 @@ const Nav = () => {
           </button>
         ) : (
           <button
-            className="gBtn"
+            className={`gBtn ${styles.chatBtn}`}
             onClick={() => {
               setIsOpen(!isOpen);
             }}
           >
+            {isNewMessage && <div></div>}
             채팅목록
           </button>
         ))}

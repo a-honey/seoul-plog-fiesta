@@ -96,3 +96,16 @@
     }
   }
 }
+
+.chatBtn {
+  position: relative;
+  div {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: red;
+    top: -5px;
+    right: -5px;
+  }
+}
