@@ -13,6 +13,7 @@ const PasswordEmailSuccessPage = () => {
   useEffect(() => {
     if (token && !user.email === '') {
       navigator('/');
+      return;
     }
   }, [navigator, user, token]);
 

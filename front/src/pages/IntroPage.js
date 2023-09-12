@@ -11,6 +11,7 @@ const IntroPage = () => {
   useEffect(() => {
     if (token && !user.email === '') {
       navigator('/');
+      return;
     }
   });
   return <Intro />;

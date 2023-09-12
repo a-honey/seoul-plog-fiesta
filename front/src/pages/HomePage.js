@@ -15,7 +15,7 @@ const HomePage = () => {
     myposts: '나의 인증글',
   };
 
-  useIsLogin();
+  const isLogin = useIsLogin();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,27 +29,34 @@ const HomePage = () => {
     if (pwToken) {
       navigate(`/changepassword?email=${email}&token=${pwToken}`);
     }
-  }, [navigate, pwToken, email]);
+    if (!isLogin) {
+      return;
+    }
+  }, [navigate, pwToken, email, isLogin]);
 
   return (
-    <Layout>
-      <main>
-        <PageNav view={view} setView={setView} lists={lists} params={''} />
-        {!view || view === 'main' ? (
-          <div className="threeContainer fullVh">
-            <Map />
-            <div className="box">
-              <MyGroup />
-              <MyUser />
-            </div>
-          </div>
-        ) : view === 'myposts' ? (
-          <ItemList />
-        ) : (
-          <MessageList />
-        )}
-      </main>
-    </Layout>
+    <>
+      {isLogin && (
+        <Layout>
+          <main>
+            <PageNav view={view} setView={setView} lists={lists} params={''} />
+            {!view || view === 'main' ? (
+              <div className="threeContainer fullVh">
+                <Map />
+                <div className="box">
+                  <MyGroup />
+                  <MyUser />
+                </div>
+              </div>
+            ) : view === 'myposts' ? (
+              <ItemList />
+            ) : (
+              <MessageList />
+            )}
+          </main>
+        </Layout>
+      )}
+    </>
   );
 };
 

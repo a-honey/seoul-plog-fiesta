@@ -12,6 +12,8 @@ const useIsLogin = () => {
       navigator('/intro');
     }
   }, [navigator, token, user]);
+
+  return !!token && !!user.loginId;
 };
 
 export default useIsLogin;
