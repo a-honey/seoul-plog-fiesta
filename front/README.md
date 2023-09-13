@@ -1,6 +1,57 @@
-# my-boilarplate
+# **Seoul Plogging Fiesta - FE**
 
-## 디렉토리 구조
+**Seoul Plogging Fiesta**는 서울 시민들의 참여를 통해 환경을 보호하고 건강한 도시를 조성하는 프로젝트입니다. 이 프로젝트는 '플로깅'이라 불리는 쓰레기 수거와 조깅을 결합한 새로운 활동을 통해 환경 보호의 재미있는 방법을 소개하고, 참여한 시민들의 노력을 칭찬하며 장려합니다.
+
+## **브랜치 설명**
+- **dev (Default)**: 프로젝트 기간 이후 프론트엔드와 백엔드가 분리되었으며, 최종 프론트엔드 애플리케이션이 구현되어 있습니다.
+- **master**: 프로젝트 기간(2023.08.14 ~ 2023.09.01)에 제작한 기능들이 구현되어 있습니다.
+- **ts**: 프로젝트 기간 이후 프로젝트 기간에 제작한 프론트 기능들을 TypeScript로 리팩토링하였습니다.
+
+## **프로젝트 실행방법**
+### **프론트엔드 실행방법**
+프론트엔드 애플리케이션을 실행하려면 다음 단계를 따라 진행하세요:
+
+1. `front/` 폴더로 이동합니다.
+2. 프론트엔드 애플리케이션 의존성 모듈을 설치합니다:
+
+```bash
+yarn install
+```
+3. 프론트엔드 애플리케이션을 실행합니다:
+```bash
+yarn start
+```
+
+### **백엔드 실행방법**
+백엔드 애플리케이션을 실행하려면 다음 단계를 따라 진행하세요:
+
+1. `back/` 폴더로 이동합니다.
+2. .env 파일을 설정합니다. (예제 파일 참조)
+   
+ ```bash
+	DATABASE_URL="SQL URL"
+	SERVER_URL="SERVER URL"
+	FRONT_URL="FRONT URL"
+	SERVER_PORT="SERVER PROT NUMBER"
+	JWT_SECRET_KEY="YOUR SECRET KEY"
+	JWT_TOKEN_EXPIRES="EXPIRE TIME"
+	GOOGLE_CLIENT_ID="GOOGLE CLIENT ID"
+	GOOGLE_SECRET="GOOGLE SECRET"
+	NODE_MAILER_USER="YOUR EMAIL ADDRESS"
+	NODE_MAILER_PASS="YOUR EMAIL PASSWORD"
+```
+3. 백엔드 애플리케이션 의존성 모듈을 설치합니다:
+
+```bash
+yarn install
+```
+3. 백엔드 애플리케이션을 실행합니다:
+```bash
+yarn start
+```
+
+프로젝트 기간 이후의 백엔드 애플리케이션 실행 방법은 [백엔드](https://github.com/daechan-jo/SeoulPlogFiesta)의 README.md 파일에 더 자세히 설명되어 있습니다.
+## 프론트엔드 디렉토리 구조
 
 ```
 ┠─ node_modules
