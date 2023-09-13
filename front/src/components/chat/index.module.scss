@@ -12,6 +12,21 @@
     display: flex;
     flex-direction: column;
     gap: 3px;
+    max-height: 60vh;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: 10px;
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(0, 0, 0, 0.7);
+    }
     .item {
       border-radius: 5px;
       background-color: rgb(161, 207, 158);
