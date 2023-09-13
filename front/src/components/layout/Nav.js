@@ -36,7 +36,7 @@ const Nav = () => {
 
   useEffect(() => {
     if (socket) {
-      socket.emit('initialize', user.loginId, () => {});
+      socket.emit('initialize', user.loginId);
 
       socket.on('messages', () => {
         setIsNewMessage(true);

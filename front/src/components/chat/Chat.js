@@ -147,10 +147,12 @@ function Chat() {
             onChange={(e) => setMessageText(e.target.value)}
           />
           <div>
-            <button className="gBtn" onClick={handleDeleteClick}>
+            <button type="button" className="gBtn" onClick={handleDeleteClick}>
               채팅내역삭제
             </button>
-            <button className="gBtn">전송</button>
+            <button type="submit" className="gBtn">
+              전송
+            </button>
           </div>
         </form>
       </div>
