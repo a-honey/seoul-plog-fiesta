@@ -104,12 +104,14 @@ const Header = ({ setIsWriting }) => {
     setVisibleButton(updatedVisibleButton);
   }, [currentPath, user.groups, user.users, isGroupAdmin, buttons]);
 
-  socket.on('newMessage', (message) => {
-    dispatch(
-      setToastMessage(`${message.nickname}의 메시지: ${message.nessage}`),
-    );
-    dispatch(openToast());
-  });
+  if (socket) {
+    socket.on('newMessage', (message) => {
+      dispatch(
+        setToastMessage(`${message.nickname}의 메시지: ${message.nessage}`),
+      );
+      dispatch(openToast());
+    });
+  }
 
   return (
     <header className={styles.header}>
