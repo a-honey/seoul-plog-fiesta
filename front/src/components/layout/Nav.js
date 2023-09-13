@@ -41,6 +41,10 @@ const Nav = () => {
       socket.on('messages', () => {
         setIsNewMessage(true);
       });
+
+      socket.on('newMessage', () => {
+        setIsNewMessage(true);
+      });
     }
   }, [user]);
 

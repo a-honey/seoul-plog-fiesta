@@ -96,9 +96,30 @@ function Chat() {
         ...prevMessages,
         { senderId: user.loginId, message: value },
       ]);
-      setMessageText('');
+
+      socket.emit('joinRoom', chatId, (roomId) => {
+        setRoomName(roomId);
+        setMessages([]);
+      });
     } catch (err) {
       console.log('메시지 보내기 실패', err.response.data.message);
+    }
+  };
+
+  const handleDeleteClick = async (e) => {
+    e.preventDefault();
+
+    const confirmDelete = window.confirm('채팅 내역을 삭제하시겠습니까?');
+
+    if (confirmDelete) {
+      try {
+        // input.value 초기화를 위한 메시지 임시 보관
+        await socket.emit('deleteRoom', chatId);
+        setMessages([]);
+        setMessageText('');
+      } catch (err) {
+        console.log('채팅 내역 삭제', err.response.data.message);
+      }
     }
   };
 
@@ -126,6 +147,9 @@ function Chat() {
             onChange={(e) => setMessageText(e.target.value)}
           />
           <div>
+            <button className="gBtn" onClick={handleDeleteClick}>
+              채팅내역삭제
+            </button>
             <button className="gBtn">전송</button>
           </div>
         </form>

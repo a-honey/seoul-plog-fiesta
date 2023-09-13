@@ -35,6 +35,7 @@ const ChatList = () => {
     socket.emit('initialize', loginId);
 
     socket.on('messages', (messages) => {
+      console.log('DB의 안읽은 메시지들을 받아옴', messages);
       setMessages(messages);
     });
   }, [loginId]);
