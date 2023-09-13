@@ -96,11 +96,7 @@ function Chat() {
         ...prevMessages,
         { senderId: user.loginId, message: value },
       ]);
-
-      socket.emit('joinRoom', chatId, (roomId) => {
-        setRoomName(roomId);
-        setMessages([]);
-      });
+      setMessageText('');
     } catch (err) {
       console.log('메시지 보내기 실패', err.response.data.message);
     }
@@ -117,6 +113,10 @@ function Chat() {
         await socket.emit('deleteRoom', chatId);
         setMessages([]);
         setMessageText('');
+        socket.emit('joinRoom', chatId, (roomId) => {
+          setRoomName(roomId);
+          setMessages([]);
+        });
       } catch (err) {
         console.log('채팅 내역 삭제', err.response.data.message);
       }
