@@ -12,24 +12,51 @@
 
 참여자들의 플로깅 활동은 점수로 계산되어 랭킹에 반영됩니다. 참가자들은 다른 참여자들과 경쟁하며 쓰레기를 더 많이 주워 점수를 획득할 수 있습니다. 랭킹 시스템은 활발한 참여를 장려하고 친목을 도모하며, 친구와 모임 활동을 통해 함께 환경 보호를 즐길 수 있는 기회를 제공합니다.
 
-### **3. 시각화 및 데이터 분석**
+### **3. 유저 간 채팅 기능**
+
+플로깅 인증 웹 애플리케이션은 사용자들 간의 소통을 촉진하기 위한 실시간 채팅 기능을 제공합니다. 이 기능은 다양한 사용자가 환경 보호 활동에 관한 경험을 쉽게 공유하고 아이디어를 교환할 수 있는 효율적인 방법을 제공합니다. 사용자들은 환경 보호에 대한 열정을 공유하며 함께 환경을 보호하는 데 동기부여를 얻을 수 있습니다.
+
+### **4. 시각화 및 데이터 분석**
 
 플로깅 활동 데이터는 지역별로 수집되어 D3.js를 이용하여 시각화됩니다. 사용자들은 지도 상에서 환경 보호 활동의 집중 지역을 확인하고, 개인 기록을 비교할 수 있습니다. 시각화를 통해 환경 문제에 대한 현실적인 정보를 얻을 수 있으며, 참여 동기 부여에도 도움을 줍니다.
 
-### **프로젝트 기간**
+## **프로젝트 기간**
 
 - 2023.08.14 ~ 2023.09.01 (3주)
+- 2023.09.01 ~ (프로젝트 기간 이후)
 
+프로젝트 기간 이후에는 프론트엔드와 백엔드가 별도의 폴더에서 관리되며, 각각의 폴더에서 관련된 코드 및 의존성 모듈이 분리되어 있습니다.
+
+### **프론트엔드 실행 방법**
+
+프론트엔드 애플리케이션을 실행하려면 다음 단계를 따라 진행하세요:
+
+1. `front/` 폴더로 이동합니다.
+2. 프론트엔드 애플리케이션 의존성 모듈을 설치합니다:
+
+```bash
+yarn install
+yarn start
+```
+프로젝트 실행 방법은 front/ 폴더의 README.md 파일에 더 자세히 설명되어 있습니다. 프론트엔드 애플리케이션을 실행하는 방법을 확인하려면 해당 파일을 참조하세요.
 ## **기술 스택 및 도구**
 
 ### 프론트엔드
 
 ![React](https://img.shields.io/badge/-React-222222?style=for-the-badge&logo=react)
 ![SCSS](https://img.shields.io/badge/-SCSS-CC6699?style=for-the-badge&logo=sass&logoColor=ffffff)
-![Redux Toolkit](https://img.shields.io/badge/-Redux_Toolkit-764ABC?style=for-the-badge&logo=redux&logoColor=ffffff)
-![recoil](https://img.shields.io/badge/-recoil-40A9FF?style=for-the-badge&logo=recoil&logoColor=ffffff)
-![D3.js](https://img.shields.io/badge/-D3.js-F9A03C?style=for-the-badge&logo=d3.js&logoColor=ffffff)
 ![axios](https://img.shields.io/badge/-axios-007ACC?style=for-the-badge&logo=axios&logoColor=ffffff)
+![Redux Toolkit](https://img.shields.io/badge/-Redux_Toolkit-764ABC?style=for-the-badge&logo=redux&logoColor=ffffff)
+![WebSocket.io](https://img.shields.io/badge/-WebSocket.io-4E4E4E?style=for-the-badge&logo=socket.io&logoColor=ffffff)
+![D3.js](https://img.shields.io/badge/-D3.js-F9A03C?style=for-the-badge&logo=d3.js&logoColor=ffffff)
+
+- **React**: 웹 애플리케이션의 사용자 인터페이스 개발에 사용되었습니다.
+- **Redux Toolkit**: 스토어를 통한 전역 상태 관리 라이브러리로 사용되었습니다.
+- **axios**: 인터셑터 등의 기능을 활용하여 기본 url, header를 설정하였습니다.
+- **Typescript**: 정적 타입 언어로 프로젝트의 안정성과 개발 생산성을 향상시켰습니다(ts 브랜치)
+- **SCSS**: 스타일링을 위해 사용되었으며, CSS의 확장성을 제공합니다.
+- **WebSocket.io**: 실시간 채팅기능을 위해 사용되었습니다.
+- **D3.js**: 데이터 시각화를 위한 라이브러리로 사용되었습니다.
 
 ### 백엔드
 
@@ -48,8 +75,10 @@
 ![PM2](https://img.shields.io/badge/-PM2-2B037A?style=for-the-badge&logo=pm2&logoColor=white)
 
 ## **활용 데이터셋**
-
-- 데이터셋 정보 및 출처 추가 예정
+- [서울시 가로휴지통 설치 정보 (2022.04)](https://kosis.kr/statHtml/statHtml.do?orgId=106&tblId=DT_106N_29_2020005&conn_path=I2)
+- [서울시 행정구역 (구별) 통계 (2022.06)](https://data.seoul.go.kr/dataList/412/S/2/datasetView.do)
+- [서울시 주민등록인구 (연령별/구별) 통계 (2022.04)](https://kosis.kr/statHtml/statHtml.do?orgId=106&tblId=DT_106N_29_2020005&conn_path=I2)
+  
 
 ## **데이터베이스 모델**
 
@@ -75,4 +104,4 @@
 
 ## **버전**
 
-- 0.0.1
+- 0.0.2
