@@ -106,9 +106,7 @@ const Header = ({ setIsWriting }) => {
 
   if (socket) {
     socket.on('newMessage', (message) => {
-      dispatch(
-        setToastMessage(`${message.nickname}의 메시지: ${message.nessage}`),
-      );
+      dispatch(setToastMessage(`${message.nickname}님이 채팅을 보내셨습니다.`));
       dispatch(openToast());
     });
   }
