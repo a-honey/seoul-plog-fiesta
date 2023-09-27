@@ -1,6 +1,6 @@
-import { Suspense, lazy, useEffect, useState } from 'react';
+import { Suspense, lazy, useState } from 'react';
 import Layout from './Layout';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import useIsLogin from '../hooks/useIsLogin';
 
 const PageNav = lazy(() => import('../components/common/PageNav'));
