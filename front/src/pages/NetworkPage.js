@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import Layout from './Layout';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useIsLogin from '../hooks/useIsLogin';
-import PageNav from '../components/common/PageNav';
-import ItemList from '../components/network';
+
+const PageNav = lazy(() => import('../components/common/PageNav'));
+const ItemList = lazy(() => import('../components/network'));
 
 const NetworkPage = () => {
   const lists = { group: 'GROUP', user: 'USER' };
@@ -18,13 +19,17 @@ const NetworkPage = () => {
   return (
     <Layout>
       <main>
-        <PageNav
-          view={view}
-          setView={setView}
-          lists={lists}
-          params={'network'}
-        />
-        <ItemList />
+        <Suspense fallback={<div>Loading PageNav...</div>}>
+          <PageNav
+            view={view}
+            setView={setView}
+            lists={lists}
+            params={'network'}
+          />
+        </Suspense>
+        <Suspense fallback={<div>Loading...</div>}>
+          <ItemList />
+        </Suspense>
       </main>
     </Layout>
   );
