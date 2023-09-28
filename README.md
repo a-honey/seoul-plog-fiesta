@@ -1,6 +1,7 @@
 # **Seoul Plogging Fiesta**
 
 **Seoul Plogging Fiesta**는 서울 시민들의 참여를 통해 환경을 보호하고 건강한 도시를 조성하는 프로젝트입니다. 이 프로젝트는 '플로깅'이라 불리는 쓰레기 수거와 조깅을 결합한 새로운 활동을 통해 환경 보호의 재미있는 방법을 소개하고, 참여한 시민들의 노력을 칭찬하며 장려합니다.
+
 ![image](https://github.com/a-honey/seoul-plog-fiesta/assets/75254185/628a7a9f-37f2-4dd2-b144-bc4f36311b75)
 
 ## **주요 기능 및 특징**
