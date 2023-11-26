@@ -10,7 +10,7 @@ const HomeMap = () => {
         <h1>나의 플로깅 지도</h1>
       </div>
       <div className="contentMapContainer">
-        <Map endpoint="/plo/count/user/" id={user.loginId} />
+        <Map endpoint="/plo/count/user/" id={'1'} />
       </div>
     </div>
   );

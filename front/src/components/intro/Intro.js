@@ -72,7 +72,7 @@ const Intro = () => {
                 <div>{data.score} 점</div>
 
                 <div className={style.profile}>
-                  <img src={handleImgUrl(data.imageUrl)} alt="프로필 이미지" />
+                  <img src={data.imageUrl} alt="프로필 이미지" />
                 </div>
               </div>
             ))
