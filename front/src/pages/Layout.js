@@ -17,7 +17,7 @@ const Layout = ({ children }) => {
   const isLogin = user.loginId && userToken;
 
   useEffect(() => {
-    if (isLogin) {
+    if (!isLogin) {
       socket = io.connect('ws://localhost:3001', {
         path: '/chat',
         extraHeaders: {

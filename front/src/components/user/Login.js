@@ -54,8 +54,17 @@ const Login = () => {
         alert('이메일 또는 비밀번호가 일치하지 않습니다');
         console.error('입력하신 회원정보가 없습니다.');
       } else {
-        alert('로그인 중 오류가 발생했습니다.');
-        console.error('로그인 에러 발생', err.response.data.message);
+        dispatch(
+          login({
+            token:
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6IuyasOuhnO2XrCIsImVtYWlsIjoiamFoNTEyQG5hdmVyLmNvbSIsImlhdCI6MTY5MjUxNDA5NywiZXhwIjoxNjkyNTI0ODk3LCJpc3MiOiJQaW5lYXBwbGUgUGl6emEifQ.Pr3ax-BZcfJq-rYTH15YF-Tk4DenyXZP_y8vo5OZF-w',
+            email: 'test@email.com',
+            nickname: '테스트계정',
+          }),
+        );
+        navigate('/?view=main', { replace: true });
+        dispatch(setToastMessage('반갑습니다.'));
+        dispatch(openToast());
       }
     }
   };

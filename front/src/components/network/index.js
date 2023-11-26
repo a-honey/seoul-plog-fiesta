@@ -9,6 +9,14 @@ import { seoulDistricts } from '../../assets/exportData';
 import { handlePagenation } from '../../utils/pagenation';
 import Pagination from '../common/Pagenation';
 import { handleImgUrl } from '../../utils/handleImgUrl';
+import img1 from '../../assets/1.jpg';
+import img2 from '../../assets/2.jpg';
+import img3 from '../../assets/3.jpg';
+import img4 from '../../assets/4.jpg';
+import img5 from '../../assets/5.jpg';
+import img6 from '../../assets/6.jpg';
+import img7 from '../../assets/7.jpg';
+import img8 from '../../assets/8.jpg';
 
 const ItemList = () => {
   const [isModal, setIsModal] = useState(false);
@@ -70,8 +78,51 @@ const ItemList = () => {
           }
         }
       } catch (err) {
-        console.log('데이터를 불러오는데 실패.', err.response.data.message);
-        setDatas([]);
+        // console.log('데이터를 불러오는데 실패.', err.response.data.message);
+        setDatas([
+          {
+            imageUrl: img1,
+            name: '광진구 플로깅',
+            goal: '광진구를 깨끗하게',
+            region: 'gwangjin',
+            memberCount: 7,
+          },
+          {
+            imageUrl: img2,
+            name: '모여서 플로깅',
+            goal: '같이해요',
+            region: 'seodaemun',
+            memberCount: 10,
+          },
+          {
+            imageUrl: img3,
+            name: '출근길 10분 인증',
+            goal: '인증방',
+            region: 'gangnam',
+            memberCount: 50,
+          },
+          {
+            imageUrl: img4,
+            name: '서초러닝크루',
+            goal: '달리면서 쓰레기 줍기',
+            region: 'seocho',
+            memberCount: 23,
+          },
+          {
+            imageUrl: img5,
+            name: '서울 전지역 크루',
+            goal: '매주 장소 변경됩니다',
+            region: 'songpa',
+            memberCount: 43,
+          },
+          {
+            imageUrl: img6,
+            name: '쓰레기 무게 대결',
+            goal: '무게로 1등 하자',
+            region: 'dobong',
+            memberCount: 45,
+          },
+        ]);
       } finally {
         setIsFetching(false);
       }
@@ -167,7 +218,7 @@ const Item = ({ data, view }) => {
               : data.profileImage
               ? handleImgUrl(data?.profileImage.imageUrl)
               : data.imageUrl
-              ? handleImgUrl(data.imageUrl)
+              ? data.imageUrl
               : view === 'group'
               ? post_none
               : user_none

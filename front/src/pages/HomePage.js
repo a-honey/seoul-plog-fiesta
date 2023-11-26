@@ -16,6 +16,7 @@ const HomePage = () => {
   };
 
   const isLogin = useIsLogin();
+  console.log(isLogin);
 
   const navigate = useNavigate();
   const location = useLocation();

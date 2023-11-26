@@ -5,7 +5,34 @@ import * as Api from '../../api';
 import { handleMapData } from '../../utils/handleMapData';
 
 const Map = ({ endpoint, id }) => {
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    gangnam: 3,
+    gangdong: 4,
+    gangbuk: 1,
+    gangseo: 2,
+    gwanak: 2,
+    gwangjin: 2,
+    guro: 5,
+    geumcheon: 5,
+    nowon: 2,
+    dobong: 1,
+    dongdaemun: 4,
+    dongjak: 3,
+    mapo: 1,
+    seodaemun: 2,
+    seocho: 3,
+    seongdong: 1,
+    seongbuk: 4,
+    songpa: 1,
+    yangcheon: 6,
+    yeongdeungpo: 4,
+    yongsan: 4,
+    eunpyeong: 3,
+    jongno: 5,
+    jung: 1,
+    jungnang: 2,
+  });
+  console.log(data);
   const [isFetching, setIsFetching] = useState(false);
 
   // svg 요소에 지도를 그리기 위해 참조를 생성함
@@ -25,7 +52,7 @@ const Map = ({ endpoint, id }) => {
     const pathGenerator = d3.geoPath().projection(projection);
 
     // 색상 보간(시작 색상에서 끝 색상으로 점진적으로 변하는 색상)을 호출 후 이 값을 연속값 매핑 함수를 호출하여 0~10으로 매핑
-    const colorScale = d3.scaleSequential(d3.interpolateGreens).domain([0, 4]);
+    const colorScale = d3.scaleSequential(d3.interpolateGreens).domain([0, 6]);
 
     svg
       .selectAll('path')
@@ -47,7 +74,7 @@ const Map = ({ endpoint, id }) => {
       try {
         setIsFetching(true);
         const res = await Api.get(`${endpoint}${id}`);
-        setData(handleMapData(res.data));
+        setData(res.data);
       } catch (err) {
         console.log('지도데이터를 불러오는데 실패.', err.response.data.message);
       } finally {
@@ -62,7 +89,7 @@ const Map = ({ endpoint, id }) => {
     if (!isFetching) {
       createMap();
     }
-  }, [isFetching, createMap]);
+  }, [isFetching, data, createMap]);
 
   if (isFetching) {
     return <div>로딩중</div>;

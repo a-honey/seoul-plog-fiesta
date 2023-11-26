@@ -11,10 +11,10 @@ const TopGroup = ({ isFetching, datas }) => {
       <div className={`contentMinContainer ${styles.shortBox}`}>
         {isFetching ? (
           <div>로딩중</div>
-        ) : datas.length === 0 ? (
+        ) : datas?.length === 0 ? (
           <div>데이터가 없습니다</div>
         ) : (
-          datas.map((data) => <Item key={data.id} data={data} />)
+          datas?.map((data) => <Item key={data.id} data={data} />)
         )}
       </div>
     </div>
